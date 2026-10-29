@@ -1072,18 +1072,92 @@ body:has(.pg3) main,body:has(.pg3) #app{padding-bottom:96px}
 .ptab.pvis[aria-selected="true"] .pvi{box-shadow:0 0 0 3px var(--ink),0 6px 14px -8px rgba(46,37,71,.6);transform:scale(1.06)}
 .ptab.pvis[aria-selected="true"]{color:var(--ink)!important}
 .ptab.pvis .bpn{position:absolute;top:2px;right:6px}
+
+.cfloat.two{gap:6px;align-items:center;flex-wrap:nowrap}
+.cfloat.two .cff{padding:3px;border-radius:50%}
+.cfloat.two .cff b{display:none}
+.cfloat.two .cff img{width:44px;height:44px}
+.cfq{font-family:var(--f-display);font-weight:700;font-size:14px;line-height:20px;color:var(--ink);background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-radius:999px;padding:4px 10px;order:-1}
+
+/* phone layout */
+@media (max-width:640px){
+ .wrap{gap:12px!important;padding-left:12px!important;padding-right:12px!important}
+ .top{gap:6px!important;min-height:0!important}
+ .brand h1{font-size:20px!important}.brand .blob{width:20px!important;height:20px!important}
+ .tools{gap:6px!important;flex-wrap:wrap}
+ .tools .pill,.tools .pause{padding:6px 10px!important;font-size:13px!important}
+ .gtx{display:none}
+ #whoTag{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .budsw img{width:22px!important;height:22px!important}
+ .tabs button{padding:6px 10px!important;font-size:14px!important}
+ #app{gap:16px!important;padding-bottom:96px!important}
+ #app h2{font-size:26px!important;line-height:32px!important}
+ /* Next / Back become a solid bar along the bottom */
+ #app .navrow,#app #side .navrow,#app .side .navrow{left:0!important;right:0!important;bottom:0!important;width:100%!important;transform:none!important;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px))!important;
+  background:rgba(250,247,241,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 -8px 20px -14px rgba(46,37,71,.5);pointer-events:auto!important;gap:8px!important;flex-wrap:nowrap!important}
+ #app .navrow>*{box-shadow:none!important;flex:1;min-width:0;padding-left:8px!important;padding-right:8px!important;font-size:16px!important}
+ .cfloat .cff b{font-size:13px}
+ .cfloat .cff img{width:32px;height:32px}
+ .cfloat.two .cff img{width:36px;height:36px}
+ .bpside .bpacts .btn{font-size:16px;padding:10px 8px}
+}
+.hhead h2{font-size:clamp(26px,3.2vw,38px)!important}.hhead img{width:52px!important}.hhead .hi-b{font-size:16px!important}.hhead{margin:0 0 12px!important}
+
+/* home: 3 big + more to do */
+.hbigs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,32px);max-width:960px;margin:0 auto;width:100%}
+.hbig,.hsm{position:relative;text-align:center}
+.hbig .dbtn,.hsm .dbtn{all:unset;cursor:pointer;display:flex!important;flex-direction:column;align-items:center;gap:6px;width:100%}
+.hbig .orb,.hsm .orb{width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 5px #fff,0 22px 36px -22px rgba(46,37,71,.6);position:relative;background:#fffaf3;transition:transform .35s cubic-bezier(.22,1,.36,1);grid-row:auto!important}
+.hbig .dbtn:hover .orb,.hsm .dbtn:hover .orb{transform:scale(1.03)}
+.hbig .dbtn:focus-visible .orb,.hsm .dbtn:focus-visible .orb{outline:3px solid var(--accent);outline-offset:6px}
+.hbig .orb>img,.hsm .orb>img{width:100%;height:100%;object-fit:cover;display:block}
+.orb.top>img{object-fit:cover;object-position:center 30%}
+.orb.clus>img{position:absolute;width:46%!important;height:46%!important;border-radius:50%;box-shadow:0 0 0 3px #fffaf3}
+.orb.n5>img:nth-child(1){left:6%;top:8%}.orb.n5>img:nth-child(2){right:6%;top:8%}.orb.n5>img:nth-child(3){left:6%;bottom:6%}.orb.n5>img:nth-child(4){right:6%;bottom:6%}.orb.n5>img:nth-child(5){left:27%;top:27%}
+.orb.n3>img:nth-child(1){left:4%;top:10%}.orb.n3>img:nth-child(2){right:4%;top:10%}.orb.n3>img:nth-child(3){left:27%;bottom:4%}
+.hbig b{font-family:Fraunces,serif;font-weight:400;font-size:clamp(20px,2.2vw,26px);line-height:32px;margin-top:8px}
+.hbig small{font-size:14px;line-height:20px;color:var(--ink-soft)}
+.hmore{font-size:14px;font-weight:700;color:var(--ink-soft);margin:16px 0 -4px;max-width:960px;width:100%;margin-left:auto;margin-right:auto}
+.hsms{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:16px;max-width:960px;width:100%;margin:0 auto}
+.hsm b{font-size:14px;line-height:20px;margin-top:4px}
+.hedbar{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;max-width:960px;width:100%;margin:0 auto}
+.hed{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:4px;background:rgba(255,253,248,.95);border-radius:999px;padding:3px;box-shadow:0 6px 14px -8px rgba(46,37,71,.6)}
+.hed button{width:30px;height:30px;border-radius:50%;border:0;background:#f1ece4;font-size:15px;line-height:1;color:var(--ink);cursor:pointer;padding:0}
+.hed button[aria-pressed="true"]{background:#f5c542}
+.editing .orb{animation:hwig .6s ease-in-out infinite alternate}
+@keyframes hwig{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+.hoff .dbtn{opacity:.35;filter:grayscale(1)}
+@media(prefers-reduced-motion:reduce){.editing .orb{animation:none}}
+@media(max-width:900px){.hsms{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:640px){.hbigs{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hbig b{font-size:15px;line-height:20px}.hbig small{display:none}.hsms{grid-template-columns:repeat(3,minmax(0,1fr))}.hed button{width:26px;height:26px;font-size:13px}}
+.hsm .hed{gap:2px;padding:2px}.hsm .hed button{width:22px;height:22px;font-size:12px}
+
+.hglow{position:absolute;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;mix-blend-mode:multiply;opacity:.75;pointer-events:none}
+.orb svg{width:100%;height:100%;display:block}
+.hbig .hs{display:none}
+@media(max-width:640px){.hbig .hl{display:none}.hbig .hs{display:inline;font-family:var(--f-display);font-weight:700;font-size:15px}}
+.hbig small{display:none!important}
+.smkey{display:none!important}
+#sm_mq .words{display:flex!important;flex-wrap:wrap;gap:6px!important;grid-template-columns:none!important}
+#sm_mq .words .w{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:4px!important;padding:4px 10px 4px 6px!important;min-height:0!important;width:auto!important;border-radius:999px!important;font-size:15px!important;line-height:20px}
+#sm_mq .words .w .ic{font-size:20px!important;line-height:24px;margin:0!important}
+@media (min-width:760px){.tabs{gap:2px!important;padding:8px 6px!important}.tabs button{padding:5px 4px!important}.tabs button .ti{font-size:22px!important;line-height:28px!important}}
+.hpin{position:absolute;transform:translate(-50%,-50%);font-style:normal;background:var(--c);border:3px solid #fff;border-radius:999px;padding:2px 8px;font-size:clamp(14px,2vw,22px);line-height:1.3;box-shadow:0 6px 12px -6px rgba(46,37,71,.5)}
+.hsm .hpin{font-size:12px;padding:0 4px;border-width:2px}
+.smg3 .col2 .smwcard{display:block!important}
+#sm_pad{aspect-ratio:auto!important;height:clamp(180px,26vh,240px)!important}
 </style>
 
 <div class="hwash" aria-hidden="true"><i style="width:46vw;height:46vw;left:-10vw;top:-4vw;background:#f0b48a"></i><i style="width:40vw;height:40vw;right:-8vw;top:12vw;background:#a9bfe0"></i><i style="width:36vw;height:36vw;left:30vw;bottom:-16vw;background:#d9b2cf"></i></div>
 <div class="wrap">
   <header class="top">
     <button class="brand" id="brand" aria-label="Clay Me home"><span class="blob" aria-hidden="true"></span><h1>Clay Me</h1></button>
-    <div class="tools"><span class="budsw" id="budSw" aria-label="Body buddy"></span><button id="whoTag" class="pill">👤 Just playing</button><button class="pill gbtn" id="grownBtn" aria-pressed="true" title="Show or hide the grown-up prompts">💬 Grown-up</button><div class="menuwrap"><button class="pill" id="menuBtn" aria-expanded="false" aria-label="Settings and my things">☰</button>
+    <div class="tools"><span class="budsw" id="budSw" aria-label="Body buddy"></span><button id="whoTag" class="pill">👤 Just playing</button><button class="pill gbtn" id="grownBtn" aria-pressed="false" title="Show or hide the grown-up prompts">💬<span class="gtx"> Grown-up</span></button><div class="menuwrap"><button class="pill" id="menuBtn" aria-expanded="false" aria-label="Settings and my things">☰</button>
  <div class="menu" id="menu" hidden><span class="mlbl">settings</span><button class="pill" id="littleBtn" aria-pressed="false" title="Pictures and the body only. Word lists hidden.">🧸 Little ones</button>
  <span class="mlbl">my things</span><button class="mi" id="mGrown">🌱 Looking back</button><button class="mi" id="mBook">📒 My clay book</button><button class="mi" id="mDraw">✏️ My drawings</button><button class="mi" id="mWho">👤 Change child</button><span class="msync" id="msync">saved on this device</span></div></div><button class="pause" id="pauseBtn">Pause</button></div>
   </header>
   <div class="tabwrap"><button class="tabar tabl" aria-label="Scroll sections left" data-ts="-1">‹</button><nav class="tabs" id="tabs" aria-label="Sections">
-   <button data-tab="home"><span class="ti" aria-hidden="true">🏠</span>Home</button><button data-tab="check"><span class="ti" aria-hidden="true">👋</span>Check in</button><button data-tab="body"><span class="ti" aria-hidden="true">🫶</span>My body</button><button data-tab="look"><span class="ti" aria-hidden="true">🙂</span>How I look</button><button data-tab="art"><span class="ti" aria-hidden="true">🖍️</span>Colours &amp; lines</button><button data-tab="mix"><span class="ti" aria-hidden="true">🎨</span>Mix</button><button data-tab="spot"><span class="ti" aria-hidden="true">🔍</span>Spot a feeling</button><button data-tab="animals"><span class="ti" aria-hidden="true">🐻</span>Animals</button><button data-tab="feel"><span class="ti" aria-hidden="true">💛</span>Feelings</button><button data-tab="story"><span class="ti" aria-hidden="true">📖</span>Stories</button>
+   <button data-tab="home"><span class="ti" aria-hidden="true">🏠</span>Home</button><button data-tab="check"><span class="ti" aria-hidden="true">👋</span>Check in</button><button data-tab="body"><span class="ti" aria-hidden="true">🫶</span>My body</button><button data-tab="map"><span class="ti" aria-hidden="true">🗺️</span>Body map</button><button data-tab="look"><span class="ti" aria-hidden="true">🙂</span>How I look</button><button data-tab="art"><span class="ti" aria-hidden="true">🖍️</span>Colours &amp; lines</button><button data-tab="mix"><span class="ti" aria-hidden="true">🎨</span>Mix</button><button data-tab="spot"><span class="ti" aria-hidden="true">🔍</span>Spot a feeling</button><button data-tab="animals"><span class="ti" aria-hidden="true">🐻</span>Animals</button><button data-tab="feel"><span class="ti" aria-hidden="true">💛</span>Feelings</button><button data-tab="story"><span class="ti" aria-hidden="true">📖</span>Stories</button>
   </nav><button class="tabar tabr" aria-label="Scroll sections right" data-ts="1">›</button></div>
   <main id="app"></main>
 </div>
@@ -1158,7 +1232,7 @@ const FAM={happy:['excited','proud','loved','peaceful'],sad:['lonely','left out'
 const app=document.getElementById('app'),$=id=>document.getElementById(id);
 let curTab='home';function tab(t){curTab=t;try{drawBudSw()}catch(e){}document.querySelectorAll('#tabs [data-tab]').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===t?'page':'false'))}
 document.addEventListener('click',e=>{const b=e.target.closest('#tabs [data-tab]');if(!b)return;lastView=null;if(!who){who={id:'',name:'Just playing'}}
-  ({home:()=>home(),check:()=>checkin(),mix:()=>mixer(),body:()=>bodyPath('feel'),look:()=>bodyPath('look'),art:()=>artPath(),spot:()=>spot(),animals:()=>animals(),feel:()=>feelings(),story:()=>storyPick()})[b.dataset.tab]()});
+  ({home:()=>home(),check:()=>checkin(),mix:()=>mixer(),body:()=>bodyPath('feel'),map:()=>senseMap(),look:()=>bodyPath('look'),art:()=>artPath(),spot:()=>spot(),animals:()=>animals(),feel:()=>feelings(),story:()=>storyPick()})[b.dataset.tab]()});
 function topNav(){if(app.querySelector(':scope>.topnav'))return;const gh=[...app.querySelectorAll(':scope .navrow > .btn.ghost')];if(!gh.length)return;
   const bar=document.createElement('div');bar.className='topnav';gh.forEach(g=>{const c=document.createElement('button');c.className='pill topb';c.textContent='← '+g.textContent.trim();c.onclick=()=>g.click();bar.appendChild(c);g.classList.add('movedup')});app.prepend(bar)}
 
@@ -1190,7 +1264,7 @@ function syncMsg(t){const m=document.getElementById('msync');if(m)m.textContent=
   if(changed){const lb=document.getElementById('littleBtn');if(lb&&store.get('clayme-little',false)!==(lb.getAttribute('aria-pressed')==='true'))lb.click();if(typeof lastView==='function')lastView()}
  }catch(e){syncMsg('saved on this device')}})();
 let who=null,S=null,step=0;
-const PERKID=['clayme-picks','clayme-onme','clayme-bodymaps','clayme-draws','clayme-checks','clayme-mixes'];
+const PERKID=['clayme-home','clayme-picks','clayme-onme','clayme-bodymaps','clayme-draws','clayme-checks','clayme-mixes'];
 const kk=k=>PERKID.includes(k)&&who&&who.id?k+'-'+who.id:k;
 {const g0=store.get,s0=store.set;store.get=(k,d)=>g0.call(store,kk(k),d);store.set=(k,v)=>s0.call(store,kk(k),v)}
 const fmtT=t=>{const d=new Date(t);return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'})+', '+d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}).replace(' ','').toLowerCase()};
@@ -1198,7 +1272,7 @@ const grown=t=>`<p class="grown"><b>Grown-up:</b> ${t}</p>`;
 {const lb=$('littleBtn'),set=on=>{lb.setAttribute('aria-pressed',on);document.body.classList.toggle('little',on);store.set('clayme-little',on)};set(!!store.get('clayme-little',false));lb.onclick=()=>set(lb.getAttribute('aria-pressed')!=='true')}
 {const mb=$('menuBtn'),mn=$('menu'),tg=o=>{mn.hidden=!o;mb.setAttribute('aria-expanded',o)};mb.onclick=e=>{e.stopPropagation();tg(mn.hidden)};document.addEventListener('click',e=>{if(!mn.hidden&&!e.target.closest('.menuwrap'))tg(false)});
  const go=f=>()=>{tg(false);if(!who)who={id:'',name:'Just playing'};f()};$('mBook').onclick=go(()=>book());$('mGrown').onclick=()=>{tg(false);if(!who)who={id:'',name:'Just playing'};overTime()};$('mDraw').onclick=go(()=>drawings());$('mWho').onclick=go(()=>start());$('whoTag').onclick=()=>start()}
-$('grownBtn').onclick=e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);document.body.classList.toggle('nogrown',!on)};
+{const g0=store.get('clayme-grownon',false);$('grownBtn').setAttribute('aria-pressed',g0);document.body.classList.toggle('nogrown',!g0)}$('grownBtn').onclick=e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);document.body.classList.toggle('nogrown',!on);store.set('clayme-grownon',on)};
 $('pauseBtn').onclick=()=>{stopAllSound();$('pausebox').hidden=false};
 $('resume').onclick=()=>$('pausebox').hidden=true;
 $('finish').onclick=()=>{$('pausebox').hidden=true;if(S){step=STEPS.indexOf('now');render()}else home()};
@@ -1602,16 +1676,15 @@ gentle:['Soft and careful, nothing sharp.','Like holding a baby chick.'],
 'a bit funny':['Different from usual, hard to name.','Like when something is off but you can’t tell what.']};
 
 const SNEU=['not sure','nothing much','a bit funny'];
-function senseMap(){lastView=senseMap;drawBudSw();tab('body');stopAllSound();applyBuddy(BUDDY);S=null;
- app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div><div class="mxmode"><button id="smBack">pick clues</button><button aria-pressed="true">body map</button></div>
+function senseMap(){lastView=senseMap;drawBudSw();tab('map');stopAllSound();applyBuddy(BUDDY);S=null;
+ app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div>
  <h2 class="omh">What does my body feel like?</h2>
  ${grown('Tap a part of the body, then slide the dot: up = big and strong, down = small and quiet; left = not nice, right = nice. Colours follow the four Mood Meter quadrants (Brackett). Sensation words adapted from the STAR Physical Sensation List; body maps idea from Nummenmaa et al., 2014. Tap a word to see its meaning and an example. No wrong places or colours, and "not sure" is a real answer.')}
  <div class="smg3">
   <div><div class="smstage"><div class="zw" id="sm_stage"><img src="${A}${bodyImg()}" alt="Clay body"></div><button class="zo" id="sm_zo" hidden>whole body</button><button class="zo emotog" id="sm_emo" aria-pressed="true">😊 on</button><div class="tapme" id="sm_tapme">👆 tap where you feel it</div></div></div>
-  <div class="col2"><div class="card" id="sm_mid"><div class="empty">👆 Tap where you feel it on the body</div></div>
+  <div class="col2"><div class="card" id="sm_mid"><div class="empty">👆 Tap where you feel it on the body</div></div><div class="card smwcard"><div id="sm_mq"><div class="lbl">what kind of feeling?</div><p class="soft" style="margin:0">Tap the body, then slide in the square.</p></div></div>
    <div class="card"><div class="lbl">my body map</div><div class="smkey">${[['hu'],['hp'],['lu'],['lp']].map(([q])=>`<span style="background:${SQ[q][1]}">${SQ[q][0]}</span>`).join('')}</div><div class="mine" id="sm_mine"><p class="soft" style="margin:0">nothing yet</p></div>
    <div class="acts"><button id="sm_keep" class="go">keep it</button><button id="sm_prt">print</button><button id="sm_clr">start again</button></div><div class="lbl" style="margin-top:12px">kept</div><div class="smkept" id="sm_kept"></div></div></div>
-  <div class="card"><div id="sm_mq"><div class="lbl">what kind of feeling?</div><p class="soft" style="margin:0">Tap the body, then slide in the square.</p></div></div>
  </div>`;
 let cur=null,more=false;const st={};
 function hx(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
@@ -1638,7 +1711,7 @@ function mid(){const m=$('sm_mid');if(!cur){m.innerHTML='<div class="empty">👆
  words();draw()}
 function words(){if(!$('sm_mq'))return;const mq=$('sm_mq'),s=st[cur];if(!cur){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Tap the body, then slide in the square.</p>';return}if(!s){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Slide or tap in the square.</p>';return}const q=quad(s.x,s.y);
  mq.innerHTML=`<div class="lbl">what kind of feeling?</div>
-  <div class="words">${[...SQ[q][2].slice(0,more?99:10),...SNEU].map(w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${w}" style="--c:${s.c}"><span class="ic">${SIC[w]||'•'}</span>${w}</button>`).join('')}</div>${SQ[q][2].length>10?`<button class="more" id="sm_mo">${more?'fewer':'more words'}</button>`:''}<div class="def" id="sm_def"></div>`;
+  <div class="words">${[...SQ[q][2],...SNEU].map(w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${w}" style="--c:${s.c}"><span class="ic">${SIC[w]||'•'}</span>${w}</button>`).join('')}</div><div class="def" id="sm_def"></div>`;
  mq.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const L=st[cur].w,w=b.dataset.w,i=L.indexOf(w);i<0?L.push(w):L.splice(i,1);b.classList.toggle('on',i<0);const d=SDEF[w];$('sm_def').innerHTML=i<0&&d?`<b>${SIC[w]||''} ${w}</b><span>${d[0]}</span><em>${d[1]}</em>`:'';list()});
  const mo=$('sm_mo');if(mo)mo.onclick=()=>{more=!more;words()};list()}
 function emo(){stage.querySelectorAll('.smemo').forEach(e=>e.remove());if($('sm_emo').getAttribute('aria-pressed')!=='true')return;SP.forEach(p=>{const t=st[p[0]];if(!t||!t.w.length)return;const side=p[2]<.5?-1:p[2]>.5?1:(SP.indexOf(p)%2?1:-1);
@@ -1669,7 +1742,7 @@ $('sm_keep').onclick=()=>{if(!Object.keys(st).length)return;smDraw(c=>{const t=d
 kept();
 $('sm_clr').onclick=()=>{Object.keys(st).forEach(k=>{delete st[k];glow(k);const b=stage.querySelector(`.pt[data-k="${k}"]`);b.classList.remove('done')});cur=null;zoom(null);$('sm_tapme').hidden=false;stage.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));mid();list()};
 
- $('smBack').onclick=()=>bodyPath('feel');$('bpH').onclick=home;mid();window.scrollTo({top:0})}
+ $('bpH').onclick=home;mid();window.scrollTo({top:0})}
 
 // ---- Check in: one-page worksheet, squishable feeling ----
 const CK_N=72;
@@ -1783,23 +1856,40 @@ function storyPick(){lastView=storyPick;drawBudSw();tab('story');stopAllSound();
    <div class="hgrid two hstory" style="margin-top:14px">${card('sFriend',`<div class="kids">${['ruby','theo','mei'].map(k=>`<img src="${A}kid2-${k}.png" alt="">`).join('')}</div>`,'Something that happened to a clay friend','Ruby, Theo or Mei')}
     ${card('sMe',`<div class="kids one"><img src="${A}kid2-${BUDDY}.png" alt=""></div>`,'Something that happened to me','A time I remember')}</div>`;
   $('sFriend').onclick=()=>begin('friend');$('sMe').onclick=()=>begin('me');window.scrollTo({top:0})}
+const HT={
+ art:{t:'scribble it',s:'what colour is it?',n:'Colours',img:()=>A+'art-angry-c.jpg',go:()=>artPath()},
+ map:{t:'where is it on me?',s:'my body map',n:'Body map',img:()=>A+bodyImg(),cls:'top',pins:[['#f08a7e',66,54,'💓'],['#8fb4ea',36,74,'🦋']],go:()=>senseMap()},
+ look:{t:'look in the mirror',s:"what's my face doing?",n:'How I look',img:()=>A+(((BUD[BUDDY]||{}).close||{}).head||'close-head.jpg'),go:()=>bodyPath('look')},
+ check:{t:'check in',s:'squish a feeling',n:'Check in',svg:()=>`<svg viewBox="0 0 100 100"><defs><filter id="hblw"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feColorMatrix in="n" type="saturate" values="0" result="g"/><feComposite in="g" in2="SourceGraphic" operator="in" result="t"/><feBlend in="SourceGraphic" in2="t" mode="multiply"/></filter></defs><rect width="100" height="100" fill="#f3ebdd"/><ellipse cx="50" cy="84" rx="24" ry="4" fill="#2e2547" opacity=".12"/><path d="M50 20c14 0 26 8 28 22 3 15-6 31-26 33-19 2-31-9-31-25 0-17 13-30 29-30z" fill="#ec9fb0" filter="url(#hblw)"/><g stroke="#2e2547" stroke-width="2.6" fill="none" stroke-linecap="round"><circle cx="42" cy="46" r="1.6" fill="#2e2547"/><circle cx="58" cy="46" r="1.6" fill="#2e2547"/><path d="M44 56q6 3 12 0"/></g></svg>`,go:()=>checkin()},
+ body:{t:'peek inside',s:'thump? flutter? fizz?',n:'My body',img:()=>CLUEIMG['fast heart'],go:()=>bodyPath('feel')},
+ feel:{t:'pick a feeling',s:'lots of faces',n:'Feelings',cl:['happy','sad','angry','scared','calm'].map(f=>A+'face-'+f+'.jpg'),go:()=>feelings()},
+ spot:{t:'spot a feeling',s:'be a detective',n:'Spot a feeling',img:()=>A+'scene-fall.jpg',go:()=>spot()},
+ animals:{t:'move like an animal',s:'stomp, curl, flap',n:'Animals',cl:['bull','cat','cockatoo'].map(a=>A+'animal-'+a+'.jpg'),go:()=>animals()},
+ story:{t:'a time when…',s:'tell a story',n:'Stories',img:()=>A+'scene-cake.jpg',go:()=>storyPick()},
+ mix:{t:'mix it',s:'two colours, two feelings',n:'Mix',svg:()=>`<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fffaf3"/><g style="mix-blend-mode:multiply"><circle cx="38" cy="50" r="24" fill="#f5c542" opacity=".9"/><circle cx="62" cy="50" r="24" fill="#4f9fd6" opacity=".85"/></g></svg>`,go:()=>mixer()}};
+const HDEF={big:['art','map','look'],order:['check','body','feel','spot','animals','story','mix'],hidden:[]};
+let HEDIT=false;
+function hprefs(){const p=store.get('clayme-home',null);const d=JSON.parse(JSON.stringify(HDEF));if(!p)return d;const all=Object.keys(HT);
+  const big=(p.big||d.big).filter(k=>HT[k]).slice(0,3),order=(p.order||[]).filter(k=>HT[k]&&!big.includes(k));all.forEach(k=>{if(!big.includes(k)&&!order.includes(k))order.push(k)});return{big,order,hidden:(p.hidden||[]).filter(k=>HT[k])}}
 function home(){lastView=null;drawBudSw();tab('home');applyBuddy(BUDDY);
-  stopAllSound();S=null;const n=who.id?store.get('clayme-'+who.id,[]).length:0;
-  const card=(id,stage,title,sub)=>`<button class="hcard" id="${id}"><div class="hstage">${stage}</div><h3>${title}</h3><p>${sub}</p></button>`;
-  const DL={dBody:['fast heart','butterflies','tight chest','churny tummy','buzzy','heavy','warm and cosy','light and floaty','sweaty hands','rush of energy'].filter(c=>CLUEIMG[c]).map(c=>CLUEIMG[c]),
-   dLook:[A+((BUD[BUDDY]||{}).close||{}).head||A+'close-head.jpg',...['droopy face','eyebrows down','big smile','scrunched face','eyebrows up','teary eyes','mouth open','tight jaw','blushing'].filter(c=>CLUEIMG[c]).map(c=>CLUEIMG[c])],
-   dArt:['excited-c','calm-l','angry-c','sad-l','happy-c','worried-l','scared-c','loved-c','surprised-l'].map(k=>A+'art-'+k+'.jpg')};
-  const door=(id,tint,t,sub)=>`<div class="hdoor" style="--tint:${tint}"><span class="halo"></span><button class="dbtn" id="${id}"><span class="orb"><img src="${DL[id][0]}" alt=""></span><b>${t}</b><small>${sub}</small></button><button class="darr l" data-fd="${id}" data-fa="-1" aria-label="Another picture">‹</button><button class="darr r" data-fd="${id}" data-fa="1" aria-label="Another picture">›</button></div>`;
-  const chip=(id,t)=>`<button class="hchip" id="${id}">${t}</button>`;
+  stopAllSound();S=null;const P=hprefs(),save=()=>store.set('clayme-home',P);
+  const orb=k=>{const T=HT[k];return `<span class="orb${T.cls?' '+T.cls:''}${T.cl?' clus n'+T.cl.length:''}">${T.svg?T.svg():T.cl?T.cl.map(u=>`<img src="${u}" alt="">`).join(''):`<img src="${T.img()}" alt="">`}${(T.pins||[]).map(([c,x,y,e])=>`<i class="hpin" style="left:${x}%;top:${y}%;--c:${c}">${e}</i>`).join('')}</span>`};
+  const ed=(k,big)=>HEDIT?`<span class="hed"><button data-hm="${k}" data-d="-1" aria-label="Move ${HT[k].n} back">‹</button><button data-hstar="${k}" aria-pressed="${big}" aria-label="${big?'Make small':'Make big'}">${big?'★':'☆'}</button><button data-hx="${k}" aria-label="${P.hidden.includes(k)?'Show':'Hide'} ${HT[k].n}">${P.hidden.includes(k)?'＋':'✕'}</button><button data-hm="${k}" data-d="1" aria-label="Move ${HT[k].n} forward">›</button></span>`:'';
+  const vis=L=>L.filter(k=>HEDIT||!P.hidden.includes(k));
+  const bigT=k=>`<div class="hbig${P.hidden.includes(k)?' hoff':''}">${ed(k,true)}<button class="dbtn" data-hgo="${k}">${orb(k)}<b><span class="hl">${HT[k].t}</span><span class="hs">${HT[k].n}</span></b><small>${HT[k].s}</small></button></div>`;
+  const smT=k=>`<div class="hsm${P.hidden.includes(k)?' hoff':''}">${ed(k,false)}<button class="dbtn" data-hgo="${k}">${orb(k)}<b>${HT[k].n}</b></button></div>`;
   app.innerHTML=`
-   <div class="hhead"><img src="${A}kid2-${BUDDY}.png" alt=""><div><h2>Hmm… what's going on<br><em>in there today?</em></h2><p class="hi-b"><span class="tw" id="tw" aria-label="You choose. We can stop any time."></span><span class="caret" aria-hidden="true"></span></p></div></div>
-   <div class="hdoors">
-    ${door('dBody','#f3a98a','peek inside','thump? flutter? fizz?')}
-    ${door('dLook','#a9bfe0','look in the mirror',"what's my face doing?")}
-    ${door('dArt','#e3b0d2','scribble it','what colour is it?')}
-   </div>
-   `;
-  {const t='You choose. We can stop any time.',el=$('tw');if(reduce){el.textContent=t}else{let i=0;const go=()=>{if(!document.body.contains(el))return;el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(go,t[i-1]==='.'?420:55)};setTimeout(go,500)}}$('dBody').onclick=()=>bodyPath('feel');$('dLook').onclick=()=>bodyPath('look');$('dArt').onclick=artPath;app.querySelectorAll('[data-hb]').forEach(b=>b.onclick=()=>{setBuddy(b.dataset.hb);home()});{const fi={};app.querySelectorAll('[data-fd]').forEach(b=>b.onclick=()=>{const id=b.dataset.fd,L=DL[id],im=app.querySelector('#'+id+' img');fi[id]=((fi[id]||0)+ +b.dataset.fa+L.length)%L.length;im.style.opacity=0;setTimeout(()=>{im.onload=()=>im.style.opacity=1;im.src=L[fi[id]]},180)})}const b=$('book');if(b)b.onclick=book;window.scrollTo({top:0});
+   <div class="hhead"><img src="${A}kid3-${BUDDY}.png" alt=""><div><h2>Hmm… what's going on<br><em>in there today?</em></h2><p class="hi-b"><span class="tw" id="tw" aria-label="You choose. We can stop any time."></span><span class="caret" aria-hidden="true"></span></p></div></div>
+   <div class="hbigs${HEDIT?' editing':''}">${vis(P.big).map(bigT).join('')}</div>
+   ${vis(P.order).length?`<p class="hmore">more to do</p><div class="hsms${HEDIT?' editing':''}">${vis(P.order).map(smT).join('')}</div>`:''}
+   <div class="hedbar">${HEDIT?`<span class="soft">★ makes it big (up to 3) · ✕ hides it · ‹ › moves it${who&&who.id?' · saved for '+esc(who.name):''}</span><button class="pill" id="hReset">reset</button><button class="btn go" id="hDone">done</button>`:`<button class="pill" id="hEdit">✎ change home</button>`}</div>`;
+  {const t='You choose. We can stop any time.',el=$('tw');if(reduce||HEDIT){el.textContent=t}else{let i=0;const go=()=>{if(!document.body.contains(el))return;el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(go,t[i-1]==='.'?420:55)};setTimeout(go,500)}}
+  app.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>{if(HEDIT)return;HT[b.dataset.hgo].go()});
+  app.querySelectorAll('[data-hstar]').forEach(b=>b.onclick=()=>{const k=b.dataset.hstar;if(P.big.includes(k)){P.big=P.big.filter(x=>x!==k);P.order.unshift(k)}else{P.order=P.order.filter(x=>x!==k);P.big.push(k);if(P.big.length>3)P.order.unshift(P.big.shift())}P.hidden=P.hidden.filter(x=>x!==k||!P.big.includes(k));save();home()});
+  app.querySelectorAll('[data-hx]').forEach(b=>b.onclick=()=>{const k=b.dataset.hx;P.hidden.includes(k)?P.hidden=P.hidden.filter(x=>x!==k):P.hidden.push(k);save();home()});
+  app.querySelectorAll('[data-hm]').forEach(b=>b.onclick=()=>{const k=b.dataset.hm,L=P.big.includes(k)?P.big:P.order,i=L.indexOf(k),j=i+ +b.dataset.d;if(j<0||j>=L.length)return;[L[i],L[j]]=[L[j],L[i]];save();home()});
+  {const e=$('hEdit');if(e)e.onclick=()=>{HEDIT=true;home()}}{const d=$('hDone');if(d)d.onclick=()=>{HEDIT=false;home()}}{const r=$('hReset');if(r)r.onclick=()=>{store.set('clayme-home',null);HEDIT=true;home()}}
+  window.scrollTo({top:0});
 }
 const STEPS=['moment','story','tune','animal','art','page'];
 function begin(mode){tab('story');S={mode,scene:null,story:{before:'',during:'',after:''},parts:{},temps:{},sizes:{},colour:null,tex:null,line:null,sounds:[],now:null,before:null,after:null,fits:{},words:[],date:Date.now()};step=0;render()}
@@ -2188,14 +2278,14 @@ function stayRun(box,c,onEnd){const p=PARTS.find(p=>p.clues.some(x=>x[0]===c)),w
     box.querySelector('#stBack').onclick=onEnd;box.querySelector('#stRest').onclick=()=>{onEnd();bubble()}};
   show()}
 function bodyPath(kind){window.BPSHOW=window.BPSHOW||{};let spotC=null,showB=BPSHOW[kind]!==false;tab(kind==='feel'?'body':'look');stopAllSound();applyBuddy(BUDDY);const list=(kind==='feel'?FEELLIST:LOOKLIST).filter(c=>CLUEIMG[c]);window.BPKEEP=window.BPKEEP||{};const sel=(BPKEEP[kind]=BPKEEP[kind]||[]);let none=false;
-  app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div>${kind==='feel'?'<div class="mxmode"><button aria-pressed="true">pick clues</button><button id="bpMap">body map</button></div>':''}<h2 class="vh">${kind==='feel'?'How my body feels':'How I look'}</h2>
+  app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div><h2 class="vh">${kind==='feel'?'How my body feels':'How I look'}</h2>
    ${grown(kind==='feel'?'Ask: "What is happening inside your body right now, or at that time?" Tap as many as fit. Nothing is fine too.':'Ask: "What did your face and body do?" A mirror can help. Tap as many as fit.')}
    <div class="bpgrid"><div class="side"><span class="lbl bphead">${kind==='feel'?'Tap what you feel inside':'Tap what your face and body do'}</span>
     ${clueSecs(list,sel)}</div>
     <div class="side bpside" id="bpSide"></div></div>`;
   const decorate=()=>{app.querySelectorAll('.cfloat,.csay2').forEach(x=>x.remove());
     app.querySelectorAll('.pick[data-bp]').forEach(pk=>{const c=pk.dataset.bp;if(!sel.includes(c))return;const fs=fitsFor([c]).slice(0,2);
-      if(fs.length){const fl=document.createElement('span');fl.className='cfloat';fl.innerHTML=fs.map(f=>`<span class="cff" role="button" tabindex="0" data-cff="${f}" aria-label="maybe ${f}"><img src="${FACE[f]}" alt=""><b>maybe ${f}</b></span>`).join('');pk.querySelector('.clayimg').appendChild(fl)}
+      if(fs.length){const fl=document.createElement('span');fl.className='cfloat';fl.className='cfloat'+(fs.length>1?' two':'');fl.innerHTML=fs.map(f=>`<span class="cff" role="button" tabindex="0" data-cff="${f}" aria-label="maybe ${f}" title="maybe ${f}"><img src="${FACE[f]}" alt=""><b>maybe ${f}</b></span>`).join('')+(fs.length>1?'<span class="cfq">maybe…</span>':'');pk.querySelector('.clayimg').appendChild(fl)}
       if(c===spotC&&CLSAY[c]){const sy=document.createElement('span');sy.className='csay2';sy.textContent=CLSAY[c];pk.appendChild(sy)}});
     app.querySelectorAll('[data-cff]').forEach(x=>{const go=e=>{e.stopPropagation();e.preventDefault();feelPop(x.dataset.cff)};x.onclick=go;x.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')go(e)}})};
   const side=()=>{const heat=heatOf(sel);const fits=fitsFor(sel);bumpCounts(app,sel);
