@@ -1059,6 +1059,19 @@ body:has(.pg3) main,body:has(.pg3) #app{padding-bottom:96px}
 }
 .pswipe .swarr{display:none!important}
 .pswipe .ppanel.clues{grid-auto-columns:calc(46% - 8px)}
+.pswipe .ppanel.clues{grid-auto-flow:row!important;grid-auto-columns:auto!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;overflow:visible!important;scroll-snap-type:none!important;gap:12px!important}
+.pswipe .ppanel.clues[hidden]{display:none!important}
+.pswipe .ppanel.clues .cap{font-size:18px!important;line-height:24px}
+@media(max-width:640px){.pswipe .ppanel.clues{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(min-width:641px){.pswipe .ppanel.clues:has(> :nth-child(9)){grid-template-columns:repeat(4,minmax(0,1fr))!important}.pswipe .ppanel.clues:has(> :nth-child(9)) .cap{font-size:16px!important}}
+
+.ptabs:has(.pvis){display:flex;flex-wrap:wrap;gap:8px}
+.ptab.pvis{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 6px 4px!important;border-radius:16px!important;min-width:76px;position:relative;background:transparent!important;color:var(--ink-soft)!important}
+.pvi{width:60px;height:60px;border-radius:50%;background-size:cover;background-position:center;box-shadow:0 0 0 3px #fff,0 6px 14px -8px rgba(46,37,71,.6);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.pvw{font-size:14px;line-height:20px;font-weight:700}
+.ptab.pvis[aria-selected="true"] .pvi{box-shadow:0 0 0 3px var(--ink),0 6px 14px -8px rgba(46,37,71,.6);transform:scale(1.06)}
+.ptab.pvis[aria-selected="true"]{color:var(--ink)!important}
+.ptab.pvis .bpn{position:absolute;top:2px;right:6px}
 </style>
 
 <div class="hwash" aria-hidden="true"><i style="width:46vw;height:46vw;left:-10vw;top:-4vw;background:#f0b48a"></i><i style="width:40vw;height:40vw;right:-8vw;top:12vw;background:#a9bfe0"></i><i style="width:36vw;height:36vw;left:30vw;bottom:-16vw;background:#d9b2cf"></i></div>
@@ -2112,7 +2125,7 @@ function defCard(w,mean,f){const col=(FEEL[f]||{}).col||'#c8603f';return `<div c
   ${WART[w]?`<div class="dart">${['c','l'].map(m=>`<img src="${artSquare(w,m)}" alt="">`).join('')}</div>`:''}</div>`}
 function fitsFor(sel){const sc=Object.keys(FEEL).map(f=>{const L=new Set([...FEEL[f].clues,...(BODYLIST[f]?[...BODYLIST[f].see,...BODYLIST[f].feel].map(x=>x[1]||x[0]):[])]);return[f,sel.filter(c=>L.has(c)).length]}).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]);return sc.slice(0,3).map(x=>x[0])}
 function clueSecs(list,sel){const ps=PARTS.map(p=>[p,list.filter(c=>p.clues.some(x=>x[0]===c))]).filter(x=>x[1].length);let on=ps.findIndex(([p,L])=>L.some(c=>sel.includes(c)));if(on<0)on=0;
-  return `<div class="ptabs" role="tablist">${ps.map(([p,L],i)=>{const n=L.filter(c=>sel.includes(c)).length;return `<button class="ptab" role="tab" data-ptab="${p.k}" aria-selected="${i===on}">${p.name}<span class="bpn" data-pn="${p.k}">${n||''}</span></button>`}).join('')}</div>
+  return `<div class="ptabs" role="tablist">${ps.map(([p,L],i)=>{const n=L.filter(c=>sel.includes(c)).length;return `<button class="ptab pvis" role="tab" data-ptab="${p.k}" aria-selected="${i===on}" aria-label="${p.name}"><span class="pvi" style="background-image:url('${(window.__IMG&&__IMG[A+(p.k==='body'?bodyImg():p.close)])||A+(p.k==='body'?bodyImg():p.close)}')${p.k==='body'?';background-size:auto 100%;background-position:center top':''}"></span><span class="pvw">${({head:'face',voice:'voice',chest:'chest',tummy:'tummy',hands:'hands',legs:'legs',body:'body'})[p.k]||p.name}</span><span class="bpn" data-pn="${p.k}">${n||''}</span></button>`}).join('')}</div>
   <div class="pswipe"><button class="swarr swl" aria-label="Back" data-swa="-1">‹</button>${ps.map(([p,L],i)=>`<div class="ppanel clues" data-ppanel="${p.k}" ${i===on?'':'hidden'}>${L.map(c=>`<button class="pick" data-bp="${esc(c)}" data-pk="${p.k}" aria-pressed="${sel.includes(c)}"><span class="clayimg"><img src="${CLUEIMG[c]}" alt="" loading="lazy"></span><span class="cap">${esc(c)}</span></button>`).join('')}</div>`).join('')}<button class="swarr swr" aria-label="More" data-swa="1">›</button></div>`}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-ptab]');if(!t)return;const root=t.closest('.side')||document;root.querySelectorAll('[data-ptab]').forEach(b=>b.setAttribute('aria-selected',b===t));root.querySelectorAll('[data-ppanel]').forEach(pn=>pn.hidden=pn.dataset.ppanel!==t.dataset.ptab)});
 function heatOf(sel){const heat={};sel.forEach(c=>{const p=PARTS.find(p=>p.clues.some(x=>x[0]===c));if(p)heat[p.k]=COOL.has(c)&&heat[p.k]!=='h'?'c':'h'});return heat}
