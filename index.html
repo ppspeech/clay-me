@@ -1019,10 +1019,10 @@ body:has(.pg3) main,body:has(.pg3) #app{padding-bottom:96px}
 .pswipe .ppanel.clues::-webkit-scrollbar{display:none}
 .pswipe .ppanel.clues[hidden]{display:none}
 .pswipe .pick{scroll-snap-align:start}
-.swb{position:absolute;top:calc(50% - 40px);z-index:5;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,253,248,.92);backdrop-filter:blur(8px);box-shadow:0 8px 20px -10px rgba(46,37,71,.6);font-size:28px;line-height:1;color:var(--ink);cursor:pointer;transition:opacity .3s cubic-bezier(.22,1,.36,1),transform .3s cubic-bezier(.22,1,.36,1)}
-.swb:active{transform:scale(.94)}.swb:focus-visible{outline:3px solid var(--accent)}
+.swarr{position:absolute;top:calc(50% - 40px);z-index:5;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,253,248,.92);backdrop-filter:blur(8px);box-shadow:0 8px 20px -10px rgba(46,37,71,.6);font-size:28px;line-height:1;color:var(--ink);cursor:pointer;transition:opacity .3s cubic-bezier(.22,1,.36,1),transform .3s cubic-bezier(.22,1,.36,1)}
+.swarr:active{transform:scale(.94)}.swarr:focus-visible{outline:3px solid var(--accent)}
 .swl{left:-12px}.swr{right:-12px}
-.swb:disabled{opacity:0;pointer-events:none}
+.pswipe .swarr:disabled{opacity:0;pointer-events:none}
 
 .fitrow{display:flex;flex-direction:column;gap:8px;padding:12px 16px}
 .fitchips{display:flex;flex-wrap:wrap;gap:8px}
@@ -1057,6 +1057,8 @@ body:has(.pg3) main,body:has(.pg3) #app{padding-bottom:96px}
  .tabar:disabled{opacity:.25;cursor:default}
  .tabar:active{transform:scale(.94)}
 }
+.pswipe .swarr{display:none!important}
+.pswipe .ppanel.clues{grid-auto-columns:calc(46% - 8px)}
 </style>
 
 <div class="hwash" aria-hidden="true"><i style="width:46vw;height:46vw;left:-10vw;top:-4vw;background:#f0b48a"></i><i style="width:40vw;height:40vw;right:-8vw;top:12vw;background:#a9bfe0"></i><i style="width:36vw;height:36vw;left:30vw;bottom:-16vw;background:#d9b2cf"></i></div>
@@ -1816,10 +1818,7 @@ function stOkay(){
 function stMoment(){
   const me=S.mode==='me';
   const hasClues=PARTS.some(p=>(S.parts[p.k]||[]).length);S.start=S.start||'time';
-  const swRow=me?`<div class="startwith"><span class="lbl">Start with</span><div class="swrow">
-     <button class="swb${S.start==='time'?' on':''}" data-sw="time"><span class="swi">🗓️</span><b>A time</b><small>Pick what happened</small></button>
-     <button class="swb${S.start==='feel'?' on':''}" data-sw="feel"><img src="${CLUEIMG['fast heart']}" alt=""><b>My body</b><small>What I felt inside</small></button>
-     <button class="swb${S.start==='look'?' on':''}" data-sw="look"><img src="${CLUEIMG['eyebrows down']}" alt=""><b>How I looked</b><small>Face and body</small></button></div></div>`:'';
+  const swRow='';if(me)S.start='time';
   if(me&&S.start!=='time'){const kind=S.start,list=(kind==='feel'?FEELLIST:LOOKLIST).filter(c=>CLUEIMG[c]);const sel=()=>PARTS.flatMap(p=>S.parts[p.k]||[]);
     app.innerHTML=`${swRow}<h2>${kind==='feel'?'What did my body feel?':'How did I look?'}</h2>
      ${grown('Tap the clues that fit. Watch the body light up. Then pick when it happened.')}
@@ -2114,13 +2113,13 @@ function defCard(w,mean,f){const col=(FEEL[f]||{}).col||'#c8603f';return `<div c
 function fitsFor(sel){const sc=Object.keys(FEEL).map(f=>{const L=new Set([...FEEL[f].clues,...(BODYLIST[f]?[...BODYLIST[f].see,...BODYLIST[f].feel].map(x=>x[1]||x[0]):[])]);return[f,sel.filter(c=>L.has(c)).length]}).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]);return sc.slice(0,3).map(x=>x[0])}
 function clueSecs(list,sel){const ps=PARTS.map(p=>[p,list.filter(c=>p.clues.some(x=>x[0]===c))]).filter(x=>x[1].length);let on=ps.findIndex(([p,L])=>L.some(c=>sel.includes(c)));if(on<0)on=0;
   return `<div class="ptabs" role="tablist">${ps.map(([p,L],i)=>{const n=L.filter(c=>sel.includes(c)).length;return `<button class="ptab" role="tab" data-ptab="${p.k}" aria-selected="${i===on}">${p.name}<span class="bpn" data-pn="${p.k}">${n||''}</span></button>`}).join('')}</div>
-  <div class="pswipe"><button class="swb swl" aria-label="Back" data-sw="-1">‹</button>${ps.map(([p,L],i)=>`<div class="ppanel clues" data-ppanel="${p.k}" ${i===on?'':'hidden'}>${L.map(c=>`<button class="pick" data-bp="${esc(c)}" data-pk="${p.k}" aria-pressed="${sel.includes(c)}"><span class="clayimg"><img src="${CLUEIMG[c]}" alt="" loading="lazy"></span><span class="cap">${esc(c)}</span></button>`).join('')}</div>`).join('')}<button class="swb swr" aria-label="More" data-sw="1">›</button></div>`}
+  <div class="pswipe"><button class="swarr swl" aria-label="Back" data-swa="-1">‹</button>${ps.map(([p,L],i)=>`<div class="ppanel clues" data-ppanel="${p.k}" ${i===on?'':'hidden'}>${L.map(c=>`<button class="pick" data-bp="${esc(c)}" data-pk="${p.k}" aria-pressed="${sel.includes(c)}"><span class="clayimg"><img src="${CLUEIMG[c]}" alt="" loading="lazy"></span><span class="cap">${esc(c)}</span></button>`).join('')}</div>`).join('')}<button class="swarr swr" aria-label="More" data-swa="1">›</button></div>`}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-ptab]');if(!t)return;const root=t.closest('.side')||document;root.querySelectorAll('[data-ptab]').forEach(b=>b.setAttribute('aria-selected',b===t));root.querySelectorAll('[data-ppanel]').forEach(pn=>pn.hidden=pn.dataset.ppanel!==t.dataset.ptab)});
 function heatOf(sel){const heat={};sel.forEach(c=>{const p=PARTS.find(p=>p.clues.some(x=>x[0]===c));if(p)heat[p.k]=COOL.has(c)&&heat[p.k]!=='h'?'c':'h'});return heat}
 function bumpCounts(root,sel){root.querySelectorAll('[data-pn]').forEach(b=>{const n=sel.filter(c=>{const p=PARTS.find(p=>p.clues.some(x=>x[0]===c));return p&&p.k===b.dataset.pn}).length;b.textContent=n||''})}
 const CLSAY={'fast heart':'thump thump… can you feel it?','thumping heart':'boom boom… where is it?','butterflies':'flutter flutter… where are they?','churny tummy':'round and round… like a washing machine?','knots in tummy':'twisty… how tight?','tummy sinking':'down, down… like a lift?','tight chest':'squeeze… where does it squeeze?','tight throat':'a lump… does it want to talk?','quick breaths':'puff puff puff… fast or slow?','hot face':'warm… like a heater?','sweaty hands':'slippery… wet or damp?','heavy':'heavy… like a backpack of rocks?','buzzy':'bzzz… where does it buzz?','light and floaty':'up, up… like a balloon?','warm and cosy':'snug… like a blanket?','rush of energy':'whoosh… where does it go?','tired':'yawn… droopy or sleepy?','eyebrows down':'down they go… what are they saying?','droopy face':'everything slides down… heavy?','big smile':'up go the cheeks… can you feel them?','tight fists':'squeeze… can you feel your fingers?','shaky':'wobble wobble… where is it?','frozen':'stuck still… like a statue?','jumpy':'boing… can you stay still?'};
 
-document.addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(!b)return;const w=b.closest('.pswipe'),pn=[...w.querySelectorAll('.ppanel')].find(x=>!x.hidden);if(pn)pn.scrollBy({left:+b.dataset.sw*pn.clientWidth*.9,behavior:reduce?'auto':'smooth'})});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-swa]');if(!b)return;const w=b.closest('.pswipe'),pn=[...w.querySelectorAll('.ppanel')].find(x=>!x.hidden);if(pn)pn.scrollBy({left:+b.dataset.swa*pn.clientWidth*.9,behavior:reduce?'auto':'smooth'})});
 const swUpd=()=>document.querySelectorAll('.pswipe').forEach(w=>{const pn=[...w.querySelectorAll('.ppanel')].find(x=>!x.hidden);if(!pn)return;w.querySelector('.swl').disabled=pn.scrollLeft<8;w.querySelector('.swr').disabled=pn.scrollLeft+pn.clientWidth>pn.scrollWidth-8});
 document.addEventListener('scroll',e=>{if(e.target.classList&&e.target.classList.contains('ppanel'))swUpd()},true);
 document.addEventListener('click',e=>{if(e.target.closest('[data-ptab]'))setTimeout(swUpd,30)});
@@ -2413,7 +2412,7 @@ function linkBody(root){const lens=root.querySelector('.lens.linked');if(!lens)r
 function kaiHeat(heat,clues,link){return `<div class="lens heatview${link?' linked':''}" style="position:relative;top:auto;aspect-ratio:4/5"><div class="figwrap"><div class="fig"><img src="${A}${bodyImg()}" alt="Clay body">
   ${link?PARTS.filter(p=>p.k!=='body').map(p=>`<button class="hdot" data-hd="${p.k}" style="left:${p.x*100}%;top:${p.y*100}%" aria-label="${p.name}"></button>`).join(''):''}
   ${PARTS.map(p=>{const t=heat[p.k]||(link?'w':null);if(!t)return '';const w=p.k==='body'?100:70;return `<span class="glow strong${heat[p.k]?'':' ghost'}" data-gk="${p.k}" style="left:${p.k==='body'?50:p.x*100}%;top:${p.k==='body'?55:p.y*100}%;width:${w}%;background:radial-gradient(circle, rgba(${HEATRGB[t]},.95) 0%, rgba(${HEATRGB[t]},0) 68%)"></span>`}).join('')}
-  ${(clues||[]).length?PARTS.map(p=>{const L=clues.filter(c=>p.clues.some(x=>x[0]===c)&&CLUEIMG[c]);return L.map((c,j)=>{const side=(j%2?1:-1)*(p.k==='hands'?(j%2?1:1):1),x=p.k==='body'?(j%2?.86:.14):Math.max(.12,Math.min(.88,p.x+side*.3)),y=(p.k==='body'?.3:p.y)+Math.floor(j/2)*.1;return `<span class="hicon" style="left:${x*100}%;top:${y*100}%"><img src="${CLUEIMG[c]}" alt="${esc(c)}" title="${esc(c)}"></span>`}).join('')}).join(''):''}</div></div></div>${HEATLEG}`}
+  ${(clues||[]).length?PARTS.map(p=>{const L=clues.filter(c=>p.clues.some(x=>x[0]===c)&&CLUEIMG[c]);return L.map((c,j)=>{const side=(j%2?1:-1)*(p.k==='hands'?(j%2?1:1):1),x=p.k==='body'?(j%2?.86:.14):p.k==='hands'?(j%2?.9:.1):Math.max(.12,Math.min(.88,p.x+side*.3)),y=(p.k==='body'?.3:p.y)+Math.floor(j/2)*.1;return `<span class="hicon" style="left:${x*100}%;top:${y*100}%"><img src="${CLUEIMG[c]}" alt="${esc(c)}" title="${esc(c)}"></span>`}).join('')}).join(''):''}</div></div></div>${HEATLEG}`}
 function feelings(){tab('feel');applyBuddy(BUDDY);
   stopAllSound();
   app.innerHTML=`<h2>Pick a feeling</h2>${grown('Let the child choose any feeling to explore. Nothing here asks about their own experience unless they want to.')}
