@@ -1146,6 +1146,13 @@ body:has(.pg3) main,body:has(.pg3) #app{padding-bottom:96px}
 .hsm .hpin{font-size:12px;padding:0 4px;border-width:2px}
 .smg3 .col2 .smwcard{display:block!important}
 #sm_pad{aspect-ratio:auto!important;height:clamp(180px,26vh,240px)!important}
+
+.hbig .harr{position:absolute;top:calc(50% - 40px);z-index:4;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.92);box-shadow:0 6px 14px -8px rgba(46,37,71,.6);font-size:24px;line-height:1;color:var(--ink);cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.hbig .harr:active{transform:scale(.94)}.hbig .harr:focus-visible{outline:3px solid var(--accent)}
+.hbig .harr.l{left:-6px}.hbig .harr.r{right:-6px}
+.hbig .orb>img{transition:opacity .18s}
+@media(max-width:640px){.hbig .harr{width:30px;height:30px;font-size:18px;top:calc(50% - 30px)}}
+#sm_maybe .fitchips .cff b{font:700 17px Gaegu,cursive}
 </style>
 
 <div class="hwash" aria-hidden="true"><i style="width:46vw;height:46vw;left:-10vw;top:-4vw;background:#f0b48a"></i><i style="width:40vw;height:40vw;right:-8vw;top:12vw;background:#a9bfe0"></i><i style="width:36vw;height:36vw;left:30vw;bottom:-16vw;background:#d9b2cf"></i></div>
@@ -1264,7 +1271,7 @@ function syncMsg(t){const m=document.getElementById('msync');if(m)m.textContent=
   if(changed){const lb=document.getElementById('littleBtn');if(lb&&store.get('clayme-little',false)!==(lb.getAttribute('aria-pressed')==='true'))lb.click();if(typeof lastView==='function')lastView()}
  }catch(e){syncMsg('saved on this device')}})();
 let who=null,S=null,step=0;
-const PERKID=['clayme-home','clayme-picks','clayme-onme','clayme-bodymaps','clayme-draws','clayme-checks','clayme-mixes'];
+const PERKID=['clayme-home2','clayme-picks','clayme-onme','clayme-bodymaps','clayme-draws','clayme-checks','clayme-mixes'];
 const kk=k=>PERKID.includes(k)&&who&&who.id?k+'-'+who.id:k;
 {const g0=store.get,s0=store.set;store.get=(k,d)=>g0.call(store,kk(k),d);store.set=(k,v)=>s0.call(store,kk(k),v)}
 const fmtT=t=>{const d=new Date(t);return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'})+', '+d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}).replace(' ','').toLowerCase()};
@@ -1682,13 +1689,20 @@ function senseMap(){lastView=senseMap;drawBudSw();tab('map');stopAllSound();appl
  ${grown('Tap a part of the body, then slide the dot: up = big and strong, down = small and quiet; left = not nice, right = nice. Colours follow the four Mood Meter quadrants (Brackett). Sensation words adapted from the STAR Physical Sensation List; body maps idea from Nummenmaa et al., 2014. Tap a word to see its meaning and an example. No wrong places or colours, and "not sure" is a real answer.')}
  <div class="smg3">
   <div><div class="smstage"><div class="zw" id="sm_stage"><img src="${A}${bodyImg()}" alt="Clay body"></div><button class="zo" id="sm_zo" hidden>whole body</button><button class="zo emotog" id="sm_emo" aria-pressed="true">😊 on</button><div class="tapme" id="sm_tapme">👆 tap where you feel it</div></div></div>
-  <div class="col2"><div class="card" id="sm_mid"><div class="empty">👆 Tap where you feel it on the body</div></div><div class="card smwcard"><div id="sm_mq"><div class="lbl">what kind of feeling?</div><p class="soft" style="margin:0">Tap the body, then slide in the square.</p></div></div>
+  <div class="col2"><div class="card" id="sm_mid"><div class="empty">👆 Tap where you feel it on the body</div></div><div class="card smwcard"><div id="sm_mq"><div class="lbl">what kind of feeling?</div><p class="soft" style="margin:0">Tap the body, then slide in the square.</p></div></div><div class="card smwcard" id="sm_maybe" hidden></div>
    <div class="card"><div class="lbl">my body map</div><div class="smkey">${[['hu'],['hp'],['lu'],['lp']].map(([q])=>`<span style="background:${SQ[q][1]}">${SQ[q][0]}</span>`).join('')}</div><div class="mine" id="sm_mine"><p class="soft" style="margin:0">nothing yet</p></div>
    <div class="acts"><button id="sm_keep" class="go">keep it</button><button id="sm_prt">print</button><button id="sm_clr">start again</button></div><div class="lbl" style="margin-top:12px">kept</div><div class="smkept" id="sm_kept"></div></div></div>
  </div>`;
 let cur=null,more=false;const st={};
 function hx(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
 function mix(x,y){const q=SQ[quad(x,y)][1],c=hx(q),n=[233,226,212],t=Math.min(1,Math.hypot(x-.5,y-.5)*2.4);return 'rgb('+[0,1,2].map(i=>Math.round(n[i]+(c[i]-n[i])*t)).join(',')+')'}
+
+const SMQF={hu:['angry','scared'],hp:['happy','surprised'],lu:['sad'],lp:['calm']};
+const SMWF={hot:'angry',burning:'angry',clenched:'angry','explode-y':'angry',tight:'angry',pounding:'angry',shaky:'scared',jumpy:'scared',racing:'scared',frozen:'scared',twitchy:'scared',sweaty:'scared',knotted:'scared',queasy:'disgusted',bubbly:'happy',sparkly:'happy',light:'happy',warm:'happy',zippy:'surprised',electric:'surprised',heavy:'sad',sinking:'sad',empty:'sad',droopy:'sad',hollow:'sad',tired:'sad',calm:'calm',soft:'calm',relaxed:'calm',still:'calm',cosy:'calm'};
+function smMaybe(st){const el=document.getElementById('sm_maybe');if(!el)return;const sc={};Object.values(st).forEach(v=>{if(!v)return;(SMQF[quad(v.x,v.y)]||[]).forEach(f=>sc[f]=(sc[f]||0)+1);(v.w||[]).forEach(w=>{const f=SMWF[w];if(f)sc[f]=(sc[f]||0)+2})});
+  const T=Object.entries(sc).filter(([f])=>FACE[f]).sort((a,b)=>b[1]-a[1]).slice(0,3);el.hidden=!T.length;if(!T.length)return;
+  el.innerHTML=`<div class="lbl">${Object.keys(st).length>1?'all together, maybe…':'maybe…'}</div><div class="fitchips">${T.map(([f])=>`<button class="cff" data-smf="${f}"><img src="${FACE[f]}" alt=""><b>${f}</b></button>`).join('')}<button class="cff" data-smf=""><b>🤷 not sure</b></button></div>${grown('Offer these as maybes: "Could it be…?" The same body feeling can go with different feelings.')}`;
+  el.querySelectorAll('[data-smf]').forEach(b=>b.onclick=()=>{if(b.dataset.smf)feelPop(b.dataset.smf)})}
 function quad(x,y){return (y<.5?'h':'l')+(x<.5?'u':'p')}
 const stage=$('sm_stage');
 SP.forEach(([k,n,x,y])=>{stage.insertAdjacentHTML('beforeend',`<span class="glow" id="smg-${k}" style="left:${x*100}%;top:${y*100}%;width:0;height:0"></span><button class="pt" data-k="${k}" style="left:${x*100}%;top:${y*100}%"><span class="ptname">${n}</span></button>`)});
@@ -1716,7 +1730,7 @@ function words(){if(!$('sm_mq'))return;const mq=$('sm_mq'),s=st[cur];if(!cur){mq
  const mo=$('sm_mo');if(mo)mo.onclick=()=>{more=!more;words()};list()}
 function emo(){stage.querySelectorAll('.smemo').forEach(e=>e.remove());if($('sm_emo').getAttribute('aria-pressed')!=='true')return;SP.forEach(p=>{const t=st[p[0]];if(!t||!t.w.length)return;const side=p[2]<.5?-1:p[2]>.5?1:(SP.indexOf(p)%2?1:-1);
   stage.insertAdjacentHTML('beforeend',`<div class="smemo" style="left:${Math.max(14,Math.min(86,(p[2]+side*.2)*100))}%;top:${p[3]*100}%;--c:${t.c}">${t.w.slice(0,3).map(w=>SIC[w]||'•').join('')}</div>`)})}
-function list(){emo();const ks=SP.map(p=>p[0]).filter(k=>st[k]);$('sm_mine').innerHTML=ks.length?ks.map(k=>`<div class="row" data-r="${k}"><i style="background:${st[k].c}"></i><div><b>${name(k)}</b><br><span>${st[k].w.length?st[k].w.map(w=>`${SIC[w]||''} ${w}`).join(' · '):SQ[quad(st[k].x,st[k].y)][0]}</span></div></div>`).join(''):'<p style="color:#7a7288;margin:0">nothing yet</p>';
+function list(){emo();smMaybe(st);const ks=SP.map(p=>p[0]).filter(k=>st[k]);$('sm_mine').innerHTML=ks.length?ks.map(k=>`<div class="row" data-r="${k}"><i style="background:${st[k].c}"></i><div><b>${name(k)}</b><br><span>${st[k].w.length?st[k].w.map(w=>`${SIC[w]||''} ${w}`).join(' · '):SQ[quad(st[k].x,st[k].y)][0]}</span></div></div>`).join(''):'<p style="color:#7a7288;margin:0">nothing yet</p>';
  $('sm_mine').querySelectorAll('[data-r]').forEach(r=>r.onclick=()=>pick(r.dataset.r))}
 const smDraw=done=>{const ks=SP.map(p=>p[0]).filter(k=>st[k]);const W=1100,H=820,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
   g.fillStyle='#fbf7ef';g.fillRect(0,0,W,H);g.fillStyle='#2e2547';g.font='700 40px Gaegu, cursive';g.fillText('My body map',40,62);g.font='20px "Patrick Hand", sans-serif';g.fillStyle='#7a7288';g.fillText(new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'}),40,92);
@@ -1867,16 +1881,23 @@ const HT={
  animals:{t:'move like an animal',s:'stomp, curl, flap',n:'Animals',cl:['bull','cat','cockatoo'].map(a=>A+'animal-'+a+'.jpg'),go:()=>animals()},
  story:{t:'a time when…',s:'tell a story',n:'Stories',img:()=>A+'scene-cake.jpg',go:()=>storyPick()},
  mix:{t:'mix it',s:'two colours, two feelings',n:'Mix',svg:()=>`<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fffaf3"/><g style="mix-blend-mode:multiply"><circle cx="38" cy="50" r="24" fill="#f5c542" opacity=".9"/><circle cx="62" cy="50" r="24" fill="#4f9fd6" opacity=".85"/></g></svg>`,go:()=>mixer()}};
-const HDEF={big:['art','map','look'],order:['check','body','feel','spot','animals','story','mix'],hidden:[]};
+const HLIST={
+ art:()=>['angry-c','excited-c','happy-c','calm-c','scared-c','loved-c','sad-c','worried-c','surprised-c'].map(k=>A+'art-'+k+'.jpg'),
+ map:()=>['kai','ruby','mei','theo'].filter(b=>BUD[b]).map(b=>A+BUD[b].body),
+ look:()=>[A+(((BUD[BUDDY]||{}).close||{}).head||'close-head.jpg'),...['droopy face','eyebrows down','big smile','scrunched face','eyebrows up','teary eyes','mouth open','tight jaw'].filter(c=>CLUEIMG[c]).map(c=>CLUEIMG[c])],
+ body:()=>['fast heart','butterflies','tight chest','churny tummy','buzzy','heavy','warm and cosy','light and floaty'].filter(c=>CLUEIMG[c]).map(c=>CLUEIMG[c]),
+ spot:()=>['fall','cake','boardgame','dog','storm','puppy'].map(k=>sceneSrc(k)),
+ story:()=>['cake','present','bed','spill','grandma'].map(k=>sceneSrc(k))};
+const HDEF={big:['art','body','look'],order:['map','check','feel','spot','animals','story','mix'],hidden:[]};
 let HEDIT=false;
-function hprefs(){const p=store.get('clayme-home',null);const d=JSON.parse(JSON.stringify(HDEF));if(!p)return d;const all=Object.keys(HT);
+function hprefs(){const p=store.get('clayme-home2',null);const d=JSON.parse(JSON.stringify(HDEF));if(!p)return d;const all=Object.keys(HT);
   const big=(p.big||d.big).filter(k=>HT[k]).slice(0,3),order=(p.order||[]).filter(k=>HT[k]&&!big.includes(k));all.forEach(k=>{if(!big.includes(k)&&!order.includes(k))order.push(k)});return{big,order,hidden:(p.hidden||[]).filter(k=>HT[k])}}
 function home(){lastView=null;drawBudSw();tab('home');applyBuddy(BUDDY);
-  stopAllSound();S=null;const P=hprefs(),save=()=>store.set('clayme-home',P);
+  stopAllSound();S=null;const P=hprefs(),save=()=>store.set('clayme-home2',P);
   const orb=k=>{const T=HT[k];return `<span class="orb${T.cls?' '+T.cls:''}${T.cl?' clus n'+T.cl.length:''}">${T.svg?T.svg():T.cl?T.cl.map(u=>`<img src="${u}" alt="">`).join(''):`<img src="${T.img()}" alt="">`}${(T.pins||[]).map(([c,x,y,e])=>`<i class="hpin" style="left:${x}%;top:${y}%;--c:${c}">${e}</i>`).join('')}</span>`};
   const ed=(k,big)=>HEDIT?`<span class="hed"><button data-hm="${k}" data-d="-1" aria-label="Move ${HT[k].n} back">‹</button><button data-hstar="${k}" aria-pressed="${big}" aria-label="${big?'Make small':'Make big'}">${big?'★':'☆'}</button><button data-hx="${k}" aria-label="${P.hidden.includes(k)?'Show':'Hide'} ${HT[k].n}">${P.hidden.includes(k)?'＋':'✕'}</button><button data-hm="${k}" data-d="1" aria-label="Move ${HT[k].n} forward">›</button></span>`:'';
   const vis=L=>L.filter(k=>HEDIT||!P.hidden.includes(k));
-  const bigT=k=>`<div class="hbig${P.hidden.includes(k)?' hoff':''}">${ed(k,true)}<button class="dbtn" data-hgo="${k}">${orb(k)}<b><span class="hl">${HT[k].t}</span><span class="hs">${HT[k].n}</span></b><small>${HT[k].s}</small></button></div>`;
+  const bigT=k=>`<div class="hbig${P.hidden.includes(k)?' hoff':''}">${ed(k,true)}${!HEDIT&&HLIST[k]?`<button class="harr l" data-hc="${k}" data-d="-1" aria-label="Another picture">‹</button><button class="harr r" data-hc="${k}" data-d="1" aria-label="Another picture">›</button>`:''}<button class="dbtn" data-hgo="${k}">${orb(k)}<b><span class="hl">${HT[k].t}</span><span class="hs">${HT[k].n}</span></b><small>${HT[k].s}</small></button></div>`;
   const smT=k=>`<div class="hsm${P.hidden.includes(k)?' hoff':''}">${ed(k,false)}<button class="dbtn" data-hgo="${k}">${orb(k)}<b>${HT[k].n}</b></button></div>`;
   app.innerHTML=`
    <div class="hhead"><img src="${A}kid3-${BUDDY}.png" alt=""><div><h2>Hmm… what's going on<br><em>in there today?</em></h2><p class="hi-b"><span class="tw" id="tw" aria-label="You choose. We can stop any time."></span><span class="caret" aria-hidden="true"></span></p></div></div>
@@ -1885,10 +1906,11 @@ function home(){lastView=null;drawBudSw();tab('home');applyBuddy(BUDDY);
    <div class="hedbar">${HEDIT?`<span class="soft">★ makes it big (up to 3) · ✕ hides it · ‹ › moves it${who&&who.id?' · saved for '+esc(who.name):''}</span><button class="pill" id="hReset">reset</button><button class="btn go" id="hDone">done</button>`:`<button class="pill" id="hEdit">✎ change home</button>`}</div>`;
   {const t='You choose. We can stop any time.',el=$('tw');if(reduce||HEDIT){el.textContent=t}else{let i=0;const go=()=>{if(!document.body.contains(el))return;el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(go,t[i-1]==='.'?420:55)};setTimeout(go,500)}}
   app.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>{if(HEDIT)return;HT[b.dataset.hgo].go()});
+  {const fi={};app.querySelectorAll('[data-hc]').forEach(b=>b.onclick=e=>{e.stopPropagation();const k=b.dataset.hc,L=HLIST[k]();if(!L.length)return;fi[k]=((fi[k]||0)+ +b.dataset.d+L.length)%L.length;const im=b.parentNode.querySelector('.orb>img');if(!im)return;im.style.opacity=0;setTimeout(()=>{im.onload=()=>im.style.opacity=1;im.src=L[fi[k]]},180)})}
   app.querySelectorAll('[data-hstar]').forEach(b=>b.onclick=()=>{const k=b.dataset.hstar;if(P.big.includes(k)){P.big=P.big.filter(x=>x!==k);P.order.unshift(k)}else{P.order=P.order.filter(x=>x!==k);P.big.push(k);if(P.big.length>3)P.order.unshift(P.big.shift())}P.hidden=P.hidden.filter(x=>x!==k||!P.big.includes(k));save();home()});
   app.querySelectorAll('[data-hx]').forEach(b=>b.onclick=()=>{const k=b.dataset.hx;P.hidden.includes(k)?P.hidden=P.hidden.filter(x=>x!==k):P.hidden.push(k);save();home()});
   app.querySelectorAll('[data-hm]').forEach(b=>b.onclick=()=>{const k=b.dataset.hm,L=P.big.includes(k)?P.big:P.order,i=L.indexOf(k),j=i+ +b.dataset.d;if(j<0||j>=L.length)return;[L[i],L[j]]=[L[j],L[i]];save();home()});
-  {const e=$('hEdit');if(e)e.onclick=()=>{HEDIT=true;home()}}{const d=$('hDone');if(d)d.onclick=()=>{HEDIT=false;home()}}{const r=$('hReset');if(r)r.onclick=()=>{store.set('clayme-home',null);HEDIT=true;home()}}
+  {const e=$('hEdit');if(e)e.onclick=()=>{HEDIT=true;home()}}{const d=$('hDone');if(d)d.onclick=()=>{HEDIT=false;home()}}{const r=$('hReset');if(r)r.onclick=()=>{store.set('clayme-home2',null);HEDIT=true;home()}}
   window.scrollTo({top:0});
 }
 const STEPS=['moment','story','tune','animal','art','page'];
