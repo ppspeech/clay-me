@@ -70,6 +70,27 @@ new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==="attributes
 .bbov .bb-arr:hover{background:var(--ink);color:#fbf7ef}
 @media (hover:hover) and (pointer:fine){.bbov .bb-arr{display:grid}}
 
+/* body scan on wide/landscape screens: picture left, panel right, both use the full height */
+@media (min-width:760px){
+ html body .smg3{grid-template-columns:minmax(0,1fr) minmax(320px,min(34vw,460px))!important;gap:18px!important;align-items:start!important;margin-top:4px!important}
+ html body .smg3 .smstage,html body .smg3:has(#sm_pad) .smstage{height:calc(100vh - 160px)!important;min-height:300px!important;max-height:none!important}
+ html body .smg3 .col2,html body .smg3 .col2:has(#sm_pad){position:sticky!important;top:8px;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;width:auto!important;max-height:calc(100vh - 160px)!important;z-index:5}
+ html body .smg3:has(#sm_pad) #sm_pad{height:min(34vh,240px)!important}
+ html body .smg3:has(#sm_pad) #sm_mid .pad .ax{font-size:15px!important;padding:1px 8px!important}
+ html body .smg3:has(#sm_pad) .qtip{display:flex!important}
+}
+/* "Here's your feeling" box: bigger on big screens */
+@media (min-width:760px){
+ html body .ck .ckbox{grid-template-columns:clamp(200px,28vw,320px) minmax(0,1fr)!important;gap:8px 18px!important;padding:14px 18px!important}
+ html body .ck #ckStage{height:clamp(150px,20vw,230px)!important;max-height:none!important}
+ html body .ck .ckbox .ckq{font-size:22px!important}
+ html body .ck .ckbox .ckq small{font-size:15px!important}
+ html body .ck #ckFaces{gap:6px!important}
+ html body .ck #ckFaces .ckp{padding:4px!important}
+ html body .ck #ckFaces svg{width:clamp(34px,4vw,48px)!important;height:clamp(34px,4vw,48px)!important}
+ html body .ck .ckbe button{font-size:17px!important;padding:8px 10px!important}
+}
+
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Atkinson+Hyperlegible:wght@400;700&family=Courier+Prime:wght@700&family=Fraunces:opsz,wght@9..144,400&family=Gaegu:wght@700&family=Patrick+Hand&display=swap">
 <style>
