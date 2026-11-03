@@ -90,6 +90,11 @@ new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==="attributes
  html body .ck #ckFaces svg{width:clamp(34px,4vw,48px)!important;height:clamp(34px,4vw,48px)!important}
  html body .ck .ckbe button{font-size:17px!important;padding:8px 10px!important}
 }
+/* body scan wide: keep the picture's true shape (no squish) */
+@media (min-width:760px){
+ html body .smg3 .smstage,html body .smg3:has(#sm_pad) .smstage{height:auto!important;min-height:0!important;width:100%!important;display:flex!important;justify-content:center;background:transparent!important}
+ html body .smg3 .smstage .zw{width:min(100%,calc((100vh - 160px) * 1080 / 1609))!important;height:auto!important;max-width:100%!important;aspect-ratio:1080/1609!important;border-radius:24px;overflow:hidden;background:#f3ebdd}
+}
 
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Atkinson+Hyperlegible:wght@400;700&family=Courier+Prime:wght@700&family=Fraunces:opsz,wght@9..144,400&family=Gaegu:wght@700&family=Patrick+Hand&display=swap">
@@ -4529,6 +4534,244 @@ try{if(document.querySelector('.phome')&&typeof home==='function'&&store.get('cl
 })();
 
 document.addEventListener('click',e=>{const a=e.target.closest('[data-arr]');if(!a)return;e.stopPropagation();const c=document.getElementById('bbCats');if(c)c.scrollBy({left:+a.dataset.arr*c.clientWidth*.7,behavior:'smooth'})},true);
+
+</script>
+<style>
+.syov{position:fixed;inset:0;z-index:210;background:rgba(46,37,71,.35);display:flex;justify-content:center;align-items:stretch;font:700 16px/1.25 Gaegu,cursive;color:#2e2547}
+.syov button{font:inherit;color:inherit;cursor:pointer;border:0}
+.sy-ph{position:relative;width:min(560px,100%);height:100%;overflow-y:auto;background:linear-gradient(#e7f0ef,#f4f1ec 60%);padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(24px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
+.sy-x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:36px;height:36px;border-radius:50%!important;background:rgba(255,255,255,.9)!important;font:700 18px system-ui!important;z-index:5}
+.sy-ban{background:#2e2547;color:#fbf7ef;border-radius:22px;padding:12px 44px;text-align:center;margin:2px 0 12px}
+.sy-ban small{opacity:.75;font:12px 'Atkinson Hyperlegible',system-ui}.sy-ban h3{margin:0;font-size:clamp(22px,4vw,30px);line-height:1.05}
+.sy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
+.sy-c{border-radius:18px!important;padding:10px 6px 9px;text-align:center;font-size:18px!important;line-height:1.05;box-shadow:0 8px 16px -14px rgba(46,37,71,.6);transition:transform .15s}
+.sy-c:hover{transform:translateY(-2px)}.sy-c.on{box-shadow:0 0 0 3px #2e2547}
+.sy-em{font-size:30px;display:block;margin-bottom:3px}
+.sy-nav{display:flex;justify-content:space-between;margin-top:12px}
+.sy-skip{display:block;margin:12px auto 0;background:none!important;font:14px 'Atkinson Hyperlegible',system-ui!important;color:#6a6478!important;text-decoration:underline}
+.sy-nav .sy-skip{margin:0}
+.sy-main{position:relative;z-index:2}
+.sy-main h2{font-size:clamp(28px,5vw,38px);margin:6px 44px 0 4px;line-height:1}
+.sy-sub{font:13px/1.35 'Atkinson Hyperlegible',system-ui;color:#5a5470;margin:6px 4px 14px}
+.sy-bub{background:#fffdf8;border-radius:26px;padding:16px 14px;box-shadow:0 14px 30px -18px rgba(46,37,71,.5);position:relative;font-size:clamp(21px,3.4vw,26px);line-height:1.6}
+.sy-bub::after{content:"";position:absolute;right:34px;bottom:-14px;border:14px solid transparent;border-top-color:#fffdf8;border-bottom:0}
+.sy-sl{display:inline-flex!important;align-items:center;gap:4px;border-radius:12px!important;padding:0 8px 0 5px!important;margin:2px 0;line-height:1.3;border-bottom:3px solid rgba(46,37,71,.25)!important;font-size:inherit!important}
+.sy-sl span{font-size:.85em}.sy-sl i{font-style:normal;font-size:.65em;opacity:.6;margin-left:2px}
+.sy-safe{margin:18px 2px 0;background:#fff0c7;border-radius:16px;padding:10px 12px;font-size:18px}
+.sy-acts{display:flex;gap:8px;margin-top:22px}
+.sy-b{flex:1;text-align:center;border-radius:999px!important;padding:10px 6px;font-size:19px!important;background:#fff!important;box-shadow:0 6px 14px -10px rgba(46,37,71,.6)}
+.sy-b.dk{background:#2e2547!important;color:#fff!important}.sy-b.go{background:#c8603f!important;color:#fff!important}
+.sy-to{margin-top:14px;font:13px 'Atkinson Hyperlegible',system-ui;color:#6a6478;text-align:center}
+.sy-tt{background:#fff!important;border-radius:999px!important;padding:4px 10px;margin:4px 2px;font:700 16px Gaegu,cursive!important}
+.sy-tt.on{background:#2e2547!important;color:#fff!important}
+.sy-pop{position:sticky;bottom:0;margin-top:16px;z-index:4;background:#fff;border-radius:22px;padding:10px;box-shadow:0 -10px 30px -16px rgba(46,37,71,.5)}
+.sy-pt{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin:0 4px 6px}
+.sy-pt button{background:none!important;font:16px system-ui!important}
+.sy-row{display:flex;flex-wrap:wrap;gap:6px}
+.sy-row button{background:#f3ebdd!important;border-radius:999px!important;padding:5px 11px;font-size:16px!important}
+.sy-row button.on{background:#2e2547!important;color:#fff!important}
+.sy-k{font:15px/1.35 'Atkinson Hyperlegible',system-ui;margin:6px 4px;padding-bottom:6px;border-bottom:1px dashed #e4dccd}
+.sy-float{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.sy-ex{position:absolute;left:var(--x);top:var(--y);width:min(42%,230px);background:rgba(255,255,255,.55)!important;border-radius:18px!important;padding:8px 10px;font:12.5px/1.3 'Atkinson Hyperlegible',system-ui!important;color:#5a5470!important;text-align:center;pointer-events:auto;opacity:.55;animation:syfl 7s ease-in-out var(--d) infinite alternate;box-shadow:0 6px 16px -12px rgba(46,37,71,.4)}
+.sy-ex::after{content:"";position:absolute;left:22px;bottom:-8px;border:8px solid transparent;border-top-color:rgba(255,255,255,.55);border-bottom:0}
+.sy-ex:hover{opacity:1}
+@keyframes syfl{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+@media(prefers-reduced-motion:reduce){.sy-ex{animation:none}}
+.sy-ent{margin-left:8px}
+.sy-ot{margin:26px 4px 4px;font-size:19px}.sy-ot small{font:12px 'Atkinson Hyperlegible',system-ui;color:#6a6478;margin-left:4px}
+.sy-float{position:relative!important;inset:auto!important;height:440px;overflow:hidden;pointer-events:auto!important}
+.sy-ex{width:min(46%,240px)!important;opacity:.85!important;background:rgba(255,255,255,.8)!important}
+.sy-ex::after{border-top-color:rgba(255,255,255,.8)!important}
+.sy-float{height:540px!important}
+.sy-ex{width:46%!important;box-sizing:border-box}
+.sy-sl.need{animation:syneed 1.6s ease-in-out infinite}
+@keyframes syneed{50%{box-shadow:0 0 0 4px rgba(200,96,63,.35)}}
+
+/* ---- what helps ---- */
+.fam .hl-b{font:13px/1.3 'Atkinson Hyperlegible',system-ui;color:var(--ink-soft,#6a6478);text-align:center;max-width:180px}
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
+.hl-c{border-radius:20px!important;padding:10px 8px 9px;text-align:center;position:relative;box-shadow:0 8px 16px -14px rgba(46,37,71,.6)}
+.hl-c b{font-size:19px;display:block}.hl-c small{font:12.5px/1.25 'Atkinson Hyperlegible',system-ui;color:#3d3552;display:block;margin-top:2px}
+.hl-c.on{box-shadow:0 0 0 3px #2e2547}.hl-c.on::after{content:"✓";position:absolute;top:6px;right:8px;width:22px;height:22px;border-radius:50%;background:#2e2547;color:#fff;font:700 13px/22px system-ui}
+.hl-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px}
+.hl-foot .sy-skip{margin:0}.hl-foot .sy-b{flex:none;padding:10px 20px}
+.hl-h{font-size:clamp(30px,5vw,40px);margin:8px 44px 14px 4px;line-height:1}
+.hl-bub{font:700 clamp(21px,3.4vw,26px)/1.45 Gaegu,cursive}.hl-bub b{background:#fff0c7;border-radius:8px;padding:0 4px}
+.hl-mine{margin-top:16px;font:13px 'Atkinson Hyperlegible',system-ui;color:#6a6478}
+.hl-mine span{display:inline-block;background:#fff;border-radius:999px;padding:4px 10px;margin:4px 3px 0;font:700 16px Gaegu,cursive;color:#2e2547}
+.hl-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom,0px));z-index:120;border:0;border-radius:999px;background:#2e2547;color:#fff;font:700 18px Gaegu,cursive;padding:10px 18px;box-shadow:0 10px 24px -10px rgba(46,37,71,.6);cursor:pointer;animation:hlin .4s cubic-bezier(.22,1,.36,1)}
+@keyframes hlin{from{opacity:0;transform:translate(-50%,10px)}}
+/* feelings first with clay heads */
+.sy-big{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.sy-fb{background:#fffaf2!important;border-radius:22px!important;padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 8px 16px -14px rgba(46,37,71,.6)}
+.sy-fb img{width:min(84px,100%);aspect-ratio:1;border-radius:50%;object-fit:cover}
+.sy-fb b{font-size:19px}.sy-fb.on{box-shadow:0 0 0 3px #2e2547}
+.sy-more{margin-top:12px}.sy-more summary{font-size:18px;cursor:pointer;margin:0 4px 8px;color:#5a5470}
+.sy-fi{width:1.3em;height:1.3em;border-radius:50%;object-fit:cover;vertical-align:middle}
+.sy-sl span:has(.sy-fi){font-size:1em}
+.sy-pop .sy-big{grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:6px}.sy-pop .sy-fb img{width:62px}
+/* record */
+.sy-rec{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.sy-rec .sy-b{flex:1;min-width:120px}
+.sy-b.rec{background:#fff!important;border:2px dashed #c8603f!important}
+.sy-b.rec.on{background:#c8603f!important;color:#fff!important;border-style:solid!important}
+.sy-dot{font-size:16px;color:#c8603f;animation:syneed 1.2s infinite}
+.sy-note{font:13px 'Atkinson Hyperlegible',system-ui;color:#6a6478}
+
+</style>
+<script>
+/* Clay Me · "say it" — what happened → how it felt inside → here's what I could say */
+(function(){
+const FEEL=[['happy','😄'],['sad','😢'],['angry','😠'],['worried','😟'],['scared','😨'],['frustrated','😤'],['embarrassed','😳'],['jealous','😒'],['lonely','🥺'],['confused','😕'],['hurt','🤕'],['surprised','😮'],['excited','🤩'],['proud','😊'],['calm','😌'],['tired','😴'],['disgusted','🤢'],['overwhelmed','😵‍💫']];
+const WHAT=[['I lost a game','🎲','#fff0c7'],['I didn\'t get a turn','🙅','#d9e6f6'],['I got left out','🚪','#e8dff5'],['someone said something mean','🗯️','#fbd9d2'],['it was too loud or busy','🔊','#e3f1f1'],['plans changed','🔄','#dff0d8'],['I was tired or hungry','😴','#f6e1ea'],['something got broken','💥','#f3ebdd'],['someone took my things','✋','#fff0c7'],['I got told off','👆','#d9e6f6'],['I had to stop playing','⏹️','#e8dff5'],['I couldn\'t do it','🧩','#fbd9d2']];
+const INSIDE=[['it wasn\'t fair','⚖️','#fff0c7'],['nobody listened to me','👂','#d9e6f6'],['I wasn\'t wanted','🫥','#e8dff5'],['I wasn\'t good enough','📉','#fbd9d2'],['they didn\'t care about me','💔','#e3f1f1'],['I didn\'t know what was going on','🌀','#dff0d8'],['I worked really hard on it','💪','#f6e1ea'],['I wanted to play too','🤸','#f3ebdd'],['I didn\'t feel safe','😨','#fbd9d2']];
+const CAN=[['talk about it','💬'],['have a hug','🤗'],['have a break','🧘'],['play again','🎲'],['take turns','🔁'],['try again later','⏰'],['have a quiet chat','🤫'],['fix it together','🛠️'],['tell me what\'s next','🗓️']];
+const TO=[['mum','👩'],['dad','👨'],['teacher','🧑‍🏫'],['a friend','🧒'],['just me','🧸']];
+const EX=[['sad','I got left out','I wanted to play too','play together tomorrow'],['angry','something got broken','I worked really hard on it','fix it together'],['embarrassed','someone said something mean','they didn\'t care about me','have a quiet chat'],['worried','plans changed','I didn\'t know what was going on','tell me what\'s next'],['frustrated','I didn\'t get a turn','it wasn\'t fair','take turns'],['jealous','I had to stop playing','it wasn\'t fair','have a hug'],['lonely','I got left out','I wasn\'t wanted','have a hug'],['sad','I lost a game','I worked really hard on it','play again']];
+const em=(L,k)=>(L.find(x=>x[0]===k)||[])[1]||'';
+const col=(L,k)=>(L.find(x=>x[0]===k)||[])[2]||'#f3ebdd';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S,R,REC=null,CHUNKS=[],AUD=null;
+const BIG=['happy','sad','angry','scared','surprised','disgusted','calm'];
+const faceSrc=k=>{try{const f=typeof FACE!=='undefined'&&FACE[k];return f?((window.__IMG&&__IMG[f])||f):''}catch(e){return ''}};
+function feelGrid(sel,attr){const big=BIG.filter(faceSrc).length?BIG:[];return `<div class="sy-big">${big.map(k=>`<button class="sy-fb${sel===k?' on':''}" ${attr}="${k}"><img src="${faceSrc(k)}" alt=""><b>${k}</b></button>`).join('')}</div>
+ <details class="sy-more"${big.length?'':' open'}><summary>more feelings</summary><div class="sy-row">${FEEL.filter(x=>!big.includes(x[0])).map(x=>`<button class="${sel===x[0]?'on':''}" ${attr}="${x[0]}">${x[1]} ${x[0]}</button>`).join('')}</div></details>`}
+function voice(){const V=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));const score=v=>(/en-AU/i.test(v.lang)?40:/en-(GB|NZ)/i.test(v.lang)?20:0)+(/natural|neural|premium|enhanced|online/i.test(v.name)?60:0)+(/karen|lee|catherine|siri|google uk english female|google australian|sonia|natasha|libby|hazel/i.test(v.name)?30:0)-(/compact|espeak|robot|fred|zarvox/i.test(v.name)?80:0)+(v.localService?0:5);return V.sort((a,b)=>score(b)-score(a))[0]}
+function speak(txt){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/…/g,''));const v=voice();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+function key(){try{return 'clayme-says'+(typeof who!=='undefined'&&who&&who.id?'-'+who.id:'')}catch(e){return 'clayme-says'}}
+function sentence(s){return `I felt ${s.f||'…'} when ${s.w||'…'} because ${s.b||'…'}. Can we ${s.c||'talk about it'}?`}
+function open(pref){S={step:0,f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};
+ R=document.createElement('div');R.className='syov';R.innerHTML='<div class="sy-ph"></div>';document.body.appendChild(R);
+ R.addEventListener('click',onClick);if(S.f)S.step=1;draw()}
+function close(){try{speechSynthesis.cancel()}catch(e){}stopRec();if(R)R.remove();R=null}
+function card(L,k,i){return `<button class="sy-c${S[k]===L[0]?' on':''}" data-set="${k}" data-v="${esc(L[0])}" style="background:${L[2]}"><span class="sy-em">${L[1]}</span>${esc(L[0])}</button>`}
+function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" data-act="x" aria-label="close">✕</button>`;
+ if(S.step===0)h+=`<div class="sy-ban"><small>1 of 3</small><h3>how do I feel?</h3></div>${feelGrid(S.f,'data-ff')}<button class="sy-skip" data-act="next">not sure, keep going</button>`;
+ else if(S.step===1)h+=`<div class="sy-ban"><small>2 of 3</small><h3>what was happening?</h3></div><div class="sy-grid">${WHAT.map(x=>card(x,'w')).join('')}</div><div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ else if(S.step===2)h+=`<div class="sy-ban"><small>3 of 3</small><h3>how did it feel inside?</h3></div><div class="sy-grid">${INSIDE.map(x=>card(x,'b')).join('')}</div><div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ else{const ch=(slot,txt,e,bg)=>`<button class="sy-sl${S[slot]?'':' need'}" data-pick="${slot}" style="background:${bg}"><span>${e}</span>${esc(txt)}<i>⌄</i></button>`;
+  const unsafe=S.b==="I didn't feel safe";
+  h+=`<div class="sy-main"><h2>here's what I could say</h2><p class="sy-sub">Saying it might not fix everything. That's okay. Your feelings still matter.</p>
+  <div class="sy-bub">I felt ${ch('f',S.f||'a feeling',faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}. Can we ${ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')}?</div>
+  ${unsafe?`<div class="sy-safe">That sounds really hard. Let's tell a grown-up you trust 💛</div>`:''}
+  <div class="sy-acts"><button class="sy-b dk" data-act="say">🔊 read it to me</button><button class="sy-b go" data-act="keep">keep ✓</button></div>
+  <div class="sy-rec">${S.rec==='on'?`<button class="sy-b rec on" data-act="stop">⏹ stop</button><span class="sy-dot">recording…</span>`:S.rec==='done'?`<button class="sy-b" data-act="play">▶️ play mine</button><button class="sy-b" data-act="save">💾 save to my device</button><button class="sy-b" data-act="rec">🎙️ again</button>`:S.rec==='no'?`<span class="sy-note">The microphone isn't available here. Try the app on your own device 💛</span>`:`<button class="sy-b rec" data-act="rec">🎙️ say it in my own voice</button>`}</div>
+  <div class="sy-to">say it to… ${TO.map(t=>`<button class="sy-tt${S.to===t[0]?' on':''}" data-to="${t[0]}">${t[1]} ${t[0]}</button>`).join('')}</div>
+  <div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div></div><div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-float">${EX.map((x,i)=>`<button class="sy-ex" data-ex="${i}" style="--x:${[2,51,5,53,2,51,5,53][i]}%;--y:${[0,6,24,30,48,54,72,78][i]}%;--d:${i*.7}s">I felt ${x[0]} when ${esc(x[1])} because ${esc(x[2])}. Can we ${esc(x[3])}?</button>`).join('')}</div>`;
+  if(S.pick){const L=S.pick==='f'?FEEL:S.pick==='w'?WHAT:S.pick==='b'?INSIDE:CAN;const T={f:'I felt…',w:'when…',b:'because…',c:'Can we…'}[S.pick];
+   h+=S.pick==='f'?`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div>${feelGrid(S.f,'data-pv')}</div>`:`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div><div class="sy-row">${L.map(x=>`<button class="${S[S.pick]===x[0]?'on':''}" data-pv="${esc(x[0])}">${x[1]} ${esc(x[0])}</button>`).join('')}</div></div>`}
+  if(S.kept){const L=JSON.parse(localStorage.getItem(key())||'[]');h+=`<div class="sy-pop"><div class="sy-pt">my sentences<button data-act="unkept">✕</button></div>${L.length?L.slice(0,12).map(x=>`<p class="sy-k">${esc(x.s)}${x.to&&x.to!=='just me'?` <small>→ ${esc(x.to)}</small>`:''}</p>`).join(''):'<p class="sy-k">nothing kept yet</p>'}</div>`}}
+ P.innerHTML=h}
+function onClick(e){const t=e.target.closest('button');if(!t){if(e.target===R)close();return}const a=t.dataset.act;
+ if(a==='x')return close();
+ if(t.dataset.ff){S.f=t.dataset.ff;S.step=1;return draw()}
+ if(t.dataset.set){S[t.dataset.set]=t.dataset.v;S.step++;return draw()}
+ if(a==='next'){S.step++;return draw()}
+ if(a==='back'){S.step=Math.max(0,S.step-1);S.pick=null;return draw()}
+ if(t.dataset.pick){S.pick=t.dataset.pick;S.kept=false;return draw()}
+ if(t.dataset.pv!=null){S[S.pick]=t.dataset.pv;S.pick=null;return draw()}
+ if(a==='unpick'){S.pick=null;return draw()}
+ if(t.dataset.ex!=null){const x=EX[+t.dataset.ex];Object.assign(S,{f:x[0],w:x[1],b:x[2],c:x[3],pick:null});return draw()}
+ if(t.dataset.to){S.to=S.to===t.dataset.to?'':t.dataset.to;return draw()}
+ if(a==='say'){speak(sentence(S));return}
+ if(a==='rec'){startRec();return}
+ if(a==='stop'){stopRec();return}
+ if(a==='play'){if(AUD){try{speechSynthesis.cancel()}catch(e){}new Audio(AUD.url).play()}return}
+ if(a==='save'){saveRec(t);return}
+ if(a==='keep'){try{const L=JSON.parse(localStorage.getItem(key())||'[]');L.unshift({s:sentence(S),to:S.to,t:Date.now()});localStorage.setItem(key(),JSON.stringify(L.slice(0,50)))}catch(err){}t.textContent='kept 💛';return}
+ if(a==='kept'){S.kept=true;S.pick=null;return draw()}
+ if(a==='unkept'){S.kept=false;return draw()}}
+async function startRec(){try{if(!navigator.mediaDevices||!window.MediaRecorder)throw 0;const st=await navigator.mediaDevices.getUserMedia({audio:true});
+ const type=['audio/webm','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||'';
+ REC=new MediaRecorder(st,type?{mimeType:type}:undefined);CHUNKS=[];REC.ondataavailable=e=>e.data.size&&CHUNKS.push(e.data);
+ REC.onstop=()=>{st.getTracks().forEach(t=>t.stop());const b=new Blob(CHUNKS,{type:REC.mimeType||type||'audio/webm'});if(AUD)URL.revokeObjectURL(AUD.url);AUD={blob:b,url:URL.createObjectURL(b)};S.rec='done';R&&draw()};
+ REC.start();S.rec='on';draw();setTimeout(()=>{if(REC&&REC.state==='recording')stopRec()},30000)}catch(e){S.rec='no';draw()}}
+function stopRec(){try{if(REC&&REC.state==='recording')REC.stop()}catch(e){}}
+async function saveRec(btn){if(!AUD)return;const ext=/mp4/.test(AUD.blob.type)?'mp4':'webm';const name='my-words-'+new Date().toISOString().slice(0,10)+'.'+ext;
+ try{const d=window.claude&&await claude.use('downloads');if(d){await d.save({filename:name,data:AUD.blob});btn.textContent='saved 💛';return}}catch(e){if(e&&e.code==='declined')return}
+ const a=document.createElement('a');a.href=AUD.url;a.download=name;document.body.appendChild(a);a.click();a.remove();btn.textContent='saved 💛'}
+window.SAYIT={open,speak};
+/* entry points: menu item + button after a check-in */
+function hook(){const tabs=document.getElementById('tabs');if(tabs&&!tabs.querySelector('[data-say]')){const m=document.getElementById('tMore');const b=document.createElement('button');b.setAttribute('data-say','');b.innerHTML='<span class="ti" aria-hidden="true">💬</span>Say it';tabs.insertBefore(b,m||null)}
+ const f=document.querySelector('.ckfoot');if(f&&!f.querySelector('[data-say]')){const b=document.createElement('button');b.className='cksm sy-ent';b.setAttribute('data-say','ck');b.textContent='💬 say it';f.insertBefore(b,f.children[1]||null)}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(!b)return;e.preventDefault();e.stopPropagation();
+ const T=document.getElementById('tabs');if(T)T.classList.remove('open');
+ let pref='';if(b.dataset.say==='ck'){const on=document.querySelector('#ckFaces .ckp.on[data-fc]');if(on)pref=on.dataset.fc}
+ open(pref)},true);
+new MutationObserver(hook).observe(document.documentElement,{childList:true,subtree:true});hook();
+})();
+
+</script>
+<script>
+/* Clay Me · body-first feeling lines + "what could help me?" + "you said…" bubble */
+(function(){
+const BODY={happy:'light and bouncy, big smile, warm inside',sad:'heavy body, droopy face, lump in my throat',angry:'hot face, tight fists, want to yell or stomp',scared:'fast heart, shaky legs, want to hide',disgusted:'scrunched nose, yucky tummy, want to turn away',surprised:'eyebrows up, mouth open, jumpy inside',calm:'soft shoulders, slow breathing, floppy body'};
+const HELP=[['go outside','🌳','walk, swing, run','#dff0d8','going outside'],['cool down','💧','cold drink, wash my face','#d9e6f6','cooling down'],['look around','👀','find 5 things I can see','#fff0c7','looking around'],['get it out','🖍️','draw it, squish clay, tell someone','#fbd9d2','getting it out'],['do something else','🎵','music, a game, a book','#e8dff5','doing something else'],['cosy and quiet','🧸','blanket, teddy, quiet spot','#f6e1ea','somewhere cosy and quiet'],['slow breaths','🫧','blow bubbles, smell the flower','#e3f1f1','slow breaths'],['be with someone','🤗','a hug, sit with a grown-up','#f3ebdd','being with someone']];
+const FACEW={happy:'happy',sad:'sad',angry:'angry',scared:'scared',surprised:'surprised',calm:'calm',wobbly:'wobbly',frown:'not so good',content:''};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const kid=()=>{try{return typeof who!=='undefined'&&who&&who.id?'-'+who.id:''}catch(e){return ''}};
+const today=t=>t&&new Date(t).toDateString()===new Date().toDateString();
+const sget=(k,d)=>{try{return (typeof store!=='undefined'?store.get(k,d):d)||d}catch(e){return d}};
+
+/* 1 · body-first lines on the Feelings page */
+function lines(){document.querySelectorAll('.fams:not(.small) .fam[data-f]').forEach(b=>{if(b.querySelector('.hl-b'))return;const t=BODY[b.dataset.f];if(!t)return;const s=document.createElement('small');s.className='hl-b';s.textContent=t;b.appendChild(s)})}
+
+/* what they said today */
+function said(){const out={parts:[],feel:''};
+ const bm=sget('clayme-bodymaps',[]).filter(x=>today(x.t)).sort((a,b)=>b.t-a.t)[0];
+ if(bm&&bm.st){Object.entries(bm.st).forEach(([k,v])=>{let n=k;try{if(typeof SP!=='undefined'){const p=SP.find(q=>q[0]===k);if(p)n=p[1]}}catch(e){}n=n.replace(/^top of /,'');const w=(v&&v.w||[]).slice(0,2);out.parts.push([n,w])})}
+ const ck=sget('clayme-checks',[]).filter(x=>today(x.t)).sort((a,b)=>b.t-a.t)[0];
+ if(ck&&ck.face&&FACEW[ck.face])out.feel=FACEW[ck.face];
+ try{const x=JSON.parse(localStorage.getItem('clayme-feelnow'+kid())||'null');if(x&&today(x.t)&&x.f){out.feel=x.f;out.mine=1}}catch(e){}
+ try{const L=JSON.parse(localStorage.getItem('clayme-says'+kid())||'[]').filter(x=>today(x.t));if(L[0]){const m=L[0].s.match(/^I felt (.+?) when/);if(m&&m[1]!=='…')out.feel=m[1]}}catch(e){}
+ return out}
+const join=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1];
+function bubble(sel){const s=said(),bits=[],plain=[];
+ const ps=s.parts.slice(0,3).map(([n,w])=>w.length?`your <b>${esc(n)}</b> feels <b>${esc(join(w))}</b>`:`you feel something in your <b>${esc(n)}</b>`);
+ if(ps.length)bits.push('You said '+join(ps)+'.');
+ if(s.feel)bits.push(s.mine?`You feel <b>${esc(s.feel)}</b>.`:`Maybe it's <b>${esc(s.feel)}</b>.`);
+ const hs=sel.map(k=>HELP.find(h=>h[0]===k)[4]);
+ if(hs.length){let t=join(hs.map(h=>`<b>${esc(h)}</b>`));t=t.charAt(3).toUpperCase()===t.charAt(3)?t:t;bits.push((bits.length?'':'')+t.replace(/^<b>(.)/,(m,c)=>'<b>'+c.toUpperCase())+' might help.')}
+ if(!bits.length)bits.push('Whatever you\'re feeling is okay. You can come back any time.');
+ return bits.join(' ')}
+
+/* 2 · what could help me? */
+let R,SEL,STEP=1;
+const BIG=['happy','sad','angry','scared','surprised','disgusted','calm'];
+const MORE=[['worried','😟'],['frustrated','😤'],['embarrassed','😳'],['jealous','😒'],['lonely','🥺'],['confused','😕'],['hurt','🤕'],['excited','🤩'],['proud','😊'],['tired','😴'],['overwhelmed','😵‍💫']];
+const faceSrc=k=>{try{const f=typeof FACE!=='undefined'&&FACE[k];return f?((window.__IMG&&__IMG[f])||f):''}catch(e){return ''}};
+function setFeel(f){try{localStorage.setItem('clayme-feelnow'+kid(),JSON.stringify({f,t:Date.now()}))}catch(e){}}
+function open(){SEL=new Set(sget('clayme-helpers-now',[]));R=document.createElement('div');R.className='syov hlov';R.innerHTML='<div class="sy-ph"></div>';document.body.appendChild(R);R.addEventListener('click',click);STEP=said().feel?1:0;draw(false)}
+function close(){try{speechSynthesis.cancel()}catch(e){}R&&R.remove();R=null}
+function draw(done){const P=R.querySelector('.sy-ph');
+ if(!done&&STEP===0){P.innerHTML=`<button class="sy-x" data-a="x" aria-label="close">✕</button><div class="sy-ban"><small>first</small><h3>how do I feel?</h3></div><div class="sy-big">${BIG.filter(faceSrc).map(k=>`<button class="sy-fb" data-ff="${k}"><img src="${faceSrc(k)}" alt=""><b>${k}</b></button>`).join('')}</div><details class="sy-more"${BIG.filter(faceSrc).length?'':' open'}><summary>more feelings</summary><div class="sy-row">${MORE.map(x=>`<button data-ff="${x[0]}">${x[1]} ${x[0]}</button>`).join('')}</div></details><button class="sy-skip" data-a="skipf">not sure, keep going</button>`;return}
+ if(!done){P.innerHTML=`<button class="sy-x" data-a="x" aria-label="close">✕</button><div class="sy-ban"><small>big feelings can settle a bit first</small><h3>what could help me?</h3></div>
+ <div class="hl-grid">${HELP.map(h=>`<button class="hl-c${SEL.has(h[0])?' on':''}" data-h="${esc(h[0])}" style="background:${h[3]}"><span class="sy-em">${h[1]}</span><b>${esc(h[0])}</b><small>${esc(h[2])}</small></button>`).join('')}</div>
+ <div class="hl-foot"><button class="sy-skip" data-a="x">not now, that's ok</button><button class="sy-b go" data-a="keep">${SEL.size?'keep these ✓':'pick any'}</button></div>`}
+ else{const t=bubble([...SEL]);P.innerHTML=`<button class="sy-x" data-a="x" aria-label="close">✕</button><h2 class="hl-h">you said…</h2>
+ <div class="sy-bub hl-bub">${t}</div>
+ <div class="sy-acts"><button class="sy-b dk" data-a="say">🔊 read it to me</button><button class="sy-b go" data-a="x">done 💛</button></div>
+ ${SEL.size?`<div class="hl-mine">my helpers: ${[...SEL].map(k=>{const h=HELP.find(x=>x[0]===k);return `<span>${h[1]} ${esc(k)}</span>`}).join('')}</div>`:''}
+ <button class="sy-skip" data-a="back">‹ change my helpers</button>`;R.dataset.txt=t.replace(/<[^>]+>/g,'')}}
+function click(e){const b=e.target.closest('button');if(!b){if(e.target===R)close();return}const a=b.dataset.a;
+ if(a==='x')return close();
+ if(b.dataset.ff){setFeel(b.dataset.ff);STEP=1;return draw(false)}
+ if(a==='skipf'){STEP=1;return draw(false)}
+ if(b.dataset.h){const k=b.dataset.h;SEL.has(k)?SEL.delete(k):SEL.add(k);return draw(false)}
+ if(a==='keep'){if(!SEL.size)return;try{store.set('clayme-helpers-now',[...SEL]);const L=sget('clayme-helpers',[]);L.unshift({t:Date.now(),h:[...SEL]});store.set('clayme-helpers',L.slice(0,40))}catch(err){}return draw(true)}
+ if(a==='back')return draw(false);
+ if(a==='say'){const tx=R.dataset.txt||'';if(window.SAYIT&&SAYIT.speak)return SAYIT.speak(tx);try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(tx))}catch(err){}}}
+window.HELPS={open};
+
+/* entry points */
+function hook(){lines();
+ const tabs=document.getElementById('tabs');if(tabs&&!tabs.querySelector('[data-helps]')){const m=document.getElementById('tMore');const b=document.createElement('button');b.setAttribute('data-helps','');b.innerHTML='<span class="ti" aria-hidden="true">🌱</span>What helps';tabs.insertBefore(b,m||null)}
+ const f=document.querySelector('.ckfoot');if(f&&!f.querySelector('[data-helps]')){const b=document.createElement('button');b.className='cksm sy-ent';b.setAttribute('data-helps','');b.textContent='🌱 what helps';f.insertBefore(b,f.children[2]||null)}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-helps]');if(b){e.preventDefault();e.stopPropagation();const T=document.getElementById('tabs');if(T)T.classList.remove('open');document.querySelectorAll('.hl-toast').forEach(x=>x.remove());open();return}
+ if(e.target.closest('#sm_keep')){setTimeout(()=>{if(document.querySelector('.hl-toast'))return;const t=document.createElement('button');t.className='hl-toast';t.setAttribute('data-helps','');t.textContent='🌱 what could help me?';document.body.appendChild(t);setTimeout(()=>t.remove(),9000)},400)}},true);
+new MutationObserver(hook).observe(document.documentElement,{childList:true,subtree:true});hook();
+})();
 
 </script>
 </body></html>
