@@ -95,6 +95,11 @@ new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==="attributes
  html body .smg3 .smstage,html body .smg3:has(#sm_pad) .smstage{height:auto!important;min-height:0!important;width:100%!important;display:flex!important;justify-content:center;background:transparent!important}
  html body .smg3 .smstage .zw{width:min(100%,calc((100vh - 160px) * 1080 / 1609))!important;height:auto!important;max-width:100%!important;aspect-ratio:1080/1609!important;border-radius:24px;overflow:hidden;background:#f3ebdd}
 }
+/* big desktop: keep the side rail slim */
+@media (min-width:1367px){
+ html body #tabs.tabs{width:92px!important;max-width:92px!important;left:12px!important;right:auto!important;transform:none!important}
+ html body #tabs.tabs button{font-size:12px!important;white-space:normal!important;text-align:center}
+}
 
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Atkinson+Hyperlegible:wght@400;700&family=Courier+Prime:wght@700&family=Fraunces:opsz,wght@9..144,400&family=Gaegu:wght@700&family=Patrick+Hand&display=swap">
