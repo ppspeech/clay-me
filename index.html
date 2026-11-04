@@ -4587,7 +4587,7 @@ try{if(document.querySelector('.phome')&&typeof home==='function'&&store.get('cl
   root.querySelectorAll('img[alt="Clay body"]:not([data-bb])').forEach(im=>{im.dataset.bb=1;im.dataset.orig=im.src;im.src=uri({...MB,pose:'stand',pet:'none'},'17.2 12.9 165.6 246.75','body');im.style.objectFit='contain';im.style.width='100%';im.style.height='100%'});
   root.querySelectorAll('[data-bp] img:not([data-bb])').forEach(im=>{const nm=im.closest('[data-bp]').dataset.bp,A=ACT[nm];if(!A)return;im.dataset.bb=1;im.dataset.orig=im.src;im.src=act(MB,nm,A);im.style.objectFit='cover';im.style.background='#efe6d6'});
   root.querySelectorAll('[data-bp] img:not([data-bb])').forEach(im=>{const e=FXN[im.closest('[data-bp]').dataset.bp];if(!e)return;
-   im.dataset.bb=1;im.dataset.orig=im.src;im.src=uri({...MB,expr:e,pet:'none',pose:'stand'},'54 24 92 92','face');im.style.objectFit='cover';im.style.background='#efe6d6'})}
+   im.dataset.bb=1;im.dataset.orig=im.src;im.src=uri({...MB,expr:e,pet:'none',pose:'stand',build:'regular'},'54 24 92 92','face');im.style.objectFit='cover';im.style.background='#efe6d6'})}
  const go=()=>{try{swap(document)}catch(e){}};
  new MutationObserver(go).observe(document.documentElement,{childList:true,subtree:true});go();
 })();
@@ -4598,7 +4598,7 @@ try{if(document.querySelector('.phome')&&typeof home==='function'&&store.get('cl
  let last='';
  function set(){let on=false,MB=null;try{MB=store.get('clayme-mybud',null);on=store.get('clayme-homepic','')==='made'&&MB&&window.BUD2}catch(e){}
   document.documentElement.classList.toggle('bb-made',!!on);if(!on)return;const key=JSON.stringify(MB);if(key===last)return;last=key;
-  const T={...MB,pose:'stand',pet:'none',scene:'none',extras:new Set((MB.extras||[]).filter(x=>!['balloon','wheelchair','walking frame','crutches'].includes(x)))};
+  const T={...MB,pose:'stand',pet:'none',scene:'none',build:'regular',extras:new Set((MB.extras||[]).filter(x=>!['balloon','wheelchair','walking frame','crutches'].includes(x)))};
   let s=BUD2.svg(T).replace(/<rect width="200" height="260" fill="[^"]*"\/><rect width="200" height="260" filter="url\(#bbpap\)"\/><rect x="0" y="238"[^>]*\/>/,'');
   const r=document.documentElement.style;
   const sl=MB.top==='coat'?52:['jumper','hoodie'].includes(MB.top)?70:MB.top==='raincoat'?60:MB.top==='smock'?74:78,hx=200-sl+10;CR.hands=(hx-28)+' 150 56 56';
