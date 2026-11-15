@@ -5065,6 +5065,8 @@ html body.ttl #brand h1 small{color:var(--pp-ink)!important;opacity:.8}
 /* kept toast and popups */
 .kept{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-leaf) var(--pp-paint)!important;background-size:100% 100%!important;color:#fff!important}
 .mxpop .mxcard,.popcard,.feelpop{border-radius:var(--pp-cut)!important}
+/* never let the bottom bar cover anything: reserve its space on every page */
+@media (max-width:1099px){html body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}html body.pp-home{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}html{scroll-padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
 </style>
 <script id="paper-js">/* Clay Me · painted paper layer: 5-tab nav, more sheet, colour band, home doors */
 (function(){
@@ -5116,20 +5118,20 @@ function sync(){build();let t='home';try{t=curTab||'home'}catch(e){}
  document.documentElement.style.setProperty('--pp-band','var('+(BAND[t]||'--pp-marigold')+')');
  decorateHome();qfit()}
 function decorateHome(){const h=document.querySelector('.phome');if(!h||h.querySelector('.ppdoors'))return;
- const doors=`<nav class="ppdoors" aria-label="start here"><button data-pp="map" style="--c:var(--pp-leaf)">${svg('body')}<span>my body<small>tap where you feel it</small></span></button><button data-pp="feel" style="--c:var(--pp-marigold)">${svg('face')}<span>feelings<small>find a face that fits</small></span></button><button data-pp="say" style="--c:var(--pp-cobalt)">${svg('say')}<span>say it<small>make a sentence to share</small></span></button></nav>
- <div class="ppmorebar"><span>more</span><button data-pp="pond" style="--c:var(--pp-tint-cobalt)">${svg('fish','var(--pp-cobalt)')}pond</button><button data-pp="art" style="--c:var(--pp-tint-tomato)">${svg('crayon','var(--pp-tomato)')}colours</button><button data-pp="story" style="--c:var(--pp-tint-violet)">${svg('book','var(--pp-violet)')}stories</button></div>`;
+ const doors=`<nav class="ppdoors" aria-label="start here"><button data-pp="check" style="--c:var(--pp-tomato)">${svg('wave')}<span>check in<small>how am I right now?</small></span></button><button data-pp="helps" style="--c:var(--pp-leaf)">${svg('sprout')}<span>what helps<small>things that help my body</small></span></button><button data-pp="pond" style="--c:var(--pp-cobalt)">${svg('fish')}<span>pond<small>calm fish, slow breaths</small></span></button></nav>
+ <div class="ppmorebar"><span>more</span><button data-pp="art" style="--c:var(--pp-tint-tomato)">${svg('crayon','var(--pp-tomato)')}colours</button><button data-pp="story" style="--c:var(--pp-tint-violet)">${svg('book','var(--pp-violet)')}stories</button><button data-pp="animals" style="--c:var(--pp-tint-sand)">${svg('paw','#9a6a1c')}animals</button></div>`;
  const r=document.createElement('div');r.className='ppright';r.innerHTML=doors;h.appendChild(r);h.classList.add('ppwide');
  const nm=h.querySelector('.phname');if(nm)nm.textContent=nm.textContent.replace(/\s*👋\s*$/,'')}
 /* home fit (under 1100px): size the buddy from the real space left, pin the doors just above the nav */
 function fitHome(){const h=document.querySelector('.phome'),k=h&&h.querySelector('.pkid'),r=h&&h.querySelector('.ppright');if(!k||!r)return;
  if(innerWidth>=1100){k.style.removeProperty('--kh');h.style.removeProperty('min-height');return}
  const nav=document.getElementById('ppnav'),nh=nav?nav.getBoundingClientRect().height:0;
- const top=h.getBoundingClientRect().top,space=innerHeight-nh-top-12;
+ const vh=window.visualViewport?Math.min(innerHeight,visualViewport.height):innerHeight,top=h.getBoundingClientRect().top+(window.scrollY||0)-(window.scrollY||0),space=vh-nh-top-12;
  h.style.setProperty('min-height',Math.max(0,space)+'px','important');
  const kt=k.getBoundingClientRect().top-top,rh=r.getBoundingClientRect().height;
  const kh=Math.round(Math.max(200,Math.min(600,space-kt-rh-36)));
  k.style.setProperty('--kh',kh+'px','important');
- const over=r.getBoundingClientRect().bottom-(top+space);if(over>1)k.style.setProperty('--kh',Math.max(180,Math.round(kh-over))+'px','important')}
+ const over=Math.max(r.getBoundingClientRect().bottom-(top+space),r.getBoundingClientRect().bottom-(nav?nav.getBoundingClientRect().top-8:vh));if(over>1)k.style.setProperty('--kh',Math.max(180,Math.round(kh-over))+'px','important')}
 let fq=0;const qfit=()=>{cancelAnimationFrame(fq);fq=requestAnimationFrame(fitHome)};
 addEventListener('resize',qfit);if(window.visualViewport)visualViewport.addEventListener('resize',qfit);
 new MutationObserver(()=>sync()).observe(document.documentElement,{childList:true,subtree:true});
