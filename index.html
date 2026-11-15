@@ -4720,6 +4720,10 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-arr]');if(
 .sy-moreb{margin-top:6px;border-top:1.5px dashed rgba(46,37,71,.18);padding-top:4px}
 .sy-exs{display:flex;flex-direction:column;gap:8px;margin:6px 2px 10px}
 .sy-ex2{text-align:left;background:#fff!important;border:0;border-radius:16px!important;padding:10px 12px;font:15px/1.35 'Atkinson Hyperlegible',system-ui!important;color:#2e2547!important;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08)}
+.sy-tri{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 14px}
+.sy-tr{border:0;border-radius:26px 30px 24px 28px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:800 22px/1.1 'PP Display',Gaegu,cursive;color:#1f2a4d;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08),0 8px 18px -12px rgba(31,42,77,.35)}
+.sy-tr span{font-size:54px;line-height:1}
+.sy-tr.hard{background:#dbe6fb}.sy-tr.good{background:#fff0c7}
 
 </style>
 <script>
@@ -4729,6 +4733,12 @@ const FEEL=[['happy','😄'],['sad','😢'],['angry','😠'],['worried','😟'],
 const WHAT=[['I lost a game','🎲','#fff0c7'],['I didn\'t get a turn','🙅','#d9e6f6'],['I got left out','🚪','#e8dff5'],['someone said something mean','🗯️','#fbd9d2'],['it was too loud or busy','🔊','#e3f1f1'],['plans changed','🔄','#dff0d8'],['I was tired or hungry','😴','#f6e1ea'],['something got broken','💥','#f3ebdd'],['someone took my things','✋','#fff0c7'],['I got told off','👆','#d9e6f6'],['I had to stop playing','⏹️','#e8dff5'],['I couldn\'t do it','🧩','#fbd9d2']];
 const INSIDE=[['it wasn\'t fair','⚖️','#fff0c7'],['nobody listened to me','👂','#d9e6f6'],['I wasn\'t wanted','🫥','#e8dff5'],['I wasn\'t good enough','📉','#fbd9d2'],['they didn\'t care about me','💔','#e3f1f1'],['I didn\'t know what was going on','🌀','#dff0d8'],['I worked really hard on it','💪','#f6e1ea'],['I wanted to play too','🤸','#f3ebdd'],['I didn\'t feel safe','😨','#fbd9d2']];
 const CAN=[['talk about it','💬'],['have a hug','🤗'],['have a break','🧘'],['play again','🎲'],['take turns','🔁'],['try again later','⏰'],['have a quiet chat','🤫'],['fix it together','🛠️'],['tell me what\'s next','🗓️'],['I just wanted you to know','💛'],['I don\'t need anything right now','🌙']];
+const WG=[['I played with a friend','🧒','#dff0d8'],['I finished something','🏁','#fff0c7'],['someone helped me','🤝','#d9e6f6'],['I learnt something new','💡','#fff0c7'],['I made something','🎨','#f6e1ea'],['someone said something kind','💬','#e8dff5'],['I was brave','🦁','#f3ebdd'],['I helped someone','🫶','#fbd9d2'],['we went somewhere fun','🎡','#e3f1f1'],['I got a turn','✋','#d9e6f6'],['I had a cuddle','🤗','#f6e1ea'],['my favourite thing happened','⭐','#fff0c7']];
+const IG=[['I tried really hard','💪','#f6e1ea'],['I did it by myself','🙌','#fff0c7'],['I felt included','🫂','#dff0d8'],['someone noticed me','👀','#d9e6f6'],['it was fun','🎉','#e8dff5'],['I felt safe','🏡','#e3f1f1'],['people were kind','💛','#fff0c7'],['I felt calm','😌','#dff0d8']];
+const CG=[['do it again','🔁'],['do it together','🧑‍🤝‍🧑'],['have a high five','🙌'],['tell someone else','📣'],['I just wanted you to know','💛']];
+const GOODF=['happy','calm','proud','excited'];
+const EXG=[['','I played with a friend','it was fun','do it again'],['','I finished something','I tried really hard','have a high five'],['','someone helped me','I felt included','I just wanted you to know']];
+const good=()=>S&&S.m==='good';const LW=()=>good()?WG:WHAT,LI=()=>good()?IG:INSIDE,LC=()=>good()?CG:CAN,LX=()=>good()?EXG:EX;
 const NOASK=['I just wanted you to know','I don\'t need anything right now'];
 const end=c=>NOASK.includes(c)?' '+c+'.':' Can we '+c+'?';
 const TO=[['mum','👩'],['dad','👨'],['teacher','🧑‍🏫'],['a friend','🧒'],['just me','🧸']];
@@ -4746,10 +4756,10 @@ function voice(){const V=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lan
 function speak(txt){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/…/g,''));const v=voice();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}}
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 function key(){try{return 'clayme-says'+(typeof who!=='undefined'&&who&&who.id?'-'+who.id:'')}catch(e){return 'clayme-says'}}
-function sentence(s){return `${s.f?'I felt '+s.f:'It was hard'} when ${s.w||'…'} because ${s.b||'…'}.${end(s.c||'talk about it')}`}
-function open(pref){S={step:0,f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};
+function sentence(s){return `${s.f?'I felt '+s.f:(s.m==='good'?'It was good':'It was hard')} when ${s.w||'…'} because ${s.b||'…'}.${end(s.c||'talk about it')}`}
+function open(pref){S={step:0,m:'',f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};if(S.f){S.m=GOODF.includes(S.f)?'good':'hard';if(S.m==='good')S.c='do it again'}
  R=document.createElement('div');R.className='syov';R.innerHTML='<div class="sy-ph"></div>';document.body.appendChild(R);
- R.addEventListener('click',onClick);S.step=1;draw()}
+ R.addEventListener('click',onClick);S.step=S.m?1:0;draw()}
 function close(){try{speechSynthesis.cancel()}catch(e){}stopRec();if(R)R.remove();R=null}
 const MK=()=>key().replace('clayme-says','clayme-mywords');
 function myW(k){try{return (JSON.parse(localStorage.getItem(MK())||'{}')[k]||[])}catch(e){return []}}
@@ -4760,13 +4770,13 @@ function own(k){return S.typing===k?`<div class="sy-own"><input id="syIn" maxlen
 function mine(k){return myW(k).map(v=>`<button class="sy-c sy-mine${S[k]===v?' on':''}" data-set="${k}" data-v="${esc(v)}" style="background:#fffdf3"><span class="sy-em">✏️</span>${esc(v)}<i class="sy-del" data-del="${k}" data-v="${esc(v)}" title="remove">✕</i></button>`).join('')}
 function card(L,k,i){return `<button class="sy-c${S[k]===L[0]?' on':''}" data-set="${k}" data-v="${esc(L[0])}" style="background:${L[2]}"><span class="sy-em">${L[1]}</span>${esc(L[0])}</button>`}
 function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" data-act="x" aria-label="close">✕</button>`;
- if(S.step===0)h+=`<div class="sy-ban"><small>1 of 3</small><h3>how do I feel?</h3></div>${feelGrid(S.f,'data-ff')}<div class="sy-grid" style="margin-top:10px">${mine('f').replace(/data-set="f"/g,'data-ff-own="1" data-set="f"')}${S.typing==='f'?'':own('f')}</div>${S.typing==='f'?own('f'):''}<button class="sy-skip" data-act="next">not sure, keep going</button>`;
- else if(S.step===1)h+=`<div class="sy-ban"><small>1 of 2</small><h3>what was happening?</h3></div><div class="sy-grid">${WHAT.map(x=>card(x,'w')).join('')}${mine('w')}${S.typing==='w'?'':own('w')}</div>${S.typing==='w'?own('w'):''}<div class="sy-nav"><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
- else if(S.step===2)h+=`<div class="sy-ban"><small>2 of 2</small><h3>how did it feel inside?</h3></div><div class="sy-grid">${INSIDE.map(x=>card(x,'b')).join('')}${mine('b')}${S.typing==='b'?'':own('b')}</div>${S.typing==='b'?own('b'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ if(S.step===0)h+=`<div class="sy-ban"><h3>was it hard, or good?</h3></div><div class="sy-tri"><button class="sy-tr hard" data-mode="hard"><span>🌧️</span>something hard</button><button class="sy-tr good" data-mode="good"><span>🌤️</span>something good</button></div><button class="sy-skip" data-mode="hard">not sure, keep going</button>`;
+ else if(S.step===1)h+=`<div class="sy-ban"><small>1 of 2</small><h3>${good()?'what happened?':'what was happening?'}</h3></div><div class="sy-grid">${LW().map(x=>card(x,'w')).join('')}${mine('w')}${S.typing==='w'?'':own('w')}</div>${S.typing==='w'?own('w'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ else if(S.step===2)h+=`<div class="sy-ban"><small>2 of 2</small><h3>${good()?'what made it good?':'how did it feel inside?'}</h3></div><div class="sy-grid">${LI().map(x=>card(x,'b')).join('')}${mine('b')}${S.typing==='b'?'':own('b')}</div>${S.typing==='b'?own('b'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
  else{const ch=(slot,txt,e,bg)=>`<button class="sy-sl${S[slot]?'':' need'}" data-pick="${slot}" style="background:${bg}"><span>${e}</span>${esc(txt)}<i>⌄</i></button>`;
   const unsafe=S.b==="I didn't feel safe";
-  h+=`<div class="sy-main"><h2>here's what I could say</h2><p class="sy-sub">Saying it might not fix everything. That's okay. Your feelings still matter.</p>
-  <div class="sy-bub">${S.f?'I felt '+ch('f',S.f,faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6'):ch('f','It was hard','💭','#eef1f8').replace(' need','')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}${NOASK.includes(S.c)?'. '+ch('c',S.c,em(CAN,S.c),'#dff0d8')+'.':'. Can we '+ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')+'?'}</div>
+  h+=`<div class="sy-main"><h2>here's what I could say</h2><p class="sy-sub">${good()?'Good moments are worth sharing too.':'Saying it might not fix everything. That\'s okay. Your feelings still matter.'}</p>
+  <div class="sy-bub">${S.f?'I felt '+ch('f',S.f,faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6'):ch('f',good()?'It was good':'It was hard',good()?'🌤️':'💭','#eef1f8').replace(' need','')} when ${ch('w',S.w||'something happened',em(LW(),S.w)||'❔',S.w?col(LW(),S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(LI(),S.b)||'❔',S.b?col(LI(),S.b):'#efe9df')}${NOASK.includes(S.c)?'. '+ch('c',S.c,em(LC(),S.c),'#dff0d8')+'.':'. Can we '+ch('c',S.c,em(LC(),S.c)||'💬','#dff0d8')+'?'}</div>
   ${unsafe?`<div class="sy-safe"><b>That sounds really hard. You deserve to feel safe.</b><span>You could tell:</span><div class="sy-who"><span>🧑‍🏫 a teacher</span><span>💬 your speechie</span><span>🫶 a grown-up you trust</span><a href="tel:1800551800">📞 Kids Helpline <b>1800 55 1800</b><small>free, any time, day or night</small></a></div></div>`:''}
   <div class="sy-acts"><button class="sy-b dk" data-act="say">🔊 read it to me</button>${unsafe&&!S.okKeep?`<button class="sy-b go" data-act="askkeep">keep it?</button>`:`<button class="sy-b go" data-act="keep">keep ✓</button>`}</div>
   ${unsafe&&S.askKeep&&!S.okKeep?`<div class="sy-ask">Anyone who uses this device could see it. <span><button class="sy-tt" data-act="okkeep">keep it</button><button class="sy-tt" data-act="nokeep">no thanks</button></span></div>`:''}
@@ -4775,8 +4785,8 @@ function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" da
   <div class="sy-rec">${S.rec==='on'?`<button class="sy-b rec on" data-act="stop">⏹ stop</button><span class="sy-dot">recording…</span>`:S.rec==='done'?`<button class="sy-b" data-act="play">▶️ play mine</button><button class="sy-b" data-act="save">💾 save to my device</button><button class="sy-b" data-act="rec">🎙️ again</button>`:S.rec==='no'?`<span class="sy-note">The microphone isn't available here. Try the app on your own device 💛</span>`:`<button class="sy-b rec" data-act="rec">🎙️ say it in my own voice</button>`}</div>
   <div class="sy-to">say it to… ${(unsafe?TOSAFE:TO).map(t=>`<button class="sy-tt${S.to===t[0]?' on':''}" data-to="${t[0]}">${t[1]} ${t[0]}</button>`).join('')}</div>
   <div class="sy-nav"><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div>
-  <div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-exs">${EX.map((x,i)=>`<button class="sy-ex2" data-ex="${i}">It was hard when ${esc(x[1])} because ${esc(x[2])}.${esc(end(x[3]))}</button>`).join('')}</div></div>`:''}</div>`;
-  if(S.pick){const L=S.pick==='f'?FEEL:S.pick==='w'?WHAT:S.pick==='b'?INSIDE:CAN;const T={f:'I felt…',w:'when…',b:'because…',c:'Can we…'}[S.pick];
+  <div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-exs">${LX().map((x,i)=>`<button class="sy-ex2" data-ex="${i}">${good()?'It was good':'It was hard'} when ${esc(x[1])} because ${esc(x[2])}.${esc(end(x[3]))}</button>`).join('')}</div></div>`:''}</div>`;
+  if(S.pick){const L=S.pick==='f'?FEEL:S.pick==='w'?LW():S.pick==='b'?LI():LC();const T={f:'I felt…',w:'when…',b:'because…',c:'Can we…'}[S.pick];
    h+=S.pick==='f'?`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div>${feelGrid(S.f,'data-pv')}<div class="sy-row" style="margin-top:8px">${myW('f').map(v=>`<button class="${S.f===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own('f')}</div>`:`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div><div class="sy-row">${L.map(x=>`<button class="${S[S.pick]===x[0]?'on':''}" data-pv="${esc(x[0])}">${x[1]} ${esc(x[0])}</button>`).join('')}${myW(S.pick).map(v=>`<button class="${S[S.pick]===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own(S.pick)}</div>`}
   if(S.kept){const L=JSON.parse(localStorage.getItem(key())||'[]');h+=`<div class="sy-pop"><div class="sy-pt">my sentences<button data-act="unkept">✕</button></div>${L.length?L.slice(0,12).map(x=>`<p class="sy-k">${esc(x.s)}${x.to&&x.to!=='just me'?` <small>→ ${esc(x.to)}</small>`:''}</p>`).join(''):'<p class="sy-k">nothing kept yet</p>'}</div>`}}
  P.innerHTML=h}
@@ -4791,11 +4801,12 @@ function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropaga
  if(t.dataset.ffOwn){S.f=t.dataset.v;S.step=1;return draw()}
  if(t.dataset.set){S[t.dataset.set]=t.dataset.v;S.step++;return draw()}
  if(a==='next'){S.step++;return draw()}
- if(a==='back'){S.step=Math.max(1,S.step-1);S.pick=null;return draw()}
+ if(a==='back'){S.step=Math.max(0,S.step-1);S.pick=null;return draw()}
  if(t.dataset.pick){S.pick=t.dataset.pick;S.kept=false;return draw()}
  if(t.dataset.pv!=null){if(S.pick==='b')S.okKeep=false;S[S.pick]=t.dataset.pv;S.pick=null;return draw()}
  if(a==='unpick'){S.pick=null;return draw()}
- if(t.dataset.ex!=null){const x=EX[+t.dataset.ex];Object.assign(S,{f:x[0],w:x[1],b:x[2],c:x[3],pick:null});return draw()}
+ if(t.dataset.mode){S.m=t.dataset.mode;S.w='';S.b='';S.c=S.m==='good'?'do it again':'talk about it';S.step=1;return draw()}
+ if(t.dataset.ex!=null){const x=LX()[+t.dataset.ex];Object.assign(S,{f:x[0],w:x[1],b:x[2],c:x[3],pick:null});return draw()}
  if(t.dataset.to){S.to=S.to===t.dataset.to?'':t.dataset.to;return draw()}
  if(a==='say'){speak(sentence(S));return}
  if(a==='rec'){startRec();return}
