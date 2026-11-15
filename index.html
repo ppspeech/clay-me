@@ -4583,7 +4583,8 @@ try{if(document.querySelector('.phome')&&typeof home==='function'&&store.get('cl
   const T={...cfg,scene:'none',extras:new Set(cfg.extras||[])};let s=BUD2.svg(T);
   s=s.replace(/<rect width="200" height="260" fill="[^"]*"\/><rect width="200" height="260" filter="url\(#bbpap\)"\/><rect x="0" y="238"[^>]*\/>/,'');
   return cache[k]='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb+'" width="'+Math.round(w*4)+'" height="'+Math.round(h*4)+'">'+s+'</svg>')}
- function swap(root){if(!on())return;const MB=store.get('clayme-mybud',null);
+ function friendView(){try{return (typeof S!=='undefined'&&S&&S.mode==='friend')||(typeof curTab!=='undefined'&&curTab==='spot')}catch(e){return false}}
+ function swap(root){if(!on()||friendView())return;const MB=store.get('clayme-mybud',null);
   root.querySelectorAll('img[alt="Clay body"]:not([data-bb])').forEach(im=>{im.dataset.bb=1;im.dataset.orig=im.src;im.src=uri({...MB,pose:'stand',pet:'none'},'17.2 12.9 165.6 246.75','body');im.style.objectFit='contain';im.style.width='100%';im.style.height='100%'});
   root.querySelectorAll('[data-bp] img:not([data-bb])').forEach(im=>{const nm=im.closest('[data-bp]').dataset.bp,A=ACT[nm];if(!A)return;im.dataset.bb=1;im.dataset.orig=im.src;im.src=act(MB,nm,A);im.style.objectFit='cover';im.style.background='#efe6d6'});
   root.querySelectorAll('[data-bp] img:not([data-bb])').forEach(im=>{const e=FXN[im.closest('[data-bp]').dataset.bp];if(!e)return;
@@ -5122,6 +5123,9 @@ html body.ttl #brand h1 small{color:var(--pp-ink)!important;opacity:.8}
 /* softer: dark text on the gentler paints */
 .syov .sy-ban,.syov .sy-b.go,.syov .sy-ban *{color:var(--pp-ink)!important}
 .ppdoors button{box-shadow:0 1px 1px rgba(31,42,77,.08),0 8px 18px -12px rgba(31,42,77,.35)!important}
+.ppbridge{margin-top:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.ppbridge button{border:0;border-radius:var(--pp-cut);background:var(--pp-tint-gum) var(--pp-paint);background-size:100% 100%;padding:12px 16px;font:800 18px/1.1 var(--pp-display);color:var(--pp-ink);box-shadow:var(--pp-lift);cursor:pointer}
+.ppbridge small{font:14px var(--pp-body);color:var(--pp-ink-2)}
 </style>
 <script id="paper-js">/* Clay Me · painted paper layer: 5-tab nav, more sheet, colour band, home doors */
 (function(){
@@ -5171,7 +5175,7 @@ function sync(){build();let t='home';try{t=curTab||'home'}catch(e){}
  document.querySelectorAll('#ppnav [data-pp]').forEach(b=>b.setAttribute('aria-current',b.dataset.pp===cur?'page':'false'));
  document.body.className=document.body.className.replace(/\bpp-\S+/g,'').trim()+' pp-'+t;
  document.documentElement.style.setProperty('--pp-band','var('+(BAND[t]||'--pp-marigold')+')');
- decorateHome();qfit()}
+ decorateHome();qfit();bridge()}
 function decorateHome(){const h=document.querySelector('.phome');if(!h||h.querySelector('.ppdoors'))return;
  const doors=`<nav class="ppdoors" aria-label="start here"><button data-pp="pond" style="--c:var(--pp-sky)">${svg('fish')}<span>pond<small>calm fish, slow breaths</small></span></button><button data-pp="art" style="--c:var(--pp-marigold)">${svg('crayon')}<span>colours<small>paint how it feels</small></span></button><button data-pp="story" style="--c:var(--pp-violet)">${svg('book')}<span>stories<small>read along with a friend</small></span></button></nav>
  <div class="ppmorebar"><span>more</span><button data-pp="check" style="--c:var(--pp-tint-tomato)">${svg('wave')}check in</button><button data-pp="helps" style="--c:var(--pp-tint-leaf)">${svg('sprout')}what helps</button><button data-pp="animals" style="--c:var(--pp-tint-sand)">${svg('paw')}animals</button></div>`;
@@ -5189,6 +5193,13 @@ function fitHome(){const h=document.querySelector('.phome'),k=h&&h.querySelector
  const over=Math.max(r.getBoundingClientRect().bottom-(top+space),r.getBoundingClientRect().bottom-(nav?nav.getBoundingClientRect().top-8:vh));if(over>1)k.style.setProperty('--kh',Math.max(180,Math.round(kh-over))+'px','important')}
 let fq=0;const qfit=()=>{cancelAnimationFrame(fq);fq=requestAnimationFrame(fitHome)};
 addEventListener('resize',qfit);if(window.visualViewport)visualViewport.addEventListener('resize',qfit);
+/* other kids' stories: show their body, then an optional bridge to "me" */
+function bridge(){let fr=false;try{fr=typeof S!=='undefined'&&S&&S.mode==='friend'&&typeof STEPS!=='undefined'&&STEPS[step]==='tune'}catch(e){}
+ const sd=document.getElementById('side');if(!fr||!sd||!document.getElementById('goFirst')||sd.querySelector('.ppbridge'))return;
+ let any=false;try{any=PARTS.some(p=>(S.parts[p.k]||[]).length)}catch(e){}if(!any)return;
+ let nm='them';try{nm=friendOf(S.scene)}catch(e){}
+ const w=document.createElement('div');w.className='ppbridge';w.innerHTML='<button type="button">🫶 has your body ever done that?</button><small>only if you want to. you can stay with '+nm+'.</small>';sd.appendChild(w);
+ w.querySelector('button').onclick=()=>{try{const sc=S.scene;begin('me');S.fromFriend=sc;step=STEPS.indexOf('tune');render();scrollTo({top:0})}catch(e){}}}
 new MutationObserver(()=>sync()).observe(document.documentElement,{childList:true,subtree:true});
 document.addEventListener('DOMContentLoaded',sync);sync();
 })();
