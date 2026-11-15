@@ -5026,6 +5026,46 @@ html body.ttl.pp-home #brand h1{font-size:34px!important}
 @media (min-width:1100px){html body.ttl #brand h1{font-size:34px!important}html body.ttl.pp-home #brand h1{font-size:52px!important}html body.ttl #brand h1 small{font-size:17px!important;margin-top:6px}}
 @media (max-width:1099px){.ppmorebar{display:none!important}}
 
+/* ===== stage 2: every page ===== */
+/* band: lighter so titles and subtitles read on it */
+#ppband{height:112px;color:color-mix(in oklab,var(--pp-band) 62%,#fff)}
+html body.ttl #brand h1 small{color:var(--pp-ink)!important;opacity:.8}
+/* big screens use the room */
+@media (min-width:1100px){
+ html body .wrap{max-width:1240px!important;width:100%!important;margin:0 auto!important;padding:28px 40px 24px 152px!important}
+ html body #app{max-width:none!important;width:100%!important}
+ html body .smg3{grid-template-columns:minmax(0,1fr) minmax(340px,420px)!important}
+ html body .smg3 .smstage .zw{width:min(100%,calc((100vh - 140px) * 1080 / 1609))!important}
+ #app .fams{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))!important}
+ #app .clues{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}
+}
+/* feelings cards: names never spill */
+#app .fam span{font-size:clamp(18px,5.2vw,26px)!important;overflow-wrap:break-word;min-width:0;max-width:100%}
+#app .fam .hl-b{font-size:13px!important}
+/* check in: painted feeling box, options as paper chips */
+.ck .ckbox{border-radius:var(--pp-cut)!important;background:var(--pp-tint-sky) var(--pp-paint)!important;background-size:100% 100%!important;box-shadow:var(--pp-lift)!important}
+.ck .ckbe button{border-radius:var(--pp-cut)!important;border:0!important;background:#fff!important;box-shadow:inset 0 0 0 2px var(--pp-ink)!important;font-family:var(--pp-display)!important}
+.ck .ckbe button.done{background:var(--pp-marigold) var(--pp-paint)!important;background-size:100% 100%!important;box-shadow:var(--pp-lift)!important}
+.ckq{font-family:var(--pp-display)!important}
+.ckq b{border-color:var(--pp-ink)!important}
+.ckp.on,.pd .ckp.on{background:var(--pp-tint-marigold) var(--pp-paint)!important;background-size:100% 100%!important;border-radius:var(--pp-cut)!important}
+/* pills and chips everywhere */
+#app .pill,#app .seg button,#app .tagchip{font-family:var(--pp-body)!important}
+#app .pill[aria-pressed="true"],#app .pill.on{background:var(--pp-ink)!important;color:#fff!important}
+#app .chip,#app .fchip,#app .pfb{border-radius:var(--pp-cut)!important}
+/* body scan picture: paper card */
+.smg3 .smstage{background:transparent!important}
+.smg3 .zw{background:var(--pp-tint-sand) var(--pp-paint)!important;background-size:100% 100%!important;border-radius:var(--pp-cut)!important;box-shadow:var(--pp-lift)}
+.smg3 .col2{border-radius:var(--pp-cut)!important}
+/* maybe tray + floating sheets */
+.cfloat .cff,.smfloat .smfb{border-radius:var(--pp-cut)!important}
+#app .fitrow,#app .bptray,#app .maybe{border-radius:var(--pp-cut)!important}
+/* stories / spot / pond / animals cards */
+#app .story-card,#app .stc,#app .spick{border-radius:var(--pp-cut)!important}
+/* kept toast and popups */
+.kept{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-leaf) var(--pp-paint)!important;background-size:100% 100%!important;color:#fff!important}
+.mxpop .mxcard,.popcard,.feelpop{border-radius:var(--pp-cut)!important}
+
 </style>
 <script id="paper-js">
 /* Clay Me · painted paper layer: 5-tab nav, more sheet, colour band, home doors */
