@@ -4724,6 +4724,11 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-arr]');if(
 .sy-tr{border:0;border-radius:26px 30px 24px 28px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font:800 22px/1.1 'PP Display',Gaegu,cursive;color:#1f2a4d;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08),0 8px 18px -12px rgba(31,42,77,.35)}
 .sy-tr span{font-size:54px;line-height:1}
 .sy-tr.hard{background:#dbe6fb}.sy-tr.good{background:#fff0c7}
+.sy-vp .sy-vr{display:flex;align-items:center;gap:8px;padding:6px 4px;border-radius:12px}
+.sy-vp .sy-vr.on{background:#fff0c7}
+.sy-vp .sy-vr span{flex:1;font:700 15px 'Atkinson Hyperlegible',system-ui;color:#2e2547}
+.sy-vt{width:36px;height:36px;border-radius:50%!important;border:0;background:#dbe6fb!important;font-size:14px;cursor:pointer;flex:none}
+.sy-vh{margin:10px 4px 2px;font:14px/1.4 'Atkinson Hyperlegible',system-ui;color:#5a5470}
 
 </style>
 <script>
@@ -4752,9 +4757,15 @@ const BIG=['happy','sad','angry','scared','surprised','disgusted','calm'];
 const faceSrc=k=>{try{const f=typeof FACE!=='undefined'&&FACE[k];return f?((window.__IMG&&__IMG[f])||f):''}catch(e){return ''}};
 function feelGrid(sel,attr){const big=BIG.filter(faceSrc).length?BIG:[];return `<div class="sy-big">${big.map(k=>`<button class="sy-fb${sel===k?' on':''}" ${attr}="${k}"><img src="${faceSrc(k)}" alt=""><b>${k}</b></button>`).join('')}</div>
  <details class="sy-more"${big.length?'':' open'}><summary>more feelings</summary><div class="sy-row">${FEEL.filter(x=>!big.includes(x[0])).map(x=>`<button class="${sel===x[0]?'on':''}" ${attr}="${x[0]}">${x[1]} ${x[0]}</button>`).join('')}</div></details>`}
-function voice(){const V=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));const score=v=>(/en-AU/i.test(v.lang)?40:/en-(GB|NZ)/i.test(v.lang)?20:0)+(/natural|neural|premium|enhanced|online/i.test(v.name)?60:0)+(/karen|lee|catherine|siri|google uk english female|google australian|sonia|natasha|libby|hazel/i.test(v.name)?30:0)-(/compact|espeak|robot|fred|zarvox/i.test(v.name)?80:0)+(v.localService?0:5);return V.sort((a,b)=>score(b)-score(a))[0]}
+const VK='clayme-voice';
+function vScore(v){return (/en-AU/i.test(v.lang)?40:/en-(GB|NZ|IE)/i.test(v.lang)?20:0)+(/natural|neural|premium|enhanced|online/i.test(v.name)?60:0)+(/natasha|william|karen|lee|catherine|google uk english female|google australian|sonia|libby|hazel|siri/i.test(v.name)?30:0)-(/david|mark|zira|george|compact|espeak|robot|fred|zarvox|albert|bad news|bells|boing|bubbles|cellos|jester|organ|trinoids|whisper|wobble|superstar|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley/i.test(v.name)?60:0)+(v.localService?0:5)}
+function vList(){try{return speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)).sort((a,b)=>vScore(b)-vScore(a))}catch(e){return []}}
+function voice(){const L=vList();let pick='';try{pick=localStorage.getItem(VK)||''}catch(e){}return L.find(v=>v.name===pick)||L[0]}
+const vName=v=>v.name.replace(/^(Microsoft|Google)\s+/,'').replace(/\s*\(Natural\)/,' ✨').replace(/\s*Online/,'').replace(/\s*-\s*English\s*\(([^)]*)\)/,' · $1');
+function voicePop(){const L=vList(),cur=voice();const nat=L.some(v=>/natural|online|enhanced|premium/i.test(v.name));
+ return `<div class="sy-pop sy-vp"><div class="sy-pt">pick a voice<button data-act="unvoice">✕</button></div>${L.length?L.slice(0,14).map(v=>`<div class="sy-vr${cur&&cur.name===v.name?' on':''}"><button class="sy-vt" data-vtest="${esc(v.name)}" aria-label="hear ${esc(v.name)}">▶</button><span>${esc(vName(v))}</span><button class="sy-tt${cur&&cur.name===v.name?' on':''}" data-vuse="${esc(v.name)}">${cur&&cur.name===v.name?'using ✓':'use'}</button></div>`).join(''):'<p class="sy-k">No voices found on this device.</p>'}${nat?'':`<p class="sy-vh">Want a nicer Aussie voice? On Windows, open Clay Me in <b>Microsoft Edge</b> and pick <b>Natasha</b> or <b>William</b> ✨. On iPad, add <b>Karen (Enhanced)</b> in Settings › Accessibility › Spoken Content › Voices.</p>`}</div>`}
 function speak(txt){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/…/g,''));const v=voice();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}}
-try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{if(S&&S.voice&&R)draw()}}catch(e){}
 function key(){try{return 'clayme-says'+(typeof who!=='undefined'&&who&&who.id?'-'+who.id:'')}catch(e){return 'clayme-says'}}
 function sentence(s){return `${s.f?'I felt '+s.f:(s.m==='good'?'It was good':'It was hard')} when ${s.w||'…'} because ${s.b||'…'}.${end(s.c||'talk about it')}`}
 function open(pref){S={step:0,m:'',f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};if(S.f){S.m=GOODF.includes(S.f)?'good':'hard';if(S.m==='good')S.c='do it again'}
@@ -4784,10 +4795,11 @@ function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" da
   ${S.more?`<div class="sy-moreb">
   <div class="sy-rec">${S.rec==='on'?`<button class="sy-b rec on" data-act="stop">⏹ stop</button><span class="sy-dot">recording…</span>`:S.rec==='done'?`<button class="sy-b" data-act="play">▶️ play mine</button><button class="sy-b" data-act="save">💾 save to my device</button><button class="sy-b" data-act="rec">🎙️ again</button>`:S.rec==='no'?`<span class="sy-note">The microphone isn't available here. Try the app on your own device 💛</span>`:`<button class="sy-b rec" data-act="rec">🎙️ say it in my own voice</button>`}</div>
   <div class="sy-to">say it to… ${(unsafe?TOSAFE:TO).map(t=>`<button class="sy-tt${S.to===t[0]?' on':''}" data-to="${t[0]}">${t[1]} ${t[0]}</button>`).join('')}</div>
-  <div class="sy-nav"><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div>
+  <div class="sy-nav"><button class="sy-skip" data-act="voice">🔈 change voice</button><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div>
   <div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-exs">${LX().map((x,i)=>`<button class="sy-ex2" data-ex="${i}">${good()?'It was good':'It was hard'} when ${esc(x[1])} because ${esc(x[2])}.${esc(end(x[3]))}</button>`).join('')}</div></div>`:''}</div>`;
   if(S.pick){const L=S.pick==='f'?FEEL:S.pick==='w'?LW():S.pick==='b'?LI():LC();const T={f:'I felt…',w:'when…',b:'because…',c:'Can we…'}[S.pick];
    h+=S.pick==='f'?`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div>${feelGrid(S.f,'data-pv')}<div class="sy-row" style="margin-top:8px">${myW('f').map(v=>`<button class="${S.f===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own('f')}</div>`:`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div><div class="sy-row">${L.map(x=>`<button class="${S[S.pick]===x[0]?'on':''}" data-pv="${esc(x[0])}">${x[1]} ${esc(x[0])}</button>`).join('')}${myW(S.pick).map(v=>`<button class="${S[S.pick]===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own(S.pick)}</div>`}
+  if(S.voice)h+=voicePop();
   if(S.kept){const L=JSON.parse(localStorage.getItem(key())||'[]');h+=`<div class="sy-pop"><div class="sy-pt">my sentences<button data-act="unkept">✕</button></div>${L.length?L.slice(0,12).map(x=>`<p class="sy-k">${esc(x.s)}${x.to&&x.to!=='just me'?` <small>→ ${esc(x.to)}</small>`:''}</p>`).join(''):'<p class="sy-k">nothing kept yet</p>'}</div>`}}
  P.innerHTML=h}
 function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropagation();delW(dl.dataset.del,dl.dataset.v);if(S[dl.dataset.del]===dl.dataset.v)S[dl.dataset.del]='';return draw()}
@@ -4814,6 +4826,10 @@ function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropaga
  if(a==='play'){if(AUD){try{speechSynthesis.cancel()}catch(e){}new Audio(AUD.url).play()}return}
  if(a==='save'){saveRec(t);return}
  if(a==='keep'){try{const L=JSON.parse(localStorage.getItem(key())||'[]');L.unshift({s:sentence(S),to:S.to,t:Date.now()});localStorage.setItem(key(),JSON.stringify(L.slice(0,50)))}catch(err){}t.textContent='kept 💛';return}
+ if(a==='voice'){S.voice=true;S.pick=null;S.kept=false;return draw()}
+ if(a==='unvoice'){S.voice=false;return draw()}
+ if(t.dataset.vtest){const v=vList().find(x=>x.name===t.dataset.vtest);try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance('Hi! It was good when I played with a friend.');if(v){u.voice=v;u.lang=v.lang}u.rate=.88;u.pitch=1.05;speechSynthesis.speak(u)}catch(e){}return}
+ if(t.dataset.vuse){try{localStorage.setItem(VK,t.dataset.vuse)}catch(e){}return draw()}
  if(a==='more'){S.more=!S.more;S.pick=null;return draw()}
  if(a==='askkeep'){S.askKeep=true;return draw()}
  if(a==='okkeep'){S.okKeep=true;S.askKeep=false;draw();const k=R.querySelector('[data-act="keep"]');if(k)k.click();return}
@@ -4829,7 +4845,7 @@ function stopRec(){try{if(REC&&REC.state==='recording')REC.stop()}catch(e){}}
 async function saveRec(btn){if(!AUD)return;const ext=/mp4/.test(AUD.blob.type)?'mp4':'webm';const name='my-words-'+new Date().toISOString().slice(0,10)+'.'+ext;
  try{const d=window.claude&&await claude.use('downloads');if(d){await d.save({filename:name,data:AUD.blob});btn.textContent='saved 💛';return}}catch(e){if(e&&e.code==='declined')return}
  const a=document.createElement('a');a.href=AUD.url;a.download=name;document.body.appendChild(a);a.click();a.remove();btn.textContent='saved 💛'}
-window.SAYIT={open,speak};
+window.SAYIT={open,speak,voicePop};
 /* entry points: menu item + button after a check-in */
 function hook(){const tabs=document.getElementById('tabs');if(tabs&&!tabs.querySelector('[data-say]')){const m=document.getElementById('tMore');const b=document.createElement('button');b.setAttribute('data-say','');b.innerHTML='<span class="ti" aria-hidden="true">💬</span>Say it';tabs.insertBefore(b,m||null)}
  const f=document.querySelector('.ckfoot');if(f&&!f.querySelector('[data-say]')){const b=document.createElement('button');b.className='cksm sy-ent';b.setAttribute('data-say','ck');b.textContent='💬 say it';f.insertBefore(b,f.children[1]||null)}}
