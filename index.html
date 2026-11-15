@@ -4887,7 +4887,7 @@ new MutationObserver(hook).observe(document.documentElement,{childList:true,subt
 /* ===== Clay Me · painted paper ===== */
 :root{
  --pp-ink:#1f2a4d;--pp-ink-2:#4a5476;--pp-page:#fffefb;--pp-line:#e9e4da;
- --pp-tomato:#e8513a;--pp-marigold:#f4a81d;--pp-leaf:#4f9d4a;--pp-cobalt:#2f5fd0;--pp-violet:#7a4fc4;--pp-gum:#ef7fa8;--pp-sky:#5aaee6;--pp-sand:#e7c27a;
+ --pp-tomato:#f3a28f;--pp-marigold:#f8cf78;--pp-leaf:#9fcf98;--pp-cobalt:#93b3ef;--pp-violet:#c2aeea;--pp-gum:#f6b6cc;--pp-sky:#a6d5f3;--pp-sand:#eedbb0;
  --pp-tint-tomato:#fde0d8;--pp-tint-marigold:#ffeec2;--pp-tint-leaf:#dcefd2;--pp-tint-cobalt:#dbe6fb;--pp-tint-violet:#ece1f8;--pp-tint-gum:#fde3ec;--pp-tint-sky:#d9eefb;--pp-tint-sand:#f7ead0;
  --pp-display:'PP Display','Grandstander',ui-rounded,system-ui,sans-serif;
  --pp-body:'PP Body','Atkinson Hyperlegible',system-ui,sans-serif;
@@ -4953,7 +4953,7 @@ body.pp-home #ppband{display:none}
 .phome .phhi span{font:400 15px var(--pp-body)!important;color:var(--pp-ink-2)}
 .phome .wxchip{font:700 15px var(--pp-body)!important;border-radius:var(--pp-cut)!important;background:var(--pp-tint-marigold) var(--pp-paint)!important;background-size:200px 100px!important;box-shadow:var(--pp-lift)!important;color:var(--pp-ink)!important;backdrop-filter:none!important}
 .ppdoors{position:relative;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:8px 0 0}
-.ppdoors button{border:0;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;font:800 19px/1 var(--pp-display);border-radius:var(--pp-cut);background:var(--c) var(--pp-paint);background-size:260px 140px;box-shadow:var(--pp-lift);cursor:pointer;transition:transform .35s cubic-bezier(.2,1.4,.4,1);padding:12px 6px}
+.ppdoors button{border:0;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--pp-ink);font:800 19px/1 var(--pp-display);border-radius:var(--pp-cut);background:var(--c) var(--pp-paint);background-size:260px 140px;box-shadow:var(--pp-lift);cursor:pointer;transition:transform .35s cubic-bezier(.2,1.4,.4,1);padding:12px 6px}
 .ppdoors button:nth-child(2){border-radius:var(--pp-cut-2);color:var(--pp-ink)}
 .ppdoors button:hover{transform:translateY(-4px) rotate(-1.5deg)}
 .ppdoors button:active{transform:translateY(1px) scale(.98)}
@@ -4975,7 +4975,7 @@ body.pp-home #ppband{display:none}
 }
 
 /* ---------- shared pieces across pages: painted paper ---------- */
-#app .btn{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-cobalt) var(--pp-paint)!important;background-size:240px 120px!important;color:#fff!important;box-shadow:var(--pp-lift)}
+#app .btn{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-cobalt) var(--pp-paint)!important;background-size:240px 120px!important;color:var(--pp-ink)!important;box-shadow:var(--pp-lift)}
 #app .btn.ghost{background:#fff!important;color:var(--pp-ink)!important;box-shadow:inset 0 0 0 2px var(--pp-ink),var(--pp-lift)}
 #app .btn.go{background-color:var(--pp-tomato)!important}
 #app .pill,.pill{border-radius:var(--pp-cut)!important;font-family:var(--pp-body)}
@@ -5063,10 +5063,14 @@ html body.ttl #brand h1 small{color:var(--pp-ink)!important;opacity:.8}
 /* stories / spot / pond / animals cards */
 #app .story-card,#app .stc,#app .spick{border-radius:var(--pp-cut)!important}
 /* kept toast and popups */
-.kept{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-leaf) var(--pp-paint)!important;background-size:100% 100%!important;color:#fff!important}
+.kept{font-family:var(--pp-display)!important;border-radius:var(--pp-cut)!important;background:var(--pp-leaf) var(--pp-paint)!important;background-size:100% 100%!important;color:var(--pp-ink)!important}
 .mxpop .mxcard,.popcard,.feelpop{border-radius:var(--pp-cut)!important}
 /* never let the bottom bar cover anything: reserve its space on every page */
 @media (max-width:1099px){html body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}html body.pp-home{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))!important}html{scroll-padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+
+/* softer: dark text on the gentler paints */
+.syov .sy-ban,.syov .sy-b.go,.syov .sy-ban *{color:var(--pp-ink)!important}
+.ppdoors button{box-shadow:0 1px 1px rgba(31,42,77,.08),0 8px 18px -12px rgba(31,42,77,.35)!important}
 </style>
 <script id="paper-js">/* Clay Me · painted paper layer: 5-tab nav, more sheet, colour band, home doors */
 (function(){
@@ -5118,8 +5122,8 @@ function sync(){build();let t='home';try{t=curTab||'home'}catch(e){}
  document.documentElement.style.setProperty('--pp-band','var('+(BAND[t]||'--pp-marigold')+')');
  decorateHome();qfit()}
 function decorateHome(){const h=document.querySelector('.phome');if(!h||h.querySelector('.ppdoors'))return;
- const doors=`<nav class="ppdoors" aria-label="start here"><button data-pp="check" style="--c:var(--pp-tomato)">${svg('wave')}<span>check in<small>how am I right now?</small></span></button><button data-pp="helps" style="--c:var(--pp-leaf)">${svg('sprout')}<span>what helps<small>things that help my body</small></span></button><button data-pp="pond" style="--c:var(--pp-cobalt)">${svg('fish')}<span>pond<small>calm fish, slow breaths</small></span></button></nav>
- <div class="ppmorebar"><span>more</span><button data-pp="art" style="--c:var(--pp-tint-tomato)">${svg('crayon','var(--pp-tomato)')}colours</button><button data-pp="story" style="--c:var(--pp-tint-violet)">${svg('book','var(--pp-violet)')}stories</button><button data-pp="animals" style="--c:var(--pp-tint-sand)">${svg('paw','#9a6a1c')}animals</button></div>`;
+ const doors=`<nav class="ppdoors" aria-label="start here"><button data-pp="pond" style="--c:var(--pp-sky)">${svg('fish')}<span>pond<small>calm fish, slow breaths</small></span></button><button data-pp="art" style="--c:var(--pp-marigold)">${svg('crayon')}<span>colours<small>paint how it feels</small></span></button><button data-pp="story" style="--c:var(--pp-violet)">${svg('book')}<span>stories<small>read along with a friend</small></span></button></nav>
+ <div class="ppmorebar"><span>more</span><button data-pp="check" style="--c:var(--pp-tint-tomato)">${svg('wave')}check in</button><button data-pp="helps" style="--c:var(--pp-tint-leaf)">${svg('sprout')}what helps</button><button data-pp="animals" style="--c:var(--pp-tint-sand)">${svg('paw')}animals</button></div>`;
  const r=document.createElement('div');r.className='ppright';r.innerHTML=doors;h.appendChild(r);h.classList.add('ppwide');
  const nm=h.querySelector('.phname');if(nm)nm.textContent=nm.textContent.replace(/\s*👋\s*$/,'')}
 /* home fit (under 1100px): size the buddy from the real space left, pin the doors just above the nav */
