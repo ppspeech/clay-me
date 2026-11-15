@@ -4730,10 +4730,10 @@ function voice(){const V=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lan
 function speak(txt){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/…/g,''));const v=voice();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}}
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 function key(){try{return 'clayme-says'+(typeof who!=='undefined'&&who&&who.id?'-'+who.id:'')}catch(e){return 'clayme-says'}}
-function sentence(s){return `I felt ${s.f||'…'} when ${s.w||'…'} because ${s.b||'…'}. Can we ${s.c||'talk about it'}?`}
+function sentence(s){return `${s.f?'I felt '+s.f:'It was hard'} when ${s.w||'…'} because ${s.b||'…'}. Can we ${s.c||'talk about it'}?`}
 function open(pref){S={step:0,f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};
  R=document.createElement('div');R.className='syov';R.innerHTML='<div class="sy-ph"></div>';document.body.appendChild(R);
- R.addEventListener('click',onClick);if(S.f)S.step=1;draw()}
+ R.addEventListener('click',onClick);S.step=1;draw()}
 function close(){try{speechSynthesis.cancel()}catch(e){}stopRec();if(R)R.remove();R=null}
 const MK=()=>key().replace('clayme-says','clayme-mywords');
 function myW(k){try{return (JSON.parse(localStorage.getItem(MK())||'{}')[k]||[])}catch(e){return []}}
@@ -4745,12 +4745,12 @@ function mine(k){return myW(k).map(v=>`<button class="sy-c sy-mine${S[k]===v?' o
 function card(L,k,i){return `<button class="sy-c${S[k]===L[0]?' on':''}" data-set="${k}" data-v="${esc(L[0])}" style="background:${L[2]}"><span class="sy-em">${L[1]}</span>${esc(L[0])}</button>`}
 function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" data-act="x" aria-label="close">✕</button>`;
  if(S.step===0)h+=`<div class="sy-ban"><small>1 of 3</small><h3>how do I feel?</h3></div>${feelGrid(S.f,'data-ff')}<div class="sy-grid" style="margin-top:10px">${mine('f').replace(/data-set="f"/g,'data-ff-own="1" data-set="f"')}${S.typing==='f'?'':own('f')}</div>${S.typing==='f'?own('f'):''}<button class="sy-skip" data-act="next">not sure, keep going</button>`;
- else if(S.step===1)h+=`<div class="sy-ban"><small>2 of 3</small><h3>what was happening?</h3></div><div class="sy-grid">${WHAT.map(x=>card(x,'w')).join('')}${mine('w')}${S.typing==='w'?'':own('w')}</div>${S.typing==='w'?own('w'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
- else if(S.step===2)h+=`<div class="sy-ban"><small>3 of 3</small><h3>how did it feel inside?</h3></div><div class="sy-grid">${INSIDE.map(x=>card(x,'b')).join('')}${mine('b')}${S.typing==='b'?'':own('b')}</div>${S.typing==='b'?own('b'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ else if(S.step===1)h+=`<div class="sy-ban"><small>1 of 2</small><h3>what was happening?</h3></div><div class="sy-grid">${WHAT.map(x=>card(x,'w')).join('')}${mine('w')}${S.typing==='w'?'':own('w')}</div>${S.typing==='w'?own('w'):''}<div class="sy-nav"><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
+ else if(S.step===2)h+=`<div class="sy-ban"><small>2 of 2</small><h3>how did it feel inside?</h3></div><div class="sy-grid">${INSIDE.map(x=>card(x,'b')).join('')}${mine('b')}${S.typing==='b'?'':own('b')}</div>${S.typing==='b'?own('b'):''}<div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="next">not sure, keep going</button></div>`;
  else{const ch=(slot,txt,e,bg)=>`<button class="sy-sl${S[slot]?'':' need'}" data-pick="${slot}" style="background:${bg}"><span>${e}</span>${esc(txt)}<i>⌄</i></button>`;
   const unsafe=S.b==="I didn't feel safe";
   h+=`<div class="sy-main"><h2>here's what I could say</h2><p class="sy-sub">Saying it might not fix everything. That's okay. Your feelings still matter.</p>
-  <div class="sy-bub">I felt ${ch('f',S.f||'a feeling',faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}. Can we ${ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')}?</div>
+  <div class="sy-bub">${S.f?'I felt '+ch('f',S.f,faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6'):ch('f','It was hard','💭','#eef1f8').replace(' need','')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}. Can we ${ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')}?</div>
   ${unsafe?`<div class="sy-safe">That sounds really hard. Let's tell a grown-up you trust 💛</div>`:''}
   <div class="sy-acts"><button class="sy-b dk" data-act="say">🔊 read it to me</button><button class="sy-b go" data-act="keep">keep ✓</button></div>
   <div class="sy-rec">${S.rec==='on'?`<button class="sy-b rec on" data-act="stop">⏹ stop</button><span class="sy-dot">recording…</span>`:S.rec==='done'?`<button class="sy-b" data-act="play">▶️ play mine</button><button class="sy-b" data-act="save">💾 save to my device</button><button class="sy-b" data-act="rec">🎙️ again</button>`:S.rec==='no'?`<span class="sy-note">The microphone isn't available here. Try the app on your own device 💛</span>`:`<button class="sy-b rec" data-act="rec">🎙️ say it in my own voice</button>`}</div>
@@ -4771,7 +4771,7 @@ function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropaga
  if(t.dataset.ffOwn){S.f=t.dataset.v;S.step=1;return draw()}
  if(t.dataset.set){S[t.dataset.set]=t.dataset.v;S.step++;return draw()}
  if(a==='next'){S.step++;return draw()}
- if(a==='back'){S.step=Math.max(0,S.step-1);S.pick=null;return draw()}
+ if(a==='back'){S.step=Math.max(1,S.step-1);S.pick=null;return draw()}
  if(t.dataset.pick){S.pick=t.dataset.pick;S.kept=false;return draw()}
  if(t.dataset.pv!=null){S[S.pick]=t.dataset.pv;S.pick=null;return draw()}
  if(a==='unpick'){S.pick=null;return draw()}
