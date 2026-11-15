@@ -4707,6 +4707,19 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-arr]');if(
 .sy-own input:focus{outline:none;border-color:#c8603f}
 .sy-own .sy-b{flex:none;padding:8px 16px}.sy-own .sy-skip{margin:0}
 .sy-b.mic{background:#f3ebdd!important}
+/* trauma-informed pass: safety card, consent to keep, calm examples, less on screen */
+.sy-safe{display:flex;flex-direction:column;gap:8px}
+.sy-safe>b{font-weight:700}
+.sy-safe>span{font:15px 'Atkinson Hyperlegible',system-ui;color:#5a5470}
+.sy-who{display:flex;flex-wrap:wrap;gap:6px}
+.sy-who span,.sy-who a{background:#fff;border-radius:14px;padding:6px 10px;font:700 15px 'Atkinson Hyperlegible',system-ui;color:#2e2547;text-decoration:none}
+.sy-who a{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.sy-who a small{font-weight:400;font-size:13px;color:#6a6478;flex-basis:100%}
+.sy-ask{margin:10px 2px 0;font:15px 'Atkinson Hyperlegible',system-ui;color:#2e2547;text-align:center}
+.sy-ask span{display:flex;justify-content:center;gap:6px;margin-top:6px}
+.sy-moreb{margin-top:6px;border-top:1.5px dashed rgba(46,37,71,.18);padding-top:4px}
+.sy-exs{display:flex;flex-direction:column;gap:8px;margin:6px 2px 10px}
+.sy-ex2{text-align:left;background:#fff!important;border:0;border-radius:16px!important;padding:10px 12px;font:15px/1.35 'Atkinson Hyperlegible',system-ui!important;color:#2e2547!important;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08)}
 
 </style>
 <script>
@@ -4715,9 +4728,12 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-arr]');if(
 const FEEL=[['happy','😄'],['sad','😢'],['angry','😠'],['worried','😟'],['scared','😨'],['frustrated','😤'],['embarrassed','😳'],['jealous','😒'],['lonely','🥺'],['confused','😕'],['hurt','🤕'],['surprised','😮'],['excited','🤩'],['proud','😊'],['calm','😌'],['tired','😴'],['disgusted','🤢'],['overwhelmed','😵‍💫']];
 const WHAT=[['I lost a game','🎲','#fff0c7'],['I didn\'t get a turn','🙅','#d9e6f6'],['I got left out','🚪','#e8dff5'],['someone said something mean','🗯️','#fbd9d2'],['it was too loud or busy','🔊','#e3f1f1'],['plans changed','🔄','#dff0d8'],['I was tired or hungry','😴','#f6e1ea'],['something got broken','💥','#f3ebdd'],['someone took my things','✋','#fff0c7'],['I got told off','👆','#d9e6f6'],['I had to stop playing','⏹️','#e8dff5'],['I couldn\'t do it','🧩','#fbd9d2']];
 const INSIDE=[['it wasn\'t fair','⚖️','#fff0c7'],['nobody listened to me','👂','#d9e6f6'],['I wasn\'t wanted','🫥','#e8dff5'],['I wasn\'t good enough','📉','#fbd9d2'],['they didn\'t care about me','💔','#e3f1f1'],['I didn\'t know what was going on','🌀','#dff0d8'],['I worked really hard on it','💪','#f6e1ea'],['I wanted to play too','🤸','#f3ebdd'],['I didn\'t feel safe','😨','#fbd9d2']];
-const CAN=[['talk about it','💬'],['have a hug','🤗'],['have a break','🧘'],['play again','🎲'],['take turns','🔁'],['try again later','⏰'],['have a quiet chat','🤫'],['fix it together','🛠️'],['tell me what\'s next','🗓️']];
+const CAN=[['talk about it','💬'],['have a hug','🤗'],['have a break','🧘'],['play again','🎲'],['take turns','🔁'],['try again later','⏰'],['have a quiet chat','🤫'],['fix it together','🛠️'],['tell me what\'s next','🗓️'],['I just wanted you to know','💛'],['I don\'t need anything right now','🌙']];
+const NOASK=['I just wanted you to know','I don\'t need anything right now'];
+const end=c=>NOASK.includes(c)?' '+c+'.':' Can we '+c+'?';
 const TO=[['mum','👩'],['dad','👨'],['teacher','🧑‍🏫'],['a friend','🧒'],['just me','🧸']];
-const EX=[['sad','I got left out','I wanted to play too','play together tomorrow'],['angry','something got broken','I worked really hard on it','fix it together'],['embarrassed','someone said something mean','they didn\'t care about me','have a quiet chat'],['worried','plans changed','I didn\'t know what was going on','tell me what\'s next'],['frustrated','I didn\'t get a turn','it wasn\'t fair','take turns'],['jealous','I had to stop playing','it wasn\'t fair','have a hug'],['lonely','I got left out','I wasn\'t wanted','have a hug'],['sad','I lost a game','I worked really hard on it','play again']];
+const TOSAFE=[['my teacher','🧑‍🏫'],['my speechie','💬'],['a grown-up I trust','🫶'],['Kids Helpline','📞'],['just me','🧸']];
+const EX=[['','I got left out','I wanted to play too','play together tomorrow'],['','plans changed','I didn\'t know what was going on','tell me what\'s next'],['','something got broken','I worked really hard on it','I just wanted you to know']];
 const em=(L,k)=>(L.find(x=>x[0]===k)||[])[1]||(k?'✏️':'');
 const col=(L,k)=>(L.find(x=>x[0]===k)||[])[2]||'#f3ebdd';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -4730,7 +4746,7 @@ function voice(){const V=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lan
 function speak(txt){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/…/g,''));const v=voice();if(v){u.voice=v;u.lang=v.lang}else u.lang='en-AU';u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}}
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 function key(){try{return 'clayme-says'+(typeof who!=='undefined'&&who&&who.id?'-'+who.id:'')}catch(e){return 'clayme-says'}}
-function sentence(s){return `${s.f?'I felt '+s.f:'It was hard'} when ${s.w||'…'} because ${s.b||'…'}. Can we ${s.c||'talk about it'}?`}
+function sentence(s){return `${s.f?'I felt '+s.f:'It was hard'} when ${s.w||'…'} because ${s.b||'…'}.${end(s.c||'talk about it')}`}
 function open(pref){S={step:0,f:pref&&FEEL.some(x=>x[0]===pref)?pref:'',w:'',b:'',c:'talk about it',to:'',pick:null};
  R=document.createElement('div');R.className='syov';R.innerHTML='<div class="sy-ph"></div>';document.body.appendChild(R);
  R.addEventListener('click',onClick);S.step=1;draw()}
@@ -4750,12 +4766,16 @@ function draw(){const P=R.querySelector('.sy-ph');let h=`<button class="sy-x" da
  else{const ch=(slot,txt,e,bg)=>`<button class="sy-sl${S[slot]?'':' need'}" data-pick="${slot}" style="background:${bg}"><span>${e}</span>${esc(txt)}<i>⌄</i></button>`;
   const unsafe=S.b==="I didn't feel safe";
   h+=`<div class="sy-main"><h2>here's what I could say</h2><p class="sy-sub">Saying it might not fix everything. That's okay. Your feelings still matter.</p>
-  <div class="sy-bub">${S.f?'I felt '+ch('f',S.f,faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6'):ch('f','It was hard','💭','#eef1f8').replace(' need','')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}. Can we ${ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')}?</div>
-  ${unsafe?`<div class="sy-safe">That sounds really hard. Let's tell a grown-up you trust 💛</div>`:''}
-  <div class="sy-acts"><button class="sy-b dk" data-act="say">🔊 read it to me</button><button class="sy-b go" data-act="keep">keep ✓</button></div>
+  <div class="sy-bub">${S.f?'I felt '+ch('f',S.f,faceSrc(S.f)?`<img class="sy-fi" src="${faceSrc(S.f)}" alt="">`:(em(FEEL,S.f)||'🤔'),'#d9e6f6'):ch('f','It was hard','💭','#eef1f8').replace(' need','')} when ${ch('w',S.w||'something happened',em(WHAT,S.w)||'❔',S.w?col(WHAT,S.w):'#efe9df')} because ${ch('b',S.b||'it felt like…',em(INSIDE,S.b)||'❔',S.b?col(INSIDE,S.b):'#efe9df')}${NOASK.includes(S.c)?'. '+ch('c',S.c,em(CAN,S.c),'#dff0d8')+'.':'. Can we '+ch('c',S.c,em(CAN,S.c)||'💬','#dff0d8')+'?'}</div>
+  ${unsafe?`<div class="sy-safe"><b>That sounds really hard. You deserve to feel safe.</b><span>You could tell:</span><div class="sy-who"><span>🧑‍🏫 a teacher</span><span>💬 your speechie</span><span>🫶 a grown-up you trust</span><a href="tel:1800551800">📞 Kids Helpline <b>1800 55 1800</b><small>free, any time, day or night</small></a></div></div>`:''}
+  <div class="sy-acts"><button class="sy-b dk" data-act="say">🔊 read it to me</button>${unsafe&&!S.okKeep?`<button class="sy-b go" data-act="askkeep">keep it?</button>`:`<button class="sy-b go" data-act="keep">keep ✓</button>`}</div>
+  ${unsafe&&S.askKeep&&!S.okKeep?`<div class="sy-ask">Anyone who uses this device could see it. <span><button class="sy-tt" data-act="okkeep">keep it</button><button class="sy-tt" data-act="nokeep">no thanks</button></span></div>`:''}
+  <div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-act="more">${S.more?'less ⌃':'more ⌄'}</button></div>
+  ${S.more?`<div class="sy-moreb">
   <div class="sy-rec">${S.rec==='on'?`<button class="sy-b rec on" data-act="stop">⏹ stop</button><span class="sy-dot">recording…</span>`:S.rec==='done'?`<button class="sy-b" data-act="play">▶️ play mine</button><button class="sy-b" data-act="save">💾 save to my device</button><button class="sy-b" data-act="rec">🎙️ again</button>`:S.rec==='no'?`<span class="sy-note">The microphone isn't available here. Try the app on your own device 💛</span>`:`<button class="sy-b rec" data-act="rec">🎙️ say it in my own voice</button>`}</div>
-  <div class="sy-to">say it to… ${TO.map(t=>`<button class="sy-tt${S.to===t[0]?' on':''}" data-to="${t[0]}">${t[1]} ${t[0]}</button>`).join('')}</div>
-  <div class="sy-nav"><button class="sy-skip" data-act="back">‹ back</button><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div></div><div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-float">${EX.map((x,i)=>`<button class="sy-ex" data-ex="${i}" style="--x:${[2,51,5,53,2,51,5,53][i]}%;--y:${[0,6,24,30,48,54,72,78][i]}%;--d:${i*.7}s">I felt ${x[0]} when ${esc(x[1])} because ${esc(x[2])}. Can we ${esc(x[3])}?</button>`).join('')}</div>`;
+  <div class="sy-to">say it to… ${(unsafe?TOSAFE:TO).map(t=>`<button class="sy-tt${S.to===t[0]?' on':''}" data-to="${t[0]}">${t[1]} ${t[0]}</button>`).join('')}</div>
+  <div class="sy-nav"><button class="sy-skip" data-helps>🌱 what could help?</button><button class="sy-skip" data-act="kept">my sentences</button></div>
+  <div class="sy-ot">other kids might say… <small>tap one to try it</small></div><div class="sy-exs">${EX.map((x,i)=>`<button class="sy-ex2" data-ex="${i}">It was hard when ${esc(x[1])} because ${esc(x[2])}.${esc(end(x[3]))}</button>`).join('')}</div></div>`:''}</div>`;
   if(S.pick){const L=S.pick==='f'?FEEL:S.pick==='w'?WHAT:S.pick==='b'?INSIDE:CAN;const T={f:'I felt…',w:'when…',b:'because…',c:'Can we…'}[S.pick];
    h+=S.pick==='f'?`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div>${feelGrid(S.f,'data-pv')}<div class="sy-row" style="margin-top:8px">${myW('f').map(v=>`<button class="${S.f===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own('f')}</div>`:`<div class="sy-pop"><div class="sy-pt">${T}<button data-act="unpick">✕</button></div><div class="sy-row">${L.map(x=>`<button class="${S[S.pick]===x[0]?'on':''}" data-pv="${esc(x[0])}">${x[1]} ${esc(x[0])}</button>`).join('')}${myW(S.pick).map(v=>`<button class="${S[S.pick]===v?'on':''}" data-pv="${esc(v)}">✏️ ${esc(v)}</button>`).join('')}</div>${own(S.pick)}</div>`}
   if(S.kept){const L=JSON.parse(localStorage.getItem(key())||'[]');h+=`<div class="sy-pop"><div class="sy-pt">my sentences<button data-act="unkept">✕</button></div>${L.length?L.slice(0,12).map(x=>`<p class="sy-k">${esc(x.s)}${x.to&&x.to!=='just me'?` <small>→ ${esc(x.to)}</small>`:''}</p>`).join(''):'<p class="sy-k">nothing kept yet</p>'}</div>`}}
@@ -4773,7 +4793,7 @@ function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropaga
  if(a==='next'){S.step++;return draw()}
  if(a==='back'){S.step=Math.max(1,S.step-1);S.pick=null;return draw()}
  if(t.dataset.pick){S.pick=t.dataset.pick;S.kept=false;return draw()}
- if(t.dataset.pv!=null){S[S.pick]=t.dataset.pv;S.pick=null;return draw()}
+ if(t.dataset.pv!=null){if(S.pick==='b')S.okKeep=false;S[S.pick]=t.dataset.pv;S.pick=null;return draw()}
  if(a==='unpick'){S.pick=null;return draw()}
  if(t.dataset.ex!=null){const x=EX[+t.dataset.ex];Object.assign(S,{f:x[0],w:x[1],b:x[2],c:x[3],pick:null});return draw()}
  if(t.dataset.to){S.to=S.to===t.dataset.to?'':t.dataset.to;return draw()}
@@ -4783,6 +4803,10 @@ function onClick(e){const dl=e.target.closest('[data-del]');if(dl){e.stopPropaga
  if(a==='play'){if(AUD){try{speechSynthesis.cancel()}catch(e){}new Audio(AUD.url).play()}return}
  if(a==='save'){saveRec(t);return}
  if(a==='keep'){try{const L=JSON.parse(localStorage.getItem(key())||'[]');L.unshift({s:sentence(S),to:S.to,t:Date.now()});localStorage.setItem(key(),JSON.stringify(L.slice(0,50)))}catch(err){}t.textContent='kept 💛';return}
+ if(a==='more'){S.more=!S.more;S.pick=null;return draw()}
+ if(a==='askkeep'){S.askKeep=true;return draw()}
+ if(a==='okkeep'){S.okKeep=true;S.askKeep=false;draw();const k=R.querySelector('[data-act="keep"]');if(k)k.click();return}
+ if(a==='nokeep'){S.askKeep=false;return draw()}
  if(a==='kept'){S.kept=true;S.pick=null;return draw()}
  if(a==='unkept'){S.kept=false;return draw()}}
 async function startRec(){try{if(!navigator.mediaDevices||!window.MediaRecorder)throw 0;const st=await navigator.mediaDevices.getUserMedia({audio:true});
