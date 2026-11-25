@@ -3015,17 +3015,35 @@ gentle:['Soft and careful, nothing sharp.','Like holding a baby chick.'],
 'a bit funny':['Different from usual, hard to name.','Like when something is off but you can’t tell what.']};
 
 const SNEU=['not sure','nothing much','a bit funny'];
+const PWORDS={
+ chest:['breathing',['tight','tingly','burning','tickly','panting','fast','slow','coughing','sore','heavy','okay'],['slow','fast','okay','coughing','sore']],
+ eyes:['eyes',['watery','teary','blurry','squinty','itchy','stinging','heavy','wide','dry','sore','okay'],['watery','itchy','sore','heavy','okay']],
+ mouth:['mouth',['dry','watery','clenched','tight','loose','chapped','full','empty','want to bite or chew','sore','okay'],['dry','tight','sore','want to bite or chew','okay']],
+ throat:['voice',['loud','quiet','fast','slow','shut off','cracking','whispery','high','low','tight','okay'],['loud','quiet','shut off','okay']],
+ hand:['hands',['still','wiggly','fidgety','clenched','sweaty','cold','flappy','shaky','squeezing','want to hit or throw','okay'],['still','wiggly','clenched','shaky','okay']],
+ feet:['feet',['still','wiggly','jumping','pacing','tickly','sweaty','cold','want to run away','want to kick','okay'],['still','wiggly','jumping','want to run away','okay']],
+ musc:['muscles',['tense','tight','loose','heavy','sore','fidgety','antsy','shaky','still','burning','okay'],['tight','loose','heavy','sore','okay']],
+ head:['head',['hot','heavy','light','tight','itchy','full','too much','need quiet','sore','okay'],['hot','heavy','sore','need quiet','okay']]};
+const PWKEY={chest:'chest',eyes:'eyes',mouth:'mouth',throat:'throat',lhand:'hand',rhand:'hand',feet:'feet',legs:'musc',larm:'musc',rarm:'musc',lsh:'musc',rsh:'musc',head:'head'};
+Object.assign(SIC,{tingly:'✨',tickly:'🪶',panting:'🐕',fast:'🐇',coughing:'😮‍💨',okay:'👌',watery:'💧',teary:'🥲',blurry:'🌫️',squinty:'😑',itchy:'🦟',stinging:'🐝',wide:'👀',dry:'🏜️',chapped:'🩹','want to bite or chew':'🦷',loud:'📢',quiet:'🤫','shut off':'🔇',cracking:'🪵',whispery:'🍃',high:'🐦',low:'🐻',fidgety:'🌀',flappy:'🦋',squeezing:'🤏','want to hit or throw':'🥎',jumping:'🦘',pacing:'👣','want to run away':'🏃','want to kick':'⚽',tense:'🧱',antsy:'🐜','too much':'🌊','need quiet':'🎧'});
+Object.assign(SDEF,{panting:['Quick, puffy breaths, like you can’t get enough air.','Like a dog after chasing a ball.'],tickly:['A light, itchy flutter that makes you want to cough or wriggle.','Like a feather inside your chest.'],coughing:['Your chest pushing air out in a rush.','Like when a drink goes down the wrong way.'],fast:['Going quicker than usual.','Like your breathing after a big run.'],okay:['Nothing much going on. Just fine.','Like a quiet, ordinary moment.'],tingly:['Tiny sparkles or pins and needles.','Like when your foot wakes up after falling asleep.']});
+const SWK=()=>'clayme-senswords'+(who&&who.id?'-'+who.id:'');
+const ownW=()=>{try{return JSON.parse(localStorage.getItem(SWK())||'[]')}catch(e){return []}};
+const ownSet=L=>{try{localStorage.setItem(SWK(),JSON.stringify(L.slice(0,16)))}catch(e){}};
+const SMHOME=`<details class="more smhome"><summary>🏠 notice it at home</summary><div class="smhomeb"><p><b>Good moments to wonder about breathing together.</b> After running around · stepping out into cold air · after a big laugh or a cough · carrying something heavy · a long cuddle · in the car · a teddy riding on the tummy · blowing bubbles or a recorder · story time · snuggled under the doona · winding down for bed.</p><ol><li><b>Say what you see.</b> “Your breathing looks fast. Pop a hand on your chest. Can you feel it?”</li><li><b>Offer two.</b> “Is your breathing fast or slow? Tight or okay?”</li><li><b>Leave it open.</b> “How does your breathing feel right now?”</li></ol><p class="soft">Only when your child is calm. Take whatever answer you get, then get curious: “What else do you notice?” Move to the next step once the one before is easy. Ideas adapted from The Interoception Curriculum (Kelly Mahler).</p></div></details>`;
+
 function senseMap(){lastView=senseMap;drawBudSw();tab('map');stopAllSound();applyBuddy(BUDDY);S=null;
  app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div>
  <h2 class="omh">What does my body feel like?</h2>
- ${grown('Tap a part of the body, then slide the dot: up = big and strong, down = small and quiet; left = not nice, right = nice. Colours follow the four Mood Meter quadrants (Brackett). Sensation words adapted from the STAR Physical Sensation List; body maps idea from Nummenmaa et al., 2014. Tap a word to see its meaning and an example. No wrong places or colours, and "not sure" is a real answer.')}
+ ${grown('Tap a part of the body, then slide the dot: up = big and strong, down = small and quiet; left = not nice, right = nice. Colours follow the four Mood Meter quadrants (Brackett). Sensation words adapted from the STAR Physical Sensation List; body maps idea from Nummenmaa et al., 2014. Tap a word to see its meaning and an example. No wrong places or colours, and "not sure" is a real answer. Body-part words adapted from The Interoception Curriculum (Kelly Mahler).')}
+ ${SMHOME}
  <div class="smg3">
   <div><div class="smstage"><div class="zw" id="sm_stage"><img src="${A}${bodyImg()}" alt="Clay body"></div><button class="zo" id="sm_zo" hidden>whole body</button><button class="zo emotog" id="sm_emo" aria-pressed="true">😊 on</button><div class="tapme" id="sm_tapme">👆 tap where you feel it</div></div></div>
   <div class="col2"><button class="smdone" type="button" onclick="document.getElementById('sm_zo').click()">done ✓</button><div class="card" id="sm_mid"><div class="empty">👆 Tap where you feel it on the body</div></div><div class="card smwcard"><div id="sm_mq"><div class="lbl">what kind of feeling?</div><p class="soft" style="margin:0">Tap the body, then slide in the square.</p></div></div><div class="card smwcard" id="sm_maybe" hidden></div>
    <div class="card"><div class="lbl">my body scan</div><div class="smkey">${[['hu'],['hp'],['lu'],['lp']].map(([q])=>`<span style="background:${SQ[q][1]}">${SQ[q][0]}</span>`).join('')}</div><div class="mine" id="sm_mine"><p class="soft" style="margin:0">nothing yet</p></div>
    <textarea id="sm_note" class="smnote" rows="1" placeholder="📝 what happened?"></textarea><div class="acts"><button id="sm_keep" class="go" aria-label="Keep it" title="Keep it">✓</button><button id="sm_prt" aria-label="Print" title="Print">🖨️</button><button id="sm_clr" aria-label="Start again" title="Start again">↺</button></div><div class="lbl" style="margin-top:12px">kept</div><div class="smkept" id="sm_kept"></div></div></div>
  </div>`;
-let cur=null,more=false;const st={};
+let cur=null,more=false,typing=false;const st={};
 function hx(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
 function mix(x,y){const q=SQ[quad(x,y)][1],c=hx(q),n=[233,226,212],t=Math.min(1,Math.hypot(x-.5,y-.5)*2.4);return 'rgb('+[0,1,2].map(i=>Math.round(n[i]+(c[i]-n[i])*t)).join(',')+')'}
 
@@ -3052,13 +3070,20 @@ function mid(){const m=$('sm_mid');if(!cur){m.innerHTML='<div class="empty">👆
  const pad=$('sm_pad'),kn=$('sm_knob');let on=false,lastQ=s?quad(s.x,s.y):null;
  const draw=()=>{const t=st[cur];if(!t)return;kn.style.display='block';kn.style.left=t.x*100+'%';kn.style.top=t.y*100+'%';kn.style.background=t.c;$('sm_qt').innerHTML=`<i style="background:${t.c}"></i>${SQ[quad(t.x,t.y)][0]}`;$('sm_mq').querySelectorAll('.w').forEach(w=>w.style.setProperty('--c',t.c))};
  const set=e=>{const r=pad.getBoundingClientRect(),x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),y=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height)),q=quad(x,y),old=st[cur];
-  st[cur]={x,y,c:mix(x,y),w:old&&quad(old.x,old.y)===q?old.w:[]};glow(cur);if(q!==lastQ){lastQ=q;more=false;words()}draw()};
+  st[cur]={x,y,c:mix(x,y),w:old?(quad(old.x,old.y)===q?old.w:old.w.filter(w=>!Object.values(SQ).some(Q=>Q[2].includes(w)))):[]};glow(cur);if(q!==lastQ){lastQ=q;more=false;words()}draw()};
  pad.onpointerdown=e=>{on=true;pad.setPointerCapture(e.pointerId);set(e)};pad.onpointermove=e=>{if(on)set(e)};pad.onpointerup=pad.onpointercancel=()=>{on=false;list()};
  words();draw()}
 function words(){if(!$('sm_mq'))return;const mq=$('sm_mq'),s=st[cur];if(!cur){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Tap the body, then slide in the square.</p>';return}if(!s){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Slide or tap in the square.</p>';return}const q=quad(s.x,s.y);
+ const own=ownW(),PP=PWORDS[PWKEY[cur]],pl=PP?(document.body.classList.contains('little')?PP[2]:PP[1]):[],seen=new Set(),uq=L=>L.filter(w=>!seen.has(w)&&seen.add(w));
+ const chip=w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${esc(w)}" style="--c:${s.c}"><span class="ic">${SIC[w]||(own.includes(w)?'✏️':'•')}</span>${esc(w)}${own.includes(w)?`<i class="wx" data-wx="${esc(w)}" title="remove my word">✕</i>`:''}</button>`;
  mq.innerHTML=`<div class="lbl">what kind of feeling?</div>
-  <div class="words">${[...SQ[q][2],...SNEU].map(w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${w}" style="--c:${s.c}"><span class="ic">${SIC[w]||'•'}</span>${w}</button>`).join('')}</div><div class="def" id="sm_def"></div>`;
- mq.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const L=st[cur].w,w=b.dataset.w,i=L.indexOf(w);i<0?L.push(w):L.splice(i,1);b.classList.toggle('on',i<0);const d=SDEF[w];$('sm_def').innerHTML=i<0&&d?`<b>${SIC[w]||''} ${w}</b><span>${d[0]}</span><em>${d[1]}</em>`:'';list()});
+  ${PP?`<div class="wlbl">my ${PP[0]} can feel…</div><div class="words">${uq(pl).map(chip).join('')}</div><div class="wlbl">or maybe…</div>`:''}
+  <div class="words">${uq([...SQ[q][2]]).map(chip).join('')}${uq(own).map(chip).join('')}${uq([...SNEU]).map(chip).join('')}${typing?`<span class="wown"><input id="sm_in" maxlength="24" placeholder="my word" autocomplete="off" enterkeyhint="done"><button id="sm_ok">add ✓</button><button id="sm_no" aria-label="cancel">✕</button></span>`:`<button class="w wadd" id="sm_add"><span class="ic">✏️</span>my own word</button>`}</div><div class="def" id="sm_def"></div>`;
+ mq.querySelectorAll('[data-w]').forEach(b=>b.onclick=e=>{if(e.target.closest('[data-wx]')){const x=e.target.closest('[data-wx]').dataset.wx;ownSet(ownW().filter(v=>v!==x));Object.values(st).forEach(v=>{if(v&&v.w)v.w=v.w.filter(u=>u!==x)});return words()}
+  const L=st[cur].w,w=b.dataset.w,i=L.indexOf(w);i<0?L.push(w):L.splice(i,1);b.classList.toggle('on',i<0);const d=SDEF[w];$('sm_def').innerHTML=i<0&&d?`<b>${SIC[w]||''} ${w}</b><span>${d[0]}</span><em>${d[1]}</em>`:'';list()});
+ {const ad=$('sm_add');if(ad)ad.onclick=()=>{typing=true;words();const i=$('sm_in');if(i)i.focus()};
+  const ok=()=>{const v=(($('sm_in')||{}).value||'').trim().toLowerCase().replace(/[.?!,]+$/,'');typing=false;if(v){ownSet([v,...ownW().filter(u=>u!==v)]);if(!st[cur].w.includes(v))st[cur].w.push(v)}words()};
+  if($('sm_ok'))$('sm_ok').onclick=ok;if($('sm_no'))$('sm_no').onclick=()=>{typing=false;words()};if($('sm_in'))$('sm_in').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok()}}}
  const mo=$('sm_mo');if(mo)mo.onclick=()=>{more=!more;words()};list()}
 function emo(){stage.querySelectorAll('.smemo').forEach(e=>e.remove());if($('sm_emo').getAttribute('aria-pressed')!=='true')return;SP.forEach(p=>{const t=st[p[0]];if(!t||!t.w.length)return;const side=p[2]<.5?-1:p[2]>.5?1:(SP.indexOf(p)%2?1:-1);
   stage.insertAdjacentHTML('beforeend',`<div class="smemo" style="left:${Math.max(14,Math.min(86,(p[2]+side*.2)*100))}%;top:${p[3]*100}%;--c:${t.c}">${t.w.slice(0,3).map(w=>SIC[w]||'•').join('')}</div>`)})}
@@ -4933,7 +4958,17 @@ new MutationObserver(hook).observe(document.documentElement,{childList:true,subt
 })();
 
 </script>
-<style id="om-draw">.omspot.dr{border-radius:10px}.omspot.dr img{object-fit:contain;-webkit-mask:none;mask:none}
+<style id="sm-words">.wlbl{font:700 14px 'Atkinson Hyperlegible',system-ui;color:#5a5470;margin:8px 2px 5px}
+.words .w .wx{font-style:normal;font-size:12px;margin-left:6px;opacity:.55;padding:2px 4px;border-radius:50%}
+.words .w .wx:hover{opacity:1;background:rgba(0,0,0,.1)}
+.words .w.wadd{border:2px dashed rgba(46,37,71,.35)!important;background:#fff!important}
+.wown{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.wown input{font:inherit;font-size:16px;padding:7px 12px;border-radius:999px;border:2px solid rgba(46,37,71,.3);background:#fff;width:150px;min-width:0}
+.wown button{border:0;border-radius:999px;padding:7px 12px;font-weight:700;font-size:15px;background:#2e2547;color:#fff;cursor:pointer}
+.wown #sm_no{background:#e9e4da;color:#2e2547}
+details.smhome{margin-top:0!important}details.smhome>summary{font-size:16px!important;padding:8px 14px!important}
+.smhomeb{font-size:15px;line-height:1.5}.smhomeb p{margin:8px 0}.smhomeb ol{margin:6px 0;padding-left:22px}.smhomeb li{margin:4px 0}
+body.nogrown .smhome{display:none!important}</style><style id="om-draw">.omspot.dr{border-radius:10px}.omspot.dr img{object-fit:contain;-webkit-mask:none;mask:none}
 .omtile.dr{background:#fff}.omtile.dr img{object-fit:contain!important}
 .omdraw{aspect-ratio:1;border:2px dashed rgba(46,37,71,.35);border-radius:14px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:22px;cursor:pointer;padding:2px}
 .omdraw span{font:700 11px/1 'Atkinson Hyperlegible',system-ui;color:#2e2547}
