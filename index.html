@@ -3026,8 +3026,15 @@ const PWORDS={
  voice:['voice',['loud','quiet','fast','slow','shut off','yelling','scripted','high','low','cracking','normal','whispery','repeating','questioning','okay'],['loud','quiet','shut off','okay']],
  cheeks:['cheeks',['warm','cool','hot','tight','loose','full','empty','okay'],['warm','hot','okay']],
  skin:['skin',['warm','hot','cold','sweaty','itchy','sore','too much','dirty','clean','dry','wet','tickly','greasy','goosebumpy','okay'],['hot','cold','itchy','sore','okay']],
+ heart:['heart',['fast','slow','pounding','thumping','fluttery','racing','steady','skipping','loud','quiet','heavy','warm','tight','okay'],['fast','slow','thumping','okay']],
+ back:['back',['stiff','tight','loose','sore','achy','tense','itchy','sweaty','hot','cold','tingly','heavy','strong','okay'],['tight','sore','itchy','okay']],
+ knees:['knees',['wobbly','bouncy','stiff','shaky','sore','achy','bendy','locked','weak','strong','itchy','okay'],['wobbly','sore','bouncy','okay']],
+ neck:['neck',['stiff','tight','loose','sore','achy','tense','hot','itchy','prickly','heavy','okay'],['tight','sore','okay']],
+ head:['head',['heavy','light','hot','tight','full','foggy','buzzy','spinny','achy','sore','itchy','okay'],['heavy','hot','sore','okay']],
+ tummy:['tummy',['hungry','full','empty','rumbly','fluttery','knotted','tight','sore','queasy','churning','bubbly','warm','heavy','okay'],['hungry','full','sore','okay']],
  musc:['muscles',['tense','tight','loose','heavy','sore','fidgety','wiggly','antsy','fast','slow','still','hot','burning','shaky','okay'],['tight','loose','heavy','sore','okay']]};
-const PWKEY={head:['ears','cheeks','skin'],eyes:['eyes','nose'],mouth:['mouth','cheeks'],throat:['voice'],chest:['lungs','musc'],tummy:['musc','skin'],lhand:['hands','skin'],rhand:['hands','skin'],feet:['feet','skin'],legs:['musc','skin'],larm:['musc','skin'],rarm:['musc','skin'],lsh:['musc','skin'],rsh:['musc','skin']};
+const PWKEY={head:['head'],eyes:['eyes'],lear:['ears'],rear:['ears'],nose:['nose'],lcheek:['cheeks'],rcheek:['cheeks'],mouth:['mouth'],throat:['voice','neck'],chest:['lungs','musc'],heart:['heart'],tummy:['tummy','musc'],lhand:['hands'],rhand:['hands'],feet:['feet'],legs:['musc'],lknee:['knees'],rknee:['knees'],larm:['musc'],rarm:['musc'],lsh:['musc'],rsh:['musc'],skin:['skin'],back:['back','musc']};
+Object.assign(SIC,{thumping:'🥁',fluttery:'🦋',skipping:'⏭️',stiff:'🪵',strong:'💪',bendy:'🪀',locked:'🔒',weak:'🍂',foggy:'🌫️',spinny:'🌀',hungry:'🍽️',rumbly:'🌩️',churning:'🌪️'});
 Object.assign(SIC,{fisted:'✊',messy:'🎨',clean:'🫧',wet:'💦',curled:'🐚',dirty:'🟤',focused:'🎯',distracted:'🦋',crying:'😢',sensitive:'🌸',muffled:'🧣',runny:'💧',stuffy:'🧱',yelling:'🗯️',scripted:'🎬',normal:'🙂',repeating:'🔁',questioning:'❓',cool:'🍃',greasy:'🧈',goosebumpy:'🪿'});
 Object.assign(SIC,{tingly:'✨',tickly:'🪶',panting:'🐕',fast:'🐇',coughing:'😮‍💨',okay:'👌',watery:'💧',teary:'🥲',blurry:'🌫️',squinty:'😑',itchy:'🦟',stinging:'🐝',wide:'👀',dry:'🏜️',chapped:'🩹','want to bite or chew':'🦷',loud:'📢',quiet:'🤫','shut off':'🔇',cracking:'🪵',whispery:'🍃',high:'🐦',low:'🐻',fidgety:'🌀',flappy:'🦋',squeezing:'🤏','want to hit or throw':'🥎',jumping:'🦘',pacing:'👣','want to run away':'🏃','want to kick':'⚽',tense:'🧱',antsy:'🐜','too much':'🌊','need quiet':'🎧'});
 Object.assign(SDEF,{panting:['Quick, puffy breaths, like you can’t get enough air.','Like a dog after chasing a ball.'],tickly:['A light, itchy flutter that makes you want to cough or wriggle.','Like a feather inside your chest.'],coughing:['Your chest pushing air out in a rush.','Like when a drink goes down the wrong way.'],fast:['Going quicker than usual.','Like your breathing after a big run.'],okay:['Nothing much going on. Just fine.','Like a quiet, ordinary moment.'],tingly:['Tiny sparkles or pins and needles.','Like when your foot wakes up after falling asleep.']});
@@ -3036,7 +3043,10 @@ const ownW=()=>{try{return JSON.parse(localStorage.getItem(SWK())||'[]')}catch(e
 const ownSet=L=>{try{localStorage.setItem(SWK(),JSON.stringify(L.slice(0,16)))}catch(e){}};
 const SMHOME=`<details class="more smhome"><summary>🏠 notice it at home</summary><div class="smhomeb"><p><b>Good moments to wonder about breathing together.</b> After running around · stepping out into cold air · after a big laugh or a cough · carrying something heavy · a long cuddle · in the car · a teddy riding on the tummy · blowing bubbles or a recorder · story time · snuggled under the doona · winding down for bed.</p><ol><li><b>Say what you see.</b> “Your breathing looks fast. Pop a hand on your chest. Can you feel it?”</li><li><b>Offer two.</b> “Is your breathing fast or slow? Tight or okay?”</li><li><b>Leave it open.</b> “How does your breathing feel right now?”</li></ol><p class="soft">Only when your child is calm. Take whatever answer you get, then get curious: “What else do you notice?” Move to the next step once the one before is easy. Ideas adapted from The Interoception Curriculum (Kelly Mahler).</p></div></details>`;
 
-const SP0=Object.fromEntries(SP.map(p=>[p[0],[p[2],p[3]]])),SPM={head:[.5,.1],eyes:[.5,.215],mouth:[.5,.295],throat:[.5,.365],lsh:[.31,.415],rsh:[.69,.415],chest:[.5,.48],larm:[.225,.53],rarm:[.775,.53],tummy:[.5,.59],lhand:[.245,.665],rhand:[.755,.665],legs:[.5,.76],feet:[.5,.9]};
+SP.forEach(p=>{const m={eyes:[.5,.235],chest:[.45,.5],legs:[.5,.71]}[p[0]];if(m){p[2]=m[0];p[3]=m[1]}});
+SP.push(['lear','ear',.28,.265],['rear','ear',.72,.265],['nose','nose',.5,.275],['lcheek','cheek',.38,.295],['rcheek','cheek',.62,.295],['heart','heart',.58,.47],['lknee','knee',.44,.79],['rknee','knee',.57,.79],['skin','skin',.5,.56],['back','back',.5,.45]);
+const SMNT=new Set(['skin','back']),SMFACE=new Set(['head','eyes','lear','rear','nose','lcheek','rcheek','mouth']);
+const SP0=Object.fromEntries(SP.map(p=>[p[0],[p[2],p[3]]])),SPM={head:[.5,.1],eyes:[.5,.215],mouth:[.5,.295],throat:[.5,.365],lsh:[.31,.415],rsh:[.69,.415],larm:[.225,.53],rarm:[.775,.53],tummy:[.5,.59],lhand:[.245,.665],rhand:[.755,.665],legs:[.5,.72],feet:[.5,.9],chest:[.45,.49],lear:[.33,.225],rear:[.67,.225],nose:[.5,.25],lcheek:[.41,.265],rcheek:[.59,.265],heart:[.57,.46],lknee:[.45,.8],rknee:[.55,.8],skin:[.5,.56],back:[.5,.45]};
 function spFit(){let made=false;try{made=store.get('clayme-homepic','')==='made'&&!!store.get('clayme-mybud',null)&&!!window.BUD2}catch(e){}SP.forEach(p=>{const q=(made&&SPM[p[0]])||SP0[p[0]];p[2]=q[0];p[3]=q[1]})}
 function senseMap(){spFit();lastView=senseMap;drawBudSw();tab('map');stopAllSound();applyBuddy(BUDDY);S=null;
  app.innerHTML=`<div class="topnav"><button class="pill topb" id="bpH">← Home</button></div>
@@ -3049,7 +3059,7 @@ function senseMap(){spFit();lastView=senseMap;drawBudSw();tab('map');stopAllSoun
    <div class="card"><div class="lbl">my body scan</div><div class="smkey">${[['hu'],['hp'],['lu'],['lp']].map(([q])=>`<span style="background:${SQ[q][1]}">${SQ[q][0]}</span>`).join('')}</div><div class="mine" id="sm_mine"><p class="soft" style="margin:0">nothing yet</p></div>
    <textarea id="sm_note" class="smnote" rows="1" placeholder="📝 what happened?"></textarea><div class="acts"><button id="sm_keep" class="go" aria-label="Keep it" title="Keep it">✓</button><button id="sm_prt" aria-label="Print" title="Print">🖨️</button><button id="sm_clr" aria-label="Start again" title="Start again">↺</button></div><div class="lbl" style="margin-top:12px">kept</div><div class="smkept" id="sm_kept"></div></div></div>
  </div>`;
-let cur=null,more=false,typing=false,pg=0;const st={};
+let cur=null,more=false,typing=false,pg=0,faceMode=false;const st={};
 function hx(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
 function mix(x,y){const q=SQ[quad(x,y)][1],c=hx(q),n=[233,226,212],t=Math.min(1,Math.hypot(x-.5,y-.5)*2.4);return 'rgb('+[0,1,2].map(i=>Math.round(n[i]+(c[i]-n[i])*t)).join(',')+')'}
 
@@ -3070,10 +3080,24 @@ function quad(x,y){return (y<.5?'h':'l')+(x<.5?'u':'p')}
 const stage=$('sm_stage');
 SP.forEach(([k,n,x,y])=>{stage.insertAdjacentHTML('beforeend',`<span class="glow" id="smg-${k}" style="left:${x*100}%;top:${y*100}%;width:0;height:0"></span><button class="pt" data-k="${k}" style="left:${x*100}%;top:${y*100}%"><span class="ptname">${n}</span></button>`)});
 function pick(k){cur=k;more=false;pg=0;typing=false;stage.querySelectorAll('.pt').forEach(x=>x.classList.toggle('on',x.dataset.k===k));zoom(k);$('sm_tapme').hidden=true;mid()}
-function zoom(k){const p=k&&SP.find(x=>x[0]===k);{const o=$('sm_ring');if(o)o.remove()}if(p){stage.insertAdjacentHTML('beforeend',`<div class="smring" id="sm_ring" style="left:${p[2]*100}%;top:${p[3]*100}%"><span>${p[1]}</span></div>`)}if(!p){stage.style.transform='';stage.classList.remove('zm');$('sm_zo').hidden=true;return}const z=k==='legs'?1.35:1.6;stage.style.transformOrigin=`${p[2]*100}% ${p[3]*100}%`;stage.style.transform=`scale(${z})`;stage.classList.add('zm');$('sm_zo').hidden=false}
-$('sm_zo').onclick=()=>{zoom(null);cur=null;stage.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));mid()};
-stage.onclick=e=>{if(stage.style.transform){$('sm_zo').click();return}const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;let best=null,bd=9;SP.forEach(p=>{const d=Math.hypot((x-p[2])*.8,y-p[3]);if(d<bd){bd=d;best=p[0]}});if(bd<.16)pick(best)};
-function glow(k){const g=$('smg-'+k),s=st[k];if(!s){g.style.width=g.style.height=0;return}const sz=26+(1-s.y)*34;g.style.width=g.style.height=sz+'%';g.style.background=`radial-gradient(circle,${s.c} 0%,transparent 68%)`;g.style.opacity=.38+(1-s.y)*.22;
+function fdots(on,ck){stage.querySelectorAll('.fdot').forEach(e=>e.remove());if(!on)return;SP.forEach(p=>{if(!SMFACE.has(p[0])||p[0]===ck)return;stage.insertAdjacentHTML('beforeend',`<span class="fdot" style="left:${p[2]*100}%;top:${p[3]*100}%"><i>${p[1]==='top of head'?'head':p[1]}</i></span>`)})}
+function faceZoom(k){const e=SP.find(x=>x[0]==='nose');stage.style.transformOrigin=`50% ${e[3]*100}%`;stage.style.transform='scale(1.9)';stage.classList.add('zm','facez');$('sm_zo').hidden=false;fdots(true,k)}
+function zoom(k){const p=k&&SP.find(x=>x[0]===k);{const o=$('sm_ring');if(o)o.remove()}fdots(false);stage.classList.remove('facez');
+ if(p&&!SMNT.has(k)){stage.insertAdjacentHTML('beforeend',`<div class="smring" id="sm_ring" style="left:${p[2]*100}%;top:${p[3]*100}%"><span>${p[1]}</span></div>`)}
+ if(!p){stage.style.transform='';stage.classList.remove('zm');$('sm_zo').hidden=true;return}
+ if(SMNT.has(k)){stage.style.transform='';stage.classList.remove('zm');$('sm_zo').hidden=false;return}
+ if(SMFACE.has(k)){faceZoom(k);return}
+ const z=k==='legs'||k==='lknee'||k==='rknee'?1.35:1.6;stage.style.transformOrigin=`${p[2]*100}% ${p[3]*100}%`;stage.style.transform=`scale(${z})`;stage.classList.add('zm');$('sm_zo').hidden=false}
+$('sm_zo').onclick=()=>{faceMode=false;{const t=$('sm_tapme');t.textContent='👆 tap where you feel it';t.hidden=Object.keys(st).length>0}zoom(null);cur=null;stage.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));mid()};
+stage.onclick=e=>{const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+ const near=ok=>{let best=null,bd=9;SP.forEach(p=>{if(SMNT.has(p[0])||!ok(p[0]))return;const d=Math.hypot((x-p[2])*.8,y-p[3]);if(d<bd){bd=d;best=p[0]}});return [best,bd]};
+ if(faceMode||(cur&&SMFACE.has(cur))){const [k,d]=near(k=>SMFACE.has(k));if(d<.07&&k!==cur){faceMode=false;pick(k);return}if(d<.07)return;$('sm_zo').click();return}
+ if(stage.style.transform||cur){$('sm_zo').click();return}
+ const [k,d]=near(()=>true);if(d>=.16)return;
+ if(SMFACE.has(k)){faceMode=true;cur=null;faceZoom(null);const t=$('sm_tapme');t.textContent='👆 now tap a part of the face';t.hidden=false;return}pick(k)};
+stage.parentElement.insertAdjacentHTML('beforeend','<div class="smside"><button data-sk="skin">🖐️ my skin</button><button data-sk="back">🔄 my back</button></div>');
+stage.parentElement.querySelectorAll('[data-sk]').forEach(b=>b.onclick=e=>{e.stopPropagation();faceMode=false;pick(b.dataset.sk)});
+function glow(k){const g=$('smg-'+k),s=st[k];if(!s){g.style.width=g.style.height=0;return}const sz=(k==='skin'?95:26)+(1-s.y)*34;g.style.width=g.style.height=sz+'%';g.style.background=`radial-gradient(circle,${s.c} 0%,transparent 68%)`;g.style.opacity=.38+(1-s.y)*.22;
  const b=stage.querySelector(`.pt[data-k="${k}"]`);b.classList.add('done');b.style.setProperty('--c',s.c)}
 function name(k){return SP.find(p=>p[0]===k)[1]}
 function mid(){const m=$('sm_mid');if(!cur){m.innerHTML='<div class="empty">👆 Tap where you feel it on the body</div>';words();return}
@@ -4990,6 +5014,12 @@ new MutationObserver(hook).observe(document.documentElement,{childList:true,subt
 details.smhome{margin-top:0!important}details.smhome>summary{font-size:16px!important;padding:8px 14px!important}
 .smhomeb{font-size:15px;line-height:1.5}.smhomeb p{margin:8px 0}.smhomeb ol{margin:6px 0;padding-left:22px}.smhomeb li{margin:4px 0}
 body.nogrown .smhome{display:none!important}
+.pt[data-k=skin],.pt[data-k=back]{display:none!important}
+.fdot{position:absolute;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px #1f2a4d;z-index:4;pointer-events:none}
+.fdot i{position:absolute;left:50%;top:7px;transform:translateX(-50%);font:800 7.5px/1 'PP Display',Gaegu,cursive;font-style:normal;color:#1f2a4d;background:rgba(255,255,255,.9);border-radius:999px;padding:2px 5px;white-space:nowrap}
+.zw.facez .smring{scale:.42}
+.smside{position:absolute;left:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:6}
+.smside button{border:0;border-radius:999px;padding:8px 12px;font:800 14px/1 'PP Display',Gaegu,cursive;color:#1f2a4d;background:rgba(255,255,255,.92);box-shadow:0 2px 8px -3px rgba(31,42,77,.4);cursor:pointer}
 .entacts{display:flex;gap:12px;align-items:center;margin-top:4px}.entopen{font-size:14px!important;padding:5px 12px!important}
 .wmore{display:block;margin:10px 0 6px;border:0;background:none;padding:2px;font:700 14px 'Atkinson Hyperlegible',system-ui;color:#5a5470;text-decoration:underline;cursor:pointer}
 #sm_mq .words .w.on{color:#1f2a4d!important;box-shadow:inset 0 0 0 2.5px #1f2a4d!important;font-weight:700}
