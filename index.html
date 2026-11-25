@@ -3090,8 +3090,11 @@ function words(){if(!$('sm_mq'))return;const mq=$('sm_mq'),s=st[cur];if(!cur){mq
  const own=ownW(),PG=PWKEY[cur]||[],PP=PWORDS[PG[pg]||PG[0]],pl=PP?(document.body.classList.contains('little')?PP[2]:PP[1]):[],seen=new Set(),uq=L=>L.filter(w=>!seen.has(w)&&seen.add(w));
  const chip=w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${esc(w)}" style="--c:${s.c}"><span class="ic">${SIC[w]||(own.includes(w)?'✏️':'•')}</span>${esc(w)}${own.includes(w)?`<i class="wx" data-wx="${esc(w)}" title="remove my word">✕</i>`:''}</button>`;
  mq.innerHTML=`<div class="lbl">what kind of feeling?</div>
-  ${PP?`${PG.length>1?`<div class="wtabs">${PG.map((g,i)=>`<button class="${i===pg?'on':''}" data-pg="${i}">${PWORDS[g][0]}</button>`).join('')}</div>`:''}<div class="wlbl">my ${PP[0]} can feel…</div><div class="words">${uq(pl).map(chip).join('')}</div>${cur==='chest'&&pg===0?`<button class="smtry" id="sm_try">🧪 try something, then notice</button>`:''}<div class="wlbl">or maybe…</div>`:''}
-  <div class="words">${uq([...SQ[q][2]]).map(chip).join('')}${uq(own).map(chip).join('')}${uq([...SNEU]).map(chip).join('')}${typing?`<span class="wown"><input id="sm_in" maxlength="24" placeholder="my word" autocomplete="off" enterkeyhint="done"><button id="sm_ok">add ✓</button><button id="sm_no" aria-label="cancel">✕</button></span>`:`<button class="w wadd" id="sm_add"><span class="ic">✏️</span>my own word</button>`}</div><div class="def" id="sm_def"></div>`;
+  ${PP&&PG.length>1?`<div class="wtabs">${PG.map((g,i)=>`<button class="${i===pg?'on':''}" data-pg="${i}">${PWORDS[g][0]}</button>`).join('')}</div>`:''}
+  ${PP?`<div class="wlbl">my ${PP[0]} can feel…</div>`:''}
+  <div class="words">${uq(pl).map(chip).join('')}${uq(own).map(chip).join('')}${uq([...SNEU]).map(chip).join('')}${typing?`<span class="wown"><input id="sm_in" maxlength="24" placeholder="my word" autocomplete="off" enterkeyhint="done"><button id="sm_ok">add ✓</button><button id="sm_no" aria-label="cancel">✕</button></span>`:`<button class="w wadd" id="sm_add"><span class="ic">✏️</span>my own word</button>`}</div>
+  ${cur==='chest'&&pg===0?`<button class="smtry" id="sm_try">🧪 try something, then notice</button>`:''}
+  ${(()=>{const rest=uq([...SQ[q][2]]),n=rest.filter(w=>s.w.includes(w)).length,open=more||n>0;return `<button class="wmore" id="sm_mo" aria-expanded="${open}">${open?'fewer words ⌃':'more words ⌄'}</button>${open?`<div class="words">${rest.map(chip).join('')}</div>`:''}`})()}<div class="def" id="sm_def"></div>`;
  mq.querySelectorAll('[data-w]').forEach(b=>b.onclick=e=>{if(e.target.closest('[data-wx]')){const x=e.target.closest('[data-wx]').dataset.wx;ownSet(ownW().filter(v=>v!==x));Object.values(st).forEach(v=>{if(v&&v.w)v.w=v.w.filter(u=>u!==x)});return words()}
   const L=st[cur].w,w=b.dataset.w,i=L.indexOf(w);i<0?L.push(w):L.splice(i,1);b.classList.toggle('on',i<0);const d=SDEF[w];$('sm_def').innerHTML=i<0&&d?`<b>${SIC[w]||''} ${w}</b><span>${d[0]}</span><em>${d[1]}</em>`:'';list()});
  if($('sm_try'))$('sm_try').onclick=smTry;
@@ -4984,6 +4987,8 @@ new MutationObserver(hook).observe(document.documentElement,{childList:true,subt
 details.smhome{margin-top:0!important}details.smhome>summary{font-size:16px!important;padding:8px 14px!important}
 .smhomeb{font-size:15px;line-height:1.5}.smhomeb p{margin:8px 0}.smhomeb ol{margin:6px 0;padding-left:22px}.smhomeb li{margin:4px 0}
 body.nogrown .smhome{display:none!important}
+.wmore{display:block;margin:10px 0 6px;border:0;background:none;padding:2px;font:700 14px 'Atkinson Hyperlegible',system-ui;color:#5a5470;text-decoration:underline;cursor:pointer}
+#sm_mq .words .w.on{color:#1f2a4d!important;box-shadow:inset 0 0 0 2.5px #1f2a4d!important;font-weight:700}
 .wtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}.wtabs button{border:0;border-radius:999px;padding:6px 14px;font:800 15px/1 'PP Display',Gaegu,cursive;color:#1f2a4d;background:#fff;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(31,42,77,.15)}.wtabs button.on{background:#1f2a4d;color:#fff;box-shadow:none}
 .smtry{display:block;margin:10px 0 2px;border:0;border-radius:16px;padding:10px 14px;font:800 16px/1.1 'PP Display',Gaegu,cursive;color:#1f2a4d;background:#dcefd2;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08),0 6px 12px -8px rgba(31,42,77,.35)}
 .smtrybox{width:min(560px,100%)!important;text-align:center}.smtrybox h3{margin:0 0 4px}.smtrybox .soft{margin:0 0 12px}
