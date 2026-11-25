@@ -5219,6 +5219,8 @@ const I={
  fish:'<path d="M4 16c4-6 13-8 19-1l5-4v10l-5-4c-6 7-15 5-19-1Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="10" cy="15" r="1.5" fill="currentColor"/>',
  book:'<path d="M16 9c-3-2-7-2.5-11-2v17c4-.5 8 0 11 2 3-2 7-2.5 11-2V7c-4-.5-8 0-11 2Zm0 0v17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>',
  sprout:'<path d="M16 28V15m0 0c0-5-4-8-10-8 0 5 4 8 10 8Zm0 2c0-4 3-7 9-7 0 4-3 7-9 7Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>',
+ album:'<path d="M8 5h15a2 2 0 0 1 2 2v20H10a2 2 0 0 1-2-2Zm0 0v20M13 5v22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 17.5c-1.6-1.2-2.6-2.2-2.6-3.4a1.5 1.5 0 0 1 2.6-1 1.5 1.5 0 0 1 2.6 1c0 1.2-1 2.2-2.6 3.4Z" fill="currentColor"/>',
+ frame:'<g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="7" width="22" height="18" rx="2"/><path d="m8 22 6-7 4 4 3-3 4 5"/><circle cx="21" cy="12" r="1.6"/></g>',
  cog:'<g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="16" cy="16" r="4"/><path d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8"/></g>'
 };
 const svg=(k,c)=>`<svg viewBox="0 0 32 32" aria-hidden="true"${c?` style="color:${c}"`:''}>${I[k]}</svg>`;
@@ -5228,6 +5230,7 @@ const BAND={home:'--pp-marigold',map:'--pp-leaf',body:'--pp-leaf',feel:'--pp-mar
 const go=k=>{if(k==='say'){const b=document.querySelector('[data-say]');if(b)return b.click();return window.SAYIT&&SAYIT.open()}
  if(k==='helps'){return window.HELPS&&HELPS.open()}
  if(k==='more')return openMore();
+ if(k==='mybook'||k==='mydraws'){try{if(!who)who={id:'',name:'Just playing'};k==='mybook'?book():drawings()}catch(e){}return}
  if(k==='settings'){const m=document.getElementById('menuBtn');if(m)m.click();return}
  const t=document.querySelector('#tabs [data-tab="'+k+'"]');if(t)t.click()};
 
@@ -5235,7 +5238,7 @@ function build(){if(document.getElementById('ppnav'))return;
  const n=document.createElement('nav');n.id='ppnav';n.setAttribute('aria-label','sections');
  n.innerHTML=NAV.map(([k,i,l])=>`<button data-pp="${k}">${svg(i)}${l}</button>`).join('');document.body.appendChild(n);
  const m=document.createElement('div');m.id='ppmore';m.hidden=true;
- m.innerHTML=`<div class="sheet" role="dialog" aria-label="more things to do"><h2>more to do</h2><div class="grid">${MORE.map(([k,i,l,c])=>`<button data-pp="${k}" style="--c:var(${c})">${svg(i)}${l}</button>`).join('')}<button data-pp="settings" class="set">${svg('cog')}grown-ups</button></div></div>`;
+ m.innerHTML=`<div class="sheet" role="dialog" aria-label="more things to do"><h2>more to do</h2><div class="grid">${MORE.map(([k,i,l,c])=>`<button data-pp="${k}" style="--c:var(${c})">${svg(i)}${l}</button>`).join('')}<button data-pp="mybook" style="--c:var(--pp-tint-gum)">${svg('album')}my clay book</button><button data-pp="mydraws" style="--c:var(--pp-tint-marigold)">${svg('frame')}my drawings</button></div></div>`;
  document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.hidden=true});
  const band=document.createElement('div');band.id='ppband';band.setAttribute('aria-hidden','true');
  band.innerHTML='<svg viewBox="0 0 390 132" preserveAspectRatio="none"><defs><filter id="ppPaint" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".012 .22" numOctaves="3" seed="7" result="s"/><feColorMatrix in="s" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.1 .72" result="w"/><feComposite in="w" in2="SourceGraphic" operator="in" result="l"/><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="2" result="e"/><feDisplacementMap in="SourceGraphic" in2="e" scale="6" result="c"/><feComposite in="l" in2="c" operator="in" result="l2"/><feMerge><feMergeNode in="c"/><feMergeNode in="l2"/></feMerge></filter></defs><path filter="url(#ppPaint)" fill="currentColor" d="M-10 -10H400V96C330 120 250 104 190 116 120 130 50 108-10 122Z"/></svg>';
@@ -5279,4 +5282,27 @@ new MutationObserver(()=>sync()).observe(document.documentElement,{childList:tru
 document.addEventListener('DOMContentLoaded',sync);sync();
 })();
 </script>
-</body></html>
+<style id="sm-big">
+/* body scan: use the screen on tablets and big screens; bigger words */
+@media (min-width:760px){
+ html body.pp-map .wrap{max-width:none!important;width:100%!important}
+ html body.pp-map #app{max-width:none!important;width:100%!important}
+ html body.pp-map #app .smg3{grid-template-columns:auto minmax(340px,1fr)!important;gap:22px!important;align-items:start!important;max-width:1700px;margin-inline:auto!important}
+ html body.pp-map #app .smstage{height:calc(100dvh - 208px)!important;min-height:420px!important;width:auto!important;aspect-ratio:1080/1609!important;max-width:calc(100vw - 440px)!important;max-height:none!important}
+ html body.pp-map #app .smstage .zw{height:100%!important;width:100%!important}
+ html body.pp-map #app .pad{aspect-ratio:auto!important;height:clamp(200px,26vh,300px)!important}
+ html body #app #sm_mq .words{gap:8px!important}
+ html body #app .smg3 #sm_mq .words button.w{font-size:18px!important;line-height:24px!important;padding:7px 14px 7px 10px!important;gap:6px!important}
+ html body #app #sm_mq .wlbl{font-size:17px!important}
+ html body #app #sm_mq .wtabs button{font-size:18px!important;padding:8px 18px!important}
+ html body #app #sm_mq .wmore{font-size:16px!important}
+ html body #app #sm_mq .def{font-size:17px}
+}
+@media (min-width:1100px){
+ html body.pp-map .wrap{padding:20px 32px 16px 144px!important}
+ html body.pp-map #app .smstage{height:calc(100dvh - 120px)!important;max-width:calc(100vw - 640px)!important}
+ html body #app .smg3 #sm_mq .words button.w{font-size:19px!important}
+}
+@media (max-width:1099px){html body.ttl #app{margin-top:18px!important}html body .wrap{max-width:1000px!important}}
+@media (max-width:759px){html body #app .smg3 #sm_mq .words button.w{font-size:16px!important;padding:5px 11px 5px 7px!important}html body #app #sm_mq .wlbl{font-size:15px!important}}
+</style></body></html>
