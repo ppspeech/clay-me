@@ -3016,15 +3016,19 @@ gentle:['Soft and careful, nothing sharp.','Like holding a baby chick.'],
 
 const SNEU=['not sure','nothing much','a bit funny'];
 const PWORDS={
- chest:['breathing',['tight','tingly','burning','tickly','panting','fast','slow','coughing','sore','heavy','okay'],['slow','fast','okay','coughing','sore']],
- eyes:['eyes',['watery','teary','blurry','squinty','itchy','stinging','heavy','wide','dry','sore','okay'],['watery','itchy','sore','heavy','okay']],
- mouth:['mouth',['dry','watery','clenched','tight','loose','chapped','full','empty','want to bite or chew','sore','okay'],['dry','tight','sore','want to bite or chew','okay']],
- throat:['voice',['loud','quiet','fast','slow','shut off','cracking','whispery','high','low','tight','okay'],['loud','quiet','shut off','okay']],
- hand:['hands',['still','wiggly','fidgety','clenched','sweaty','cold','flappy','shaky','squeezing','want to hit or throw','okay'],['still','wiggly','clenched','shaky','okay']],
- feet:['feet',['still','wiggly','jumping','pacing','tickly','sweaty','cold','want to run away','want to kick','okay'],['still','wiggly','jumping','want to run away','okay']],
- musc:['muscles',['tense','tight','loose','heavy','sore','fidgety','antsy','shaky','still','burning','okay'],['tight','loose','heavy','sore','okay']],
- head:['head',['hot','heavy','light','tight','itchy','full','too much','need quiet','sore','okay'],['hot','heavy','sore','need quiet','okay']]};
-const PWKEY={chest:'chest',eyes:'eyes',mouth:'mouth',throat:'throat',lhand:'hand',rhand:'hand',feet:'feet',legs:'musc',larm:'musc',rarm:'musc',lsh:'musc',rsh:'musc',head:'head'};
+ lungs:['breathing',['tight','tingly','burning','tickly','panting','slow','fast','coughing','sore','heavy','okay'],['slow','fast','okay','coughing','sore']],
+ hands:['hands',['still','wiggly','fidgety','clenched','tight','loose','warm','hot','sweaty','cold','flappy','fisted','sore','messy','clean','want to hit or throw','shaky','dry','wet','squeezing','fast','slow','okay'],['still','wiggly','clenched','shaky','okay']],
+ feet:['feet',['still','wiggly','fidgety','curled','tight','loose','warm','hot','sweaty','cold','shaky','pacing','jumping','dirty','clean','sore','wet','dry','fast','slow','tickly','want to run away','want to kick','okay'],['still','wiggly','jumping','want to run away','okay']],
+ mouth:['mouth',['dry','watery','wet','cold','warm','chapped','sore','too much','tight','loose','full','empty','clenched','messy','clean','want to bite or chew','okay'],['dry','tight','sore','want to bite or chew','okay']],
+ eyes:['eyes',['focused','distracted','blurry','squinty','watery','crying','wet','dry','itchy','burning','stinging','too much','teary','light','heavy','tight','loose','wide','sore','okay'],['watery','itchy','sore','heavy','okay']],
+ ears:['ears',['focused','distracted','sensitive','too much','sore','itchy','shut off','full','muffled','need quiet','okay'],['sore','too much','need quiet','okay']],
+ nose:['nose',['runny','stuffy','tickly','itchy','burning','dry','cold','warm','sore','tight','too much','okay'],['runny','stuffy','itchy','sore','okay']],
+ voice:['voice',['loud','quiet','fast','slow','shut off','yelling','scripted','high','low','cracking','normal','whispery','repeating','questioning','okay'],['loud','quiet','shut off','okay']],
+ cheeks:['cheeks',['warm','cool','hot','tight','loose','full','empty','okay'],['warm','hot','okay']],
+ skin:['skin',['warm','hot','cold','sweaty','itchy','sore','too much','dirty','clean','dry','wet','tickly','greasy','goosebumpy','okay'],['hot','cold','itchy','sore','okay']],
+ musc:['muscles',['tense','tight','loose','heavy','sore','fidgety','wiggly','antsy','fast','slow','still','hot','burning','shaky','okay'],['tight','loose','heavy','sore','okay']]};
+const PWKEY={head:['ears','cheeks','skin'],eyes:['eyes','nose'],mouth:['mouth','cheeks'],throat:['voice'],chest:['lungs','musc'],tummy:['musc','skin'],lhand:['hands','skin'],rhand:['hands','skin'],feet:['feet','skin'],legs:['musc','skin'],larm:['musc','skin'],rarm:['musc','skin'],lsh:['musc','skin'],rsh:['musc','skin']};
+Object.assign(SIC,{fisted:'✊',messy:'🎨',clean:'🫧',wet:'💦',curled:'🐚',dirty:'🟤',focused:'🎯',distracted:'🦋',crying:'😢',sensitive:'🌸',muffled:'🧣',runny:'💧',stuffy:'🧱',yelling:'🗯️',scripted:'🎬',normal:'🙂',repeating:'🔁',questioning:'❓',cool:'🍃',greasy:'🧈',goosebumpy:'🪿'});
 Object.assign(SIC,{tingly:'✨',tickly:'🪶',panting:'🐕',fast:'🐇',coughing:'😮‍💨',okay:'👌',watery:'💧',teary:'🥲',blurry:'🌫️',squinty:'😑',itchy:'🦟',stinging:'🐝',wide:'👀',dry:'🏜️',chapped:'🩹','want to bite or chew':'🦷',loud:'📢',quiet:'🤫','shut off':'🔇',cracking:'🪵',whispery:'🍃',high:'🐦',low:'🐻',fidgety:'🌀',flappy:'🦋',squeezing:'🤏','want to hit or throw':'🥎',jumping:'🦘',pacing:'👣','want to run away':'🏃','want to kick':'⚽',tense:'🧱',antsy:'🐜','too much':'🌊','need quiet':'🎧'});
 Object.assign(SDEF,{panting:['Quick, puffy breaths, like you can’t get enough air.','Like a dog after chasing a ball.'],tickly:['A light, itchy flutter that makes you want to cough or wriggle.','Like a feather inside your chest.'],coughing:['Your chest pushing air out in a rush.','Like when a drink goes down the wrong way.'],fast:['Going quicker than usual.','Like your breathing after a big run.'],okay:['Nothing much going on. Just fine.','Like a quiet, ordinary moment.'],tingly:['Tiny sparkles or pins and needles.','Like when your foot wakes up after falling asleep.']});
 const SWK=()=>'clayme-senswords'+(who&&who.id?'-'+who.id:'');
@@ -3045,7 +3049,7 @@ function senseMap(){spFit();lastView=senseMap;drawBudSw();tab('map');stopAllSoun
    <div class="card"><div class="lbl">my body scan</div><div class="smkey">${[['hu'],['hp'],['lu'],['lp']].map(([q])=>`<span style="background:${SQ[q][1]}">${SQ[q][0]}</span>`).join('')}</div><div class="mine" id="sm_mine"><p class="soft" style="margin:0">nothing yet</p></div>
    <textarea id="sm_note" class="smnote" rows="1" placeholder="📝 what happened?"></textarea><div class="acts"><button id="sm_keep" class="go" aria-label="Keep it" title="Keep it">✓</button><button id="sm_prt" aria-label="Print" title="Print">🖨️</button><button id="sm_clr" aria-label="Start again" title="Start again">↺</button></div><div class="lbl" style="margin-top:12px">kept</div><div class="smkept" id="sm_kept"></div></div></div>
  </div>`;
-let cur=null,more=false,typing=false;const st={};
+let cur=null,more=false,typing=false,pg=0;const st={};
 function hx(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
 function mix(x,y){const q=SQ[quad(x,y)][1],c=hx(q),n=[233,226,212],t=Math.min(1,Math.hypot(x-.5,y-.5)*2.4);return 'rgb('+[0,1,2].map(i=>Math.round(n[i]+(c[i]-n[i])*t)).join(',')+')'}
 
@@ -3065,7 +3069,7 @@ function smTry(){const ov=document.createElement('div');ov.className='fpov in';l
 function quad(x,y){return (y<.5?'h':'l')+(x<.5?'u':'p')}
 const stage=$('sm_stage');
 SP.forEach(([k,n,x,y])=>{stage.insertAdjacentHTML('beforeend',`<span class="glow" id="smg-${k}" style="left:${x*100}%;top:${y*100}%;width:0;height:0"></span><button class="pt" data-k="${k}" style="left:${x*100}%;top:${y*100}%"><span class="ptname">${n}</span></button>`)});
-function pick(k){cur=k;more=false;stage.querySelectorAll('.pt').forEach(x=>x.classList.toggle('on',x.dataset.k===k));zoom(k);$('sm_tapme').hidden=true;mid()}
+function pick(k){cur=k;more=false;pg=0;typing=false;stage.querySelectorAll('.pt').forEach(x=>x.classList.toggle('on',x.dataset.k===k));zoom(k);$('sm_tapme').hidden=true;mid()}
 function zoom(k){const p=k&&SP.find(x=>x[0]===k);{const o=$('sm_ring');if(o)o.remove()}if(p){stage.insertAdjacentHTML('beforeend',`<div class="smring" id="sm_ring" style="left:${p[2]*100}%;top:${p[3]*100}%"><span>${p[1]}</span></div>`)}if(!p){stage.style.transform='';stage.classList.remove('zm');$('sm_zo').hidden=true;return}const z=k==='legs'?1.35:1.6;stage.style.transformOrigin=`${p[2]*100}% ${p[3]*100}%`;stage.style.transform=`scale(${z})`;stage.classList.add('zm');$('sm_zo').hidden=false}
 $('sm_zo').onclick=()=>{zoom(null);cur=null;stage.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));mid()};
 stage.onclick=e=>{if(stage.style.transform){$('sm_zo').click();return}const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;let best=null,bd=9;SP.forEach(p=>{const d=Math.hypot((x-p[2])*.8,y-p[3]);if(d<bd){bd=d;best=p[0]}});if(bd<.16)pick(best)};
@@ -3083,14 +3087,15 @@ function mid(){const m=$('sm_mid');if(!cur){m.innerHTML='<div class="empty">👆
  pad.onpointerdown=e=>{on=true;pad.setPointerCapture(e.pointerId);set(e)};pad.onpointermove=e=>{if(on)set(e)};pad.onpointerup=pad.onpointercancel=()=>{on=false;list()};
  words();draw()}
 function words(){if(!$('sm_mq'))return;const mq=$('sm_mq'),s=st[cur];if(!cur){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Tap the body, then slide in the square.</p>';return}if(!s){mq.innerHTML='<div class="lbl">what kind of feeling?</div><p style="color:#7a7288;margin:0">Slide or tap in the square.</p>';return}const q=quad(s.x,s.y);
- const own=ownW(),PP=PWORDS[PWKEY[cur]],pl=PP?(document.body.classList.contains('little')?PP[2]:PP[1]):[],seen=new Set(),uq=L=>L.filter(w=>!seen.has(w)&&seen.add(w));
+ const own=ownW(),PG=PWKEY[cur]||[],PP=PWORDS[PG[pg]||PG[0]],pl=PP?(document.body.classList.contains('little')?PP[2]:PP[1]):[],seen=new Set(),uq=L=>L.filter(w=>!seen.has(w)&&seen.add(w));
  const chip=w=>`<button class="w${s.w.includes(w)?' on':''}" data-w="${esc(w)}" style="--c:${s.c}"><span class="ic">${SIC[w]||(own.includes(w)?'✏️':'•')}</span>${esc(w)}${own.includes(w)?`<i class="wx" data-wx="${esc(w)}" title="remove my word">✕</i>`:''}</button>`;
  mq.innerHTML=`<div class="lbl">what kind of feeling?</div>
-  ${PP?`<div class="wlbl">my ${PP[0]} can feel…</div><div class="words">${uq(pl).map(chip).join('')}</div>${cur==='chest'?`<button class="smtry" id="sm_try">🧪 try something, then notice</button>`:''}<div class="wlbl">or maybe…</div>`:''}
+  ${PP?`${PG.length>1?`<div class="wtabs">${PG.map((g,i)=>`<button class="${i===pg?'on':''}" data-pg="${i}">${PWORDS[g][0]}</button>`).join('')}</div>`:''}<div class="wlbl">my ${PP[0]} can feel…</div><div class="words">${uq(pl).map(chip).join('')}</div>${cur==='chest'&&pg===0?`<button class="smtry" id="sm_try">🧪 try something, then notice</button>`:''}<div class="wlbl">or maybe…</div>`:''}
   <div class="words">${uq([...SQ[q][2]]).map(chip).join('')}${uq(own).map(chip).join('')}${uq([...SNEU]).map(chip).join('')}${typing?`<span class="wown"><input id="sm_in" maxlength="24" placeholder="my word" autocomplete="off" enterkeyhint="done"><button id="sm_ok">add ✓</button><button id="sm_no" aria-label="cancel">✕</button></span>`:`<button class="w wadd" id="sm_add"><span class="ic">✏️</span>my own word</button>`}</div><div class="def" id="sm_def"></div>`;
  mq.querySelectorAll('[data-w]').forEach(b=>b.onclick=e=>{if(e.target.closest('[data-wx]')){const x=e.target.closest('[data-wx]').dataset.wx;ownSet(ownW().filter(v=>v!==x));Object.values(st).forEach(v=>{if(v&&v.w)v.w=v.w.filter(u=>u!==x)});return words()}
   const L=st[cur].w,w=b.dataset.w,i=L.indexOf(w);i<0?L.push(w):L.splice(i,1);b.classList.toggle('on',i<0);const d=SDEF[w];$('sm_def').innerHTML=i<0&&d?`<b>${SIC[w]||''} ${w}</b><span>${d[0]}</span><em>${d[1]}</em>`:'';list()});
  if($('sm_try'))$('sm_try').onclick=smTry;
+ mq.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>{pg=+b.dataset.pg;words()});
  {const ad=$('sm_add');if(ad)ad.onclick=()=>{typing=true;words();const i=$('sm_in');if(i)i.focus()};
   const ok=()=>{const v=(($('sm_in')||{}).value||'').trim().toLowerCase().replace(/[.?!,]+$/,'');typing=false;if(v){ownSet([v,...ownW().filter(u=>u!==v)]);if(!st[cur].w.includes(v))st[cur].w.push(v)}words()};
   if($('sm_ok'))$('sm_ok').onclick=ok;if($('sm_no'))$('sm_no').onclick=()=>{typing=false;words()};if($('sm_in'))$('sm_in').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();ok()}}}
@@ -4979,6 +4984,7 @@ new MutationObserver(hook).observe(document.documentElement,{childList:true,subt
 details.smhome{margin-top:0!important}details.smhome>summary{font-size:16px!important;padding:8px 14px!important}
 .smhomeb{font-size:15px;line-height:1.5}.smhomeb p{margin:8px 0}.smhomeb ol{margin:6px 0;padding-left:22px}.smhomeb li{margin:4px 0}
 body.nogrown .smhome{display:none!important}
+.wtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 2px}.wtabs button{border:0;border-radius:999px;padding:6px 14px;font:800 15px/1 'PP Display',Gaegu,cursive;color:#1f2a4d;background:#fff;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(31,42,77,.15)}.wtabs button.on{background:#1f2a4d;color:#fff;box-shadow:none}
 .smtry{display:block;margin:10px 0 2px;border:0;border-radius:16px;padding:10px 14px;font:800 16px/1.1 'PP Display',Gaegu,cursive;color:#1f2a4d;background:#dcefd2;cursor:pointer;box-shadow:0 1px 1px rgba(31,42,77,.08),0 6px 12px -8px rgba(31,42,77,.35)}
 .smtrybox{width:min(560px,100%)!important;text-align:center}.smtrybox h3{margin:0 0 4px}.smtrybox .soft{margin:0 0 12px}
 .smtrys{display:grid;grid-template-columns:1fr 1fr;gap:10px}
