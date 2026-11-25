@@ -2703,8 +2703,8 @@ function pondPage(){lastView=pondPage;drawBudSw();tab('pond');stopAllSound();S=n
  const say=o=>{const x=Math.min(720,Math.max(180,o.x)),y=Math.max(80,o.y-72*o.s);const bw=Math.max(260,PHI[o.k].length*17+50);BU.innerHTML=`<g transform="translate(${Math.min(900-bw/2-10,Math.max(bw/2+10,x))} ${y})"><rect x="${-bw/2}" y="-38" width="${bw}" height="62" rx="20" fill="#fffdf8" stroke="${INK}" stroke-width="3"/><path d="M-10 23l10 14 10-14" fill="#fffdf8" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-9 21h18" stroke="#fffdf8" stroke-width="5"/><text x="0" y="0" text-anchor="middle" dominant-baseline="middle" font-family="Gaegu,cursive" font-weight="700" font-size="34" fill="${INK}">${PHI[o.k]}</text></g>`;clearTimeout(say.t);say.t=setTimeout(()=>{if(BU.isConnected)BU.innerHTML=''},2800)};
  const build=()=>{G.innerHTML='';AU.innerHTML='';fish=[];Object.keys(PF).forEach((k,i)=>{if(POND[k])mk(k,i)})};
  const wrapA=a=>{while(a>Math.PI)a-=6.283;while(a<-Math.PI)a+=6.283;return a};
- const step=now=>{if(!svg.isConnected){cancelAnimationFrame(raf);return}const dt=Math.min(.05,(now-last)/1000);last=now;
-  fish.forEach(o=>{const f=PF[o.k];o.t+=dt;const sl=o.slow>0?.12:1;if(o.slow>0)o.slow-=dt;
+ const step=now=>{if(!svg.isConnected){cancelAnimationFrame(raf);return}if(!(now>0))now=performance.now();let dt=(now-last)/1000;last=now;if(!(dt>0))dt=0;dt=Math.min(.05,dt);
+  fish.forEach(o=>{const f=PF[o.k];if(!isFinite(o.x)||!isFinite(o.y)||!isFinite(o.h)||!isFinite(o.t)||!inside(o.x,o.y,1.25)){o.x=PCX+(Math.random()-.5)*PRX;o.y=PCY+(Math.random()-.5)*PRY*.8;if(!isFinite(o.h))o.h=0;if(!isFinite(o.t))o.t=0;if(!isFinite(o.vel))o.vel=0}o.t+=dt;const sl=o.slow>0?.12:1;if(o.slow>0)o.slow-=dt;
    let want=o.h+(Math.sin(o.t*(.7+f.turn))*.6+Math.sin(o.t*.37+o.s*7)*.4)*f.turn*dt*2;
    if(f.loop)want=o.h+f.turn*dt*(Math.sin(o.t*.3)>0?1:-1)*.8;
    const by=PCY-PRY+(f.band[0]+f.band[1])*PRY;if(Math.abs(o.y-by)>PRY*(f.band[1]-f.band[0])){const a=Math.atan2(by-o.y,(Math.cos(o.h)>0?1:-1)*120);want+=wrapA(a-o.h)*dt*.6}
